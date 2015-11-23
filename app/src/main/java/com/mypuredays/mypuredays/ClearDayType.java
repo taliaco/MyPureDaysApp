@@ -5,10 +5,13 @@ package com.mypuredays.mypuredays;
  */
 public class ClearDayType {
 
+    private int _rowId;
     private int _ID;
     private String _Type;
 
-    public ClearDayType(int _ID, String _Type) {
+    public ClearDayType(int rowId, int _ID, String _Type) {
+
+        this._rowId=rowId;
         this._ID = _ID;
         this._Type = _Type;
     }
