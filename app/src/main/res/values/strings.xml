@@ -2,5 +2,10 @@
     <string name="app_name">MyPureDays</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">הגדרות</string>
+    <string name="btStart">התחל</string>
+    <string name="btEnd">הפסק</string>
+    <string name="btDefinition">הגדרות</string>
+    <string name="btCalendar">לוח שנה</string>
+    <string name="btStatus">סטטוס</string>
 </resources>
