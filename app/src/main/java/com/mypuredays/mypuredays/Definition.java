@@ -5,16 +5,19 @@ package com.mypuredays.mypuredays;
  */
 public class Definition {
 
+    private int _rowId;
     private int _minPeriodLength;
     private boolean _regulary;
     private boolean _prishaDays;
     private int _periodLength;
     private int _ovulationNutification;
-    private ClearDayType _cleanNotification;
+    private int _cleanNotificationID;
     private boolean _countClean;
     private boolean _dailyNotification;
 
-    public Definition() {
+    public Definition(int rowId) {
+
+        this._rowId = rowId;
         this._minPeriodLength = 0;
         this._dailyNotification = false;
         this._regulary = false;
@@ -22,7 +25,21 @@ public class Definition {
         this._periodLength = 0;
         this._ovulationNutification = 0;
         this._countClean = false;
-        this._cleanNotification = null;
+        this._cleanNotificationID = 0;
+    }
+
+    public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
+                      int _ovulationNutification, int _cleanNotificationID, boolean _countClean, boolean _dailyNotification) {
+        this._rowId = _rowId;
+        this._minPeriodLength = _minPeriodLength;
+        this._regulary = _regulary;
+        this._prishaDays = _prishaDays;
+
+        this._periodLength = _periodLength;
+        this._ovulationNutification = _ovulationNutification;
+        this._cleanNotificationID = _cleanNotificationID;
+        this._countClean = _countClean;
+        this._dailyNotification = _dailyNotification;
     }
 
     public boolean is_regulary() {
@@ -65,12 +82,12 @@ public class Definition {
         this._ovulationNutification = _ovulationNutification;
     }
 
-    public ClearDayType get_cleanNotification() {
-        return _cleanNotification;
+    public int get_cleanNotification() {
+        return _cleanNotificationID;
     }
 
-    public void set_cleanNotification(ClearDayType _cleanNotification) {
-        this._cleanNotification = _cleanNotification;
+    public void set_cleanNotification(int _cleanNotificationID) {
+        this._cleanNotificationID = _cleanNotificationID;
     }
 
     public boolean is_countClean() {

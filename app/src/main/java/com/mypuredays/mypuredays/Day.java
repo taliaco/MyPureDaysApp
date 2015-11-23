@@ -6,12 +6,15 @@ import java.util.Date;
  * Created by David on 19/11/2015.
  */
 public class Day {
+
+    private int _rowId;
     private Date _date;
     private int _dateTypeId;
     private String _notes;
 
-    public Day( Date date, int dateTypeId, String notes)
+    public Day(int rowId, Date date, int dateTypeId, String notes)
     {
+        _rowId=rowId;
         _date=date;
         _dateTypeId=dateTypeId;
         _notes=notes;
