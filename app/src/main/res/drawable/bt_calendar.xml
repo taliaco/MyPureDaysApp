@@ -14,6 +14,5 @@
 
     </item>
     <item android:drawable="@drawable/button5">
-
     </item>
 </layer-list>

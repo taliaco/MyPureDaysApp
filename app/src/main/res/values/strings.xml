@@ -8,4 +8,6 @@
     <string name="btDefinition">הגדרות</string>
     <string name="btCalendar">לוח שנה</string>
     <string name="btStatus">סטטוס</string>
+    <string name="title_activity_definition">DefinitionActivity</string>
+    <string name="icon">icon</string>
 </resources>

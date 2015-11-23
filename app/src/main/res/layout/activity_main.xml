@@ -20,27 +20,29 @@
         android:scaleType="fitCenter"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/icon"/>
 
 
     <Button
         android:id="@+id/btDefinition"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/btDefinition"
+        android:background="@drawable/bt_definition"
         android:scaleType="fitCenter"
         android:text="@string/btDefinition"
         android:textSize="30sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="openDefinition" />
 
 
     <Button
         android:id="@+id/btCalendar"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/btCalendar"
+        android:background="@drawable/bt_calendar"
         android:scaleType="fitCenter"
         android:text="@string/btCalendar"
         android:textSize="30sp"
@@ -53,21 +55,22 @@
         android:id="@+id/btStatus"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/btStatus"
+        android:background="@drawable/bt_status"
         android:scaleType="fitCenter"
         android:text="@string/btStatus"
         android:textSize="30sp"
         android:layout_below="@+id/iconclear"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp" />
+        android:layout_marginTop="37dp"
+        android:onClick="openStatus" />
 
 
     <Button
         android:id="@+id/btStartEnd"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/btStartEnd"
+        android:background="@drawable/bt_start_end"
         android:scaleType="fitCenter"
         android:text="@string/btStart"
         android:textSize="20sp"
