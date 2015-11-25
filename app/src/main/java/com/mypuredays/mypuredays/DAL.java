@@ -85,7 +85,6 @@ public class DAL {
             clearDayType = new ClearDayType(c.getInt(0),c.getInt(1),c.getString(2));
         }
         dbReader.close();
-
         return clearDayType;
     }
 
@@ -182,6 +181,33 @@ public class DAL {
         values.put(Constants.COLUMN_NAME_PERIOD_LENGTH, periodLength);
         values.put(Constants.COLUMN_NAME_OVULATION_NOTIFICATION, ovulationNutification);
         values.put(Constants.COLUMN_NAME_CLEAN_NOTIFICATION, cleanNotification);
+        values.put(Constants.COLUMN_NAME_COUNT_CLEAN, countCleanInt);
+        values.put(Constants.COLUMN_NAME_DAILY_NOTIFICATION, dailyNotificationInt);
+
+
+        dbWriter.insertOrThrow(Constants.TABLE_NAME_DEFINITION, null, values);
+        dbWriter.close();
+
+    }
+    public void writeToDefinition(Definition def)
+    {
+
+        int regularyInt,prishaDaysInt,countCleanInt,dailyNotificationInt;
+
+        regularyInt    = (def.is_regulary()) ? 1 : 0;
+        prishaDaysInt    = (def.is_prishaDays()) ? 1 : 0;
+        countCleanInt    = (def.is_countClean()) ? 1 : 0;
+        dailyNotificationInt    = (def.is_dailyNotification()) ? 1 : 0;
+
+        SQLiteDatabase dbWriter = db.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.COLUMN_NAME_MIN_PERIOD_LENGTH, def.get_minPeriodLength());
+        values.put(Constants.COLUMN_NAME_REGULAR, regularyInt);
+        values.put(Constants.COLUMN_NAME_PRISHA_DAYS, prishaDaysInt);
+        values.put(Constants.COLUMN_NAME_PERIOD_LENGTH, def.get_periodLength());
+        values.put(Constants.COLUMN_NAME_OVULATION_NOTIFICATION, def.get_ovulationNutification());
+        values.put(Constants.COLUMN_NAME_CLEAN_NOTIFICATION, def.get_cleanNotification());
         values.put(Constants.COLUMN_NAME_COUNT_CLEAN, countCleanInt);
         values.put(Constants.COLUMN_NAME_DAILY_NOTIFICATION, dailyNotificationInt);
 

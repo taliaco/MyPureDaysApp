@@ -15,9 +15,9 @@ public class Definition {
     private boolean _countClean;
     private boolean _dailyNotification;
 
-    public Definition(int rowId) {
+    public Definition() {
 
-        this._rowId = rowId;
+        this._rowId = -1;
         this._minPeriodLength = 0;
         this._dailyNotification = false;
         this._regulary = false;
