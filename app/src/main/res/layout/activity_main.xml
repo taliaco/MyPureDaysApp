@@ -46,8 +46,7 @@
         android:scaleType="fitCenter"
         android:text="@string/btCalendar"
         android:textSize="30sp"
-        android:layout_alignBaseline="@+id/btDefinition"
-        android:layout_alignBottom="@+id/btDefinition"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/iconclear"
         android:layout_toEndOf="@+id/iconclear" />
 
@@ -76,5 +75,6 @@
         android:textSize="20sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="startLooking" />
 </RelativeLayout>

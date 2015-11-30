@@ -2,16 +2,22 @@ package com.mypuredays.mypuredays;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class MainActivity extends Activity {
     public enum StartEnd {
@@ -69,17 +75,34 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
     public void startLooking(View view) {
-        Button b = (Button)view;
+        Resources res = getResources();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        Button b =(Button)findViewById(R.id.btStartEnd);
         String text = b.getText().toString();
-        if(text.equals(R.string.btStart)){
-            b.setText(R.string.btEnd);
+        if(text.equals(res.getString(R.string.btStart))){
+            b.setText(res.getString(R.string.btEnd));
             setStartEndLooking(StartEnd.START);
+            alertDialogBuilder.setMessage("התחלת ראיה היום" + new Date());
         }
         else{
-            b.setText(R.string.btStart);
+            b.setText(res.getString(R.string.btStart));
             setStartEndLooking(StartEnd.END);
+            alertDialogBuilder.setMessage("הפסק ראיה היום" + new Date());
         }
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
+
+
+
     public boolean setStartEndLooking(Enum StartEnd){
 
         return true;
