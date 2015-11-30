@@ -1,5 +1,7 @@
 package com.mypuredays.mypuredays;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.provider.BaseColumns;
 
 /**
@@ -38,50 +40,51 @@ public class Constants implements BaseColumns {
     public static final String COLUMN_NAME_COUNT_CLEAN = "countCleanColumn";
     public static final String COLUMN_NAME_DAILY_NOTIFICATION = "dailyNotificationColumn";
 
-    public static final String getDefName(String columnName){
+    public static String getDefName(String columnName, Context context){
+        Resources res = context.getResources();
         switch (columnName){
             case COLUMN_NAME_MIN_PERIOD_LENGTH:
-                return String.valueOf((R.string.minPeriodLengthColumn));
+                return res.getString(R.string.minPeriodLengthColumn);
             case COLUMN_NAME_REGULAR:
-                return String.valueOf((R.string.regularColumn));
+                return res.getString((R.string.regularColumn));
             case COLUMN_NAME_PRISHA_DAYS:
-                return String.valueOf((R.string.prishaDaysColumn));
+                return res.getString((R.string.prishaDaysColumn));
             case COLUMN_NAME_PERIOD_LENGTH:
-                return String.valueOf((R.string.periodLengthColumn));
+                return res.getString((R.string.periodLengthColumn));
             case COLUMN_NAME_OVULATION_NOTIFICATION:
-                return String.valueOf((R.string.ovulationNotificationColumn));
+                return res.getString((R.string.ovulationNotificationColumn));
             case COLUMN_NAME_CLEAN_NOTIFICATION:
-                return String.valueOf((R.string.cleanNotificationColumn));
+                return res.getString((R.string.cleanNotificationColumn));
             case COLUMN_NAME_COUNT_CLEAN:
-                return String.valueOf((R.string.countCleanColumn));
+                return res.getString((R.string.countCleanColumn));
             case COLUMN_NAME_DAILY_NOTIFICATION:
-                return String.valueOf((R.string.dailyNotificationColumn));
-
+                return res.getString((R.string.dailyNotificationColumn));
+            default:
+                return "";
         }
-        return "";
     }
 
-    public static final String getDefType(String columnName){
+    public static  String getDefType(String columnName, Context context){
+        Resources res = context.getResources();
         switch (columnName){
             case COLUMN_NAME_MIN_PERIOD_LENGTH:
-                return String.valueOf((R.string.minPeriodLengthColumnType));
+                return res.getString(R.string.minPeriodLengthColumn);
             case COLUMN_NAME_REGULAR:
-                return String.valueOf((R.string.regularColumnType));
+                return res.getString((R.string.regularColumn));
             case COLUMN_NAME_PRISHA_DAYS:
-                return String.valueOf((R.string.prishaDaysColumnType));
+                return res.getString((R.string.prishaDaysColumn));
             case COLUMN_NAME_PERIOD_LENGTH:
-                return String.valueOf((R.string.periodLengthColumnType));
+                return res.getString((R.string.periodLengthColumn));
             case COLUMN_NAME_OVULATION_NOTIFICATION:
-                return String.valueOf((R.string.ovulationNotificationColumnType));
+                return res.getString((R.string.ovulationNotificationColumn));
             case COLUMN_NAME_CLEAN_NOTIFICATION:
-                return String.valueOf((R.string.cleanNotificationColumnType));
+                return res.getString((R.string.cleanNotificationColumn));
             case COLUMN_NAME_COUNT_CLEAN:
-                return String.valueOf((R.string.countCleanColumnType));
+                return res.getString((R.string.countCleanColumn));
             case COLUMN_NAME_DAILY_NOTIFICATION:
-                return String.valueOf((R.string.dailyNotificationColumnType));
-
+                return res.getString((R.string.dailyNotificationColumn));
+            default:
+                return "";
         }
-        return "";
     }
-
 }
