@@ -1,39 +1,48 @@
 package com.mypuredays.mypuredays;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class DefinitionActivity extends Activity {
 
     private ListView listDef;
-    private ArrayList<String> defNameList;
-    private ArrayAdapter<String> adapter;
+    private BL bl;
 
-
-    private Definition def;
-
-    private static int  NUM_OF_DEF=8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_definition);
 
+        bl = new BL(this);
         listDef= (ListView)findViewById(R.id.definition_list);
 
-        //def=
 
-        for(int i=0; i<NUM_OF_DEF; i++){
+        TextView name = (TextView)findViewById(R.id.item_name);
+        Switch offOn = (Switch)findViewById(R.id.on_off_switch);
 
-            defNameList.add("1");
+
+        Cursor c = bl.readCursorFromDefinition();
+
+        for(int i=0; i<c.getColumnCount();i++){
+
+            String defName = Constants.getDefName(c.getColumnName(i));
+            name.setText(defName);
+
         }
+    }
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, defNameList);
-        listDef.setAdapter(adapter);
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 }

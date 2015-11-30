@@ -1,6 +1,7 @@
 package com.mypuredays.mypuredays;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.mypuredays.mypuredays.DAL;
 
@@ -18,6 +19,16 @@ public class BL {
         dal.writeToDefinition(def);
 
         //ClearDayType clrDayType = new ClearDayType()
+    }
+
+    public Definition readFromDefinition(){
+
+        return dal.readFromDefinition();
+    }
+
+    public Cursor readCursorFromDefinition() {
+
+        return dal.readCursorFromDefinition();
     }
 
 

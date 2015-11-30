@@ -116,6 +116,20 @@ public class DAL {
         return definition;
     }
 
+    public Cursor readCursorFromDefinition() {
+
+        SQLiteDatabase dbReader = db.getReadableDatabase();
+        Cursor c = null;
+
+        String[] cols = {Constants._ID, Constants.COLUMN_NAME_MIN_PERIOD_LENGTH, Constants.COLUMN_NAME_REGULAR, Constants.COLUMN_NAME_PRISHA_DAYS,
+                Constants.COLUMN_NAME_PERIOD_LENGTH, Constants.COLUMN_NAME_OVULATION_NOTIFICATION, Constants.COLUMN_NAME_CLEAN_NOTIFICATION,
+                Constants.COLUMN_NAME_COUNT_CLEAN, Constants.COLUMN_NAME_DAILY_NOTIFICATION};
+        c = dbReader.query(Constants.TABLE_NAME_DEFINITION,cols,null,null,null,null,null);
+
+        return c;
+
+    }
+
 
 
     public void writeToDay(Date date, int dateTypeId, String notes)
