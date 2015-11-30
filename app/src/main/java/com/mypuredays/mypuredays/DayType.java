@@ -27,10 +27,14 @@ import java.util.Locale;
  * Created by David on 19/11/2015.
  */
 public class DayType {
+
+    private int _rowId;
     private int _ID;
     private String _Type;
 
-    public DayType(int _ID, String _Type) {
+    public DayType(int rowId, int _ID, String _Type) {
+
+        this._rowId = rowId;
         this._ID = _ID;
         this._Type = _Type;
     }

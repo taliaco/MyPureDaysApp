@@ -35,8 +35,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:text="הגדרות"
-                android:textSize="30dp"
-               />
+                android:textSize="30dp" />
 
 
     <Button
@@ -51,8 +50,7 @@
         android:layout_marginTop="155dp"
         android:clickable="true"
         android:text="לוח שנה"
-        android:textSize="30dp"
-        android:onClick="onClick_btn"/>
+        android:textSize="30dp" />
 
         <Button
             android:layout_width="150dp"
