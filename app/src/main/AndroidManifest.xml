@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StatusActivity" >
+        </activity>
+        <activity android:name=".DefinitionActivity" >
+        </activity>
+        <activity
+            android:name=".CalenderActivity"
+            android:label="@string/title_activity_calender"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListViewActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
