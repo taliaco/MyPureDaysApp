@@ -10,16 +10,16 @@ public class Day {
 
     private int _rowId;
     private Date _date;
-    private int _dateTypeId;
+    private int _dayTypeId;
     private String _notes;
     public static ArrayList<Day> day_arr;
 
 
-    public Day(int rowId, Date date, int dateTypeId, String notes)
+    public Day(int rowId, Date date, int dayTypeId, String notes)
     {
         _rowId=rowId;
         _date=date;
-        _dateTypeId=dateTypeId;
+        _dayTypeId =dayTypeId;
         _notes=notes;
     }
 
@@ -27,8 +27,8 @@ public class Day {
         this._date = _date;
     }
 
-    public void set_dateTypeId(int _dateTypeId) {
-        this._dateTypeId = _dateTypeId;
+    public void set_dayTypeId(int _dayTypeId) {
+        this._dayTypeId = _dayTypeId;
     }
 
     public void set_notes(String _notes) {
@@ -40,8 +40,8 @@ public class Day {
         return _date;
     }
 
-    public int get_dateTypeId() {
-        return _dateTypeId;
+    public int get_dayTypeId() {
+        return _dayTypeId;
     }
 
     public String get_notes() {

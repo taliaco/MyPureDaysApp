@@ -20,9 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MainActivity extends Activity {
-    public enum StartEnd {
-        START, END
-    }
+
     BL bl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +40,7 @@ public class MainActivity extends Activity {
             //openDefinition();
 
         }
+
     }
 
     @Override
@@ -93,12 +92,12 @@ public class MainActivity extends Activity {
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){
             b.setText(res.getString(R.string.btEnd));
-            setStartEndLooking(StartEnd.START);
+            setStartEndLooking(Constants.StartEnd.START);
             alertDialogBuilder.setMessage("התחלת ראיה היום" + new Date());
         }
         else{
             b.setText(res.getString(R.string.btStart));
-            setStartEndLooking(StartEnd.END);
+            setStartEndLooking(Constants.StartEnd.END);
             alertDialogBuilder.setMessage("הפסק ראיה היום" + new Date());
         }
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -107,7 +106,14 @@ public class MainActivity extends Activity {
 
 
 
-    public boolean setStartEndLooking(Enum StartEnd){
+    public boolean setStartEndLooking(Constants.StartEnd startEnd){
+
+        if(startEnd == Constants.StartEnd.START)    {
+            bl.setStartLooking(new Date());
+        }
+        if(startEnd == Constants.StartEnd.END)    {
+            bl.setEndLooking();
+        }
 
         return true;
     }

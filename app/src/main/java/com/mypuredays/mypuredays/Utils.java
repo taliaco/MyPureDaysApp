@@ -67,4 +67,8 @@ public class Utils {
         }
         return null;
     }
+
+    public static int getDayTypeIDByName(Constants.DAY_TYPE dayType){
+        return 0;
+    }
 }

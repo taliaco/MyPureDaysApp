@@ -58,5 +58,8 @@ public class Constants implements BaseColumns {
         START, END
     }
 
+    public enum DAY_TYPE{
+        START_LOOKIND, END_LOOKING,
+    }
 
 }
