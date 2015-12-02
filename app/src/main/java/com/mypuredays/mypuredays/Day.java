@@ -1,5 +1,6 @@
 package com.mypuredays.mypuredays;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -11,6 +12,8 @@ public class Day {
     private Date _date;
     private int _dateTypeId;
     private String _notes;
+    public static ArrayList<Day> day_arr;
+
 
     public Day(int rowId, Date date, int dateTypeId, String notes)
     {

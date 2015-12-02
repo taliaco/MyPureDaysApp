@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -52,6 +53,37 @@ public class DAL {
         dbReader.close();
 
         return day;
+    }
+
+    public ArrayList<Day> readAllFromDay()
+    {
+        SQLiteDatabase dbReader = db.getReadableDatabase();
+        ArrayList<Day> arrayListDay =new ArrayList<Day>();
+        Day day= null;
+        //String dataRead = "";
+        String[] cols = {Constants._ID, Constants.COLUMN_NAME_DATE, Constants.COLUMN_NAME_DAY_TYPE, Constants.COLUMN_NAME_NOTES};
+        Cursor c = dbReader.query(Constants.TABLE_NAME_DAY,cols,null,null,null,null,null);
+
+        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date date = null;
+
+
+        while (c.moveToNext())
+        {
+            String dateString = c.getString(1);
+            try {
+                date = sdf.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            day = new Day(c.getInt(0),date,c.getInt(2),c.getString(3));
+            arrayListDay.add(day);
+        }
+        dbReader.close();
+
+        return arrayListDay;
     }
 
     public DayType readFromDayType()

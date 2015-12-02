@@ -3,7 +3,7 @@ package com.mypuredays.mypuredays;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.mypuredays.mypuredays.DAL;
+import java.util.ArrayList;
 
 /**
  * Created by Talia on 25/11/2015.
@@ -29,6 +29,9 @@ public class BL {
     public Cursor readCursorFromDefinition() {
 
         return dal.readCursorFromDefinition();
+    }
+    public ArrayList<Day> ReadAllDays(){
+       return dal.readAllFromDay();
     }
 
 
