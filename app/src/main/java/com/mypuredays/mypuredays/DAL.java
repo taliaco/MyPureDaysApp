@@ -122,7 +122,7 @@ public class DAL {
 //        return definition;
 //    }
 //
-//    public Cursor readCursorFromDefinition() {
+//    public Cursor getDefinitionCursor() {
 //
 //        SQLiteDatabase dbReader = db.getReadableDatabase();
 //        Cursor c = null;
