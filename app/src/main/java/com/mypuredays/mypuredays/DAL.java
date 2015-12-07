@@ -5,13 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.mypuredays.mypuredays.Utils;
-
 /**
  * Created by yael on 23/11/2015.
  */
@@ -49,6 +42,10 @@ public class DAL {
 
     public void DBDeleteItem(String tableName, String criteria) {
         dbWrite.delete(tableName, criteria, null);
+    }
+
+    public Cursor getMaxId(String tableName){
+        return dbRead.query(tableName, new String [] {"MAX(_ID)"}, null, null, null, null, null);
     }
 
 //

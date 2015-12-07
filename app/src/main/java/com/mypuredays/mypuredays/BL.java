@@ -7,6 +7,7 @@ import android.database.Cursor;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -91,4 +92,30 @@ public class BL {
     }
 
 
+    public int getMaxIdDay(){
+        Cursor c =  dal.getMaxId(Constants.TABLE_DAY);
+        return c.getInt(0);
+
+    }
+
+    public ArrayList<Day> ReadAllDays() {
+
+        ArrayList<Day> arrDays = new ArrayList<>();
+
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = null;
+
+        Cursor c = dal.DBRead(Constants.TABLE_DAY);
+        while (c.moveToNext()) {
+            try {
+                dt = ft.parse(c.getString(1).toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Day day=new Day(c.getInt(0),dt ,c.getInt(2),c.getString(3));
+           arrDays.add(day);
+        }
+
+        return arrDays;
+    }
 }

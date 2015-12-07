@@ -155,7 +155,7 @@ public class Definition {
             }
             CalendarCollection list_obj=values.get(position);
             viewHolder.tv_date.setText(list_obj.date);
-            viewHolder.tv_event.setText(list_obj.event_message);
+            viewHolder.tv_event.setText(list_obj.notes);
 
             return convertView;
         }
