@@ -54,6 +54,7 @@ public class Constants implements BaseColumns {
         INTEGER, BOOLEAN, STRING, DATE
     }
 
+
     public enum StartEnd {
         START, END
     }
