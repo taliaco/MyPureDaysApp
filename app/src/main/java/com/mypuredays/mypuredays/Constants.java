@@ -1,7 +1,5 @@
 package com.mypuredays.mypuredays;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.provider.BaseColumns;
 
 /**
