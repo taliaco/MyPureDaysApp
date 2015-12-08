@@ -44,8 +44,8 @@ public class DAL {
         dbWrite.delete(tableName, criteria, null);
     }
 
-    public Cursor getMaxId(String tableName){
-        return dbRead.query(tableName, new String [] {"MAX(_ID)"}, null, null, null, null, null);
+    public Cursor getMaxId(String tableName, String maxVlue){
+        return dbRead.query(tableName, new String [] {maxVlue}, null, null, null, null, null);
     }
 
 //
