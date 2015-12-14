@@ -18,18 +18,23 @@ public class CalenderActivity extends Activity {
     public GregorianCalendar cal_month, cal_month_copy;
     private CalendarAdapter cal_adapter;
     private TextView tv_month;
+    private ArrayList<Day> arrayListDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
+        BL bl= new BL(this);
 
+        //get all days from DB
+        arrayListDays=bl.ReadAllDays();
         CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
-        CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-01","John Birthday"));
-        CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-04","Client Meeting at 5 p.m."));
-        CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-06","A Small Party at my office"));
-        CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-05-02", "Marriage Anniversary"));
-        CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-11", "Live Event and Concert of sonu"));
+
+        //convert Day Type to CalendarCollection list
+        for(int i=0; i<arrayListDays.size(); i++){
+            CalendarCollection.date_collection_arr.add(new CalendarCollection(arrayListDays.get(i)));
+
+        }
 
         cal_month = (GregorianCalendar) GregorianCalendar.getInstance();
         cal_month_copy = (GregorianCalendar) cal_month.clone();

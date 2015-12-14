@@ -20,37 +20,37 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL("CREATE TABLE " + Constants.TABLE_NAME_DAY + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Constants.COLUMN_NAME_DATE + " TEXT_TYPE,"
-                + Constants.COLUMN_NAME_DAY_TYPE + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_NOTES + " TEXT_TYPE);" );
+        db.execSQL("CREATE TABLE " + Constants.TABLE_DAY + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.COL_DATE + " TEXT_TYPE,"
+                + Constants.COL_DAY_TYPE + " INTEGER_TYPE,"
+                + Constants.COL_NOTES + " TEXT_TYPE);" );
 
-        db.execSQL("CREATE TABLE " + Constants.TABLE_NAME_DAY_TYPE + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Constants.COLUMN_NAME_ID_DAY_TYPE + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_TYPE_DAY_TYPE + " TEXT_TYPE);" );
+        db.execSQL("CREATE TABLE " + Constants.TABLE_DAY_TYPE + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.COL_ID_DAY_TYPE + " INTEGER_TYPE,"
+                + Constants.COL_TYPE_DAY_TYPE + " TEXT_TYPE);" );
 
-        db.execSQL("CREATE TABLE " + Constants.TABLE_NAME_CLEAR_DAY_TYPE + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Constants.COLUMN_NAME_ID_CLEAR_DAY_TYPE + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_TYPE_CLEAR_DAY_TYPE + " TEXT_TYPE);" );
+        db.execSQL("CREATE TABLE " + Constants.TABLE_CLEAR_DAY_TYPE + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.COL_ID_CLEAR_DAY_TYPE + " INTEGER_TYPE,"
+                + Constants.COL_TYPE_CLEAR_DAY_TYPE + " TEXT_TYPE);" );
 
-        db.execSQL("CREATE TABLE " + Constants.TABLE_NAME_DEFINITION + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Constants.COLUMN_NAME_MIN_PERIOD_LENGTH + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_REGULAR + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_PRISHA_DAYS + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_PERIOD_LENGTH + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_OVULATION_NOTIFICATION + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_CLEAN_NOTIFICATION + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_COUNT_CLEAN + " INTEGER_TYPE,"
-                + Constants.COLUMN_NAME_DAILY_NOTIFICATION + " INTEGER_TYPE);" );
+        db.execSQL("CREATE TABLE " + Constants.TABLE_DEFINITION + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.COL_MIN_PERIOD_LENGTH + " INTEGER_TYPE,"
+                + Constants.COL_REGULAR + " INTEGER_TYPE,"
+                + Constants.COL_PRISHA_DAYS + " INTEGER_TYPE,"
+                + Constants.COL_PERIOD_LENGTH + " INTEGER_TYPE,"
+                + Constants.COL_OVULATION_NOTIFICATION + " INTEGER_TYPE,"
+                + Constants.COL_CLEAN_NOTIFICATION + " INTEGER_TYPE,"
+                + Constants.COL_COUNT_CLEAN + " INTEGER_TYPE,"
+                + Constants.COL_DAILY_NOTIFICATION + " INTEGER_TYPE);" );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_DAY);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_DAY_TYPE);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_CLEAR_DAY_TYPE);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_DEFINITION);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DAY);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DAY_TYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_CLEAR_DAY_TYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DEFINITION);
     }
 
 }

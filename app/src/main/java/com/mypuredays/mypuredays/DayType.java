@@ -290,7 +290,7 @@ public class DayType {
                 CalendarCollection cal_collection=CalendarCollection.date_collection_arr.get(i);
                 String event_date=cal_collection.date;
 
-                String event_message=cal_collection.event_message;
+                String event_message=cal_collection.notes;
 
                 if (date.equals(event_date)) {
 

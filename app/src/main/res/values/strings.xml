@@ -21,12 +21,14 @@
     <string name="countCleanColumn">תזכורת נקיים  </string>
     <string name="dailyNotificationColumn">תזכורת ביוץ  </string>
 
-    <string name="minPeriodLengthColumnType">int</string>
-    <string name="regularColumnType">boolean</string>
-    <string name="prishaDaysColumnType">boolean</string>
-    <string name="periodLengthColumnType">int</string>
-    <string name="ovulationNotificationColumnType">int</string>
-    <string name="cleanNotificationColumnType">int</string>
-    <string name="countCleanColumnType">boolean</string>
-    <string name="dailyNotificationColumnType">boolean</string>
+    <string name="lastPeriodDate">תאריך וסת אחרון</string>
+    <string name="cleanCount">ספירת נקיים</string>
+    <string name="periodLength">משך זמן מחזור </string>
+    <string name="periodAvg">ממוצע מחזור</string>
+    <string name="dateMikveh"> תאריך מקווה</string>
+    <string name="prishaDate">  תאריך פרישה</string>
+    <string name="nextPeriodDate"> תאריך וסת הבא </string>
+
+
+
 </resources>
