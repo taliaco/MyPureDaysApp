@@ -27,6 +27,7 @@ public class CalendarCollection {
         this.date = df.format(day.get_date());
 
         // this.date=day.get_date().toString();
+
         this.notes=day.get_notes().toString();
         this._dateTypeId=day.get_dayTypeId();
     }

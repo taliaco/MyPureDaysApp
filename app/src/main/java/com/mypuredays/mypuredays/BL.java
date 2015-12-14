@@ -2,8 +2,11 @@ package com.mypuredays.mypuredays;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.util.Log;
 
+import java.io.Console;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,9 +18,10 @@ import java.util.Date;
  */
 public class BL {
     DAL dal;
-
-    public BL(Context context) {
-        dal = new DAL(context);
+    Context context;
+    public BL(Context contextview) {
+        context = contextview;
+        dal = new DAL(contextview);
     }
 
     public void populateDB() {
@@ -72,7 +76,7 @@ public class BL {
         return null;
     }
 
-    public void setStartLooking(Date date) {
+    public void setStartEndLooking(Date date, Constants.DAY_TYPE dayType) {
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {sdf.format(date)};
@@ -80,27 +84,41 @@ public class BL {
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
-            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(Constants.DAY_TYPE.START_LOOKIND));
+            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
             String criteria = Constants.COL_DATE + "=" + sdf.format(date);
 
             dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
         } else {
-
+            String strDate = sdf.format(date);
+            ContentValues values = new ContentValues();
+            values.put(Constants.COL_DATE, strDate);
+            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
+            dal.DBWrite(Constants.TABLE_DAY, values);
         }
     }
 
-    public boolean setEndLooking() {
 
-        return true;
+
+    public int getMaxIdDay(String tableName) {
+        String[] cols = new String []{"MAX(" + Constants._ID + ")"};
+        Cursor c = dal.getMaxId(tableName, cols);
+        if (c.moveToFirst()) {
+            Log.e("MAX ID", String.valueOf(c.getInt(0)));
+            return c.getInt(0);
+        }
+        return -1;
+
     }
 
-
-    public ArrayList<Day> ReadAllDays() {
-
+    public ArrayList<Day> getAllDays() {
+        Resources res = context.getResources();
+        String notes="";
+        int dayType = -1;
+        Date dt = null;
         ArrayList<Day> arrDays = new ArrayList<>();
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-        Date dt = null;
+
 
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         while (c.moveToNext()) {
@@ -109,32 +127,18 @@ public class BL {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Day day = new Day(c.getInt(0), dt, c.getInt(2), c.getString(3));
+            if(c.getString(3)!=null){
+                notes = c.getString(3);
+            }
+            else{
+                notes = res.getString((R.string.defaultNote));
+            }
+
+
+            Day day = new Day(c.getInt(0), dt, dayType, notes);
             arrDays.add(day);
         }
 
         return arrDays;
     }
-
-//    public Day getLastStartPeriod() {
-//
-//        String selection = Constants.COL_DATE + "=?";
-//        //String[] selectionArgs = {sdf.format(date)};
-//        Day day=new Day(0,new Date("1-1-1970"),0,"");
-//        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dt = null;
-//
-//        Cursor c = dal.getMaxId(Constants.TABLE_DAY, "MAX(COL_DATE");
-//        while (c.moveToNext()) {
-//            try {
-//                dt = ft.parse(c.getString(1).toString());
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            day = new Day(c.getInt(0), dt, c.getInt(2), c.getString(3));
-//        }
-//
-//        return day;
-//
-//    }
 }
