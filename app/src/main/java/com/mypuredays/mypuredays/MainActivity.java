@@ -17,7 +17,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
 
@@ -26,8 +29,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+        bl = new BL(this);
+        try {
+            bl.setStartEndLooking(df.parse("08-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+            bl.setStartEndLooking(df.parse("01-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+            bl.setStartEndLooking(df.parse("20-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         bl = new BL(this);
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
 
@@ -40,7 +50,6 @@ public class MainActivity extends Activity {
             //openDefinition();
 
         }
-
     }
 
     @Override
@@ -92,12 +101,12 @@ public class MainActivity extends Activity {
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){
             b.setText(res.getString(R.string.btEnd));
-            setStartEndLooking(Constants.StartEnd.START);
+            bl.setStartEndLooking(new Date(),Constants.DAY_TYPE.START_LOOKIND);
             alertDialogBuilder.setMessage("התחלת ראיה היום" + new Date());
         }
         else{
             b.setText(res.getString(R.string.btStart));
-            setStartEndLooking(Constants.StartEnd.END);
+            bl.setStartEndLooking(new Date(),Constants.DAY_TYPE.END_LOOKING);
             alertDialogBuilder.setMessage("הפסק ראיה היום" + new Date());
         }
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -106,15 +115,5 @@ public class MainActivity extends Activity {
 
 
 
-    public boolean setStartEndLooking(Constants.StartEnd startEnd){
 
-        if(startEnd == Constants.StartEnd.START)    {
-            bl.setStartLooking(new Date());
-        }
-        if(startEnd == Constants.StartEnd.END)    {
-            bl.setEndLooking();
-        }
-
-        return true;
-    }
 }

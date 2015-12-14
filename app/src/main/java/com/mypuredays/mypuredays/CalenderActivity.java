@@ -27,12 +27,13 @@ public class CalenderActivity extends Activity {
         BL bl= new BL(this);
 
         //get all days from DB
-        arrayListDays=bl.ReadAllDays();
+        arrayListDays=bl.getAllDays();
         CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
 
         //convert Day Type to CalendarCollection list
         for(int i=0; i<arrayListDays.size(); i++){
-            CalendarCollection.date_collection_arr.add(new CalendarCollection(arrayListDays.get(i)));
+            CalendarCollection tmpCalendarCollection = new CalendarCollection(arrayListDays.get(i));
+            CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
 
         }
 
