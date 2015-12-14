@@ -37,11 +37,11 @@ public class DefinitionActivity extends Activity {
         // Create ArrayAdapter using the planet list.
         listAdapter = new DefinitionListAdapter(this, R.layout.item_definition, defsList);
 
-        Cursor c = bl.readCursorFromDefinition();
+        Cursor c = bl.getDefinitionCursor();
 
         for(int i=0; i<c.getColumnCount();i++){
 
-            listAdapter.add(new ItemDefinition (Constants.getDefName(c.getColumnName(i),this), Constants.getDefType(c.getColumnName(i),this) ));
+            listAdapter.add(new ItemDefinition (Utils.getDefName(c.getColumnName(i), this), Utils.getDefType(c.getColumnName(i))));
         }
         listDef.setAdapter( listAdapter );
     }

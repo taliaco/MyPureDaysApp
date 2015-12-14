@@ -6,9 +6,9 @@ package com.mypuredays.mypuredays;
 public class ItemDefinition {
 
     private String name;
-    private String value;
+    private Constants.DEF_TYPE value;
 
-    public ItemDefinition(String name, String value) {
+    public ItemDefinition(String name, Constants.DEF_TYPE value) {
         this.name = name;
         this.value = value;
     }
@@ -21,11 +21,11 @@ public class ItemDefinition {
         this.name = name;
     }
 
-    public String getvalue() {
+    public Constants.DEF_TYPE getvalue() {
         return value;
     }
 
-    public void setvalue(String value) {
+    public void setvalue(Constants.DEF_TYPE value) {
         this.value = value;
     }
 }
