@@ -1,8 +1,8 @@
 
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
 
     <TextView
@@ -17,13 +17,13 @@
         android:longClickable="true"/>
 
 
-    <!--<Switch-->
-        <!--android:id="@+id/on_off_switch"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:textOff="OFF"-->
-        <!--android:textOn="ON"/>-->
+    <Switch
+        android:id="@+id/on_off_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textOff="OFF"
+        android:textOn="ON"/>
 
 
-<!--</LinearLayout>-->
+</LinearLayout>

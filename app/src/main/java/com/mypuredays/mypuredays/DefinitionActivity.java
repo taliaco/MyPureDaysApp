@@ -18,7 +18,8 @@ public class DefinitionActivity extends Activity {
     private ListView listDef;
     private BL bl;
 
-    private ArrayAdapter<String> listAdapter ;
+    private ArrayAdapter<ItemDefinition> listAdapter ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +30,18 @@ public class DefinitionActivity extends Activity {
 
 
         // Create and populate a List of planet names.
-        String[] defs = new String[] { };
-        ArrayList<String> defsList = new ArrayList<String>();
-        defsList.addAll(Arrays.asList(defs));
+
+        ArrayList<ItemDefinition> defsList = new ArrayList<ItemDefinition>();
+
 
         // Create ArrayAdapter using the planet list.
-        listAdapter = new ArrayAdapter<String>(this, R.layout.item_definition, defsList);
+        listAdapter = new DefinitionListAdapter(this, R.layout.item_definition, defsList);
 
         Cursor c = bl.readCursorFromDefinition();
 
         for(int i=0; i<c.getColumnCount();i++){
-            listAdapter.add(Constants.getDefName(c.getColumnName(i),this) );
+
+            listAdapter.add(new ItemDefinition (Constants.getDefName(c.getColumnName(i),this), Constants.getDefType(c.getColumnName(i),this) ));
         }
         listDef.setAdapter( listAdapter );
     }

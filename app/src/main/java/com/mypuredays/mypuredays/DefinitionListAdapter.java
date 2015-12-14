@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class DefinitionListAdapter extends ArrayAdapter<Definition>{
+public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition>{
 
     private final Context context;
-    private final ArrayList<Definition> values;
+    private final ArrayList<ItemDefinition> values;
     private ViewHolder viewHolder;
     private final int resourceId;
 
-    public DefinitionListAdapter(Context context, int resourceId, ArrayList<Definition> values) {
+    public DefinitionListAdapter(Context context, int resourceId, ArrayList<ItemDefinition> values) {
         super(context, resourceId, values);
         // TODO Auto-generated constructor stub
 
@@ -38,13 +38,16 @@ public class DefinitionListAdapter extends ArrayAdapter<Definition>{
             Switch offOn = (Switch)convertView.findViewById(R.id.on_off_switch);
 
 
+            name.setText(values.get(position).getName().toString());
+
+
         }else
         {
 
         }
-        Definition list_obj=values.get(position);
-        viewHolder.tv_date.setText(list_obj.get_cleanNotification());
-        viewHolder.tv_event.setText(list_obj.get_minPeriodLength());
+//        ItemDefinition list_obj=values.get(position);
+//        viewHolder.tv_date.setText(list_obj.get_cleanNotification());
+//        viewHolder.tv_event.setText(list_obj.get_minPeriodLength());
 
         return convertView;
     }

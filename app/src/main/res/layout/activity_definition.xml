@@ -16,30 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="25"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:gravity="center"
-                android:longClickable="true"
-                android:textColor="#ff1291ff"
-                android:textSize="16sp" />
-
-
-            <Switch
-                android:id="@+id/on_off_switch"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textOff="OFF"
-                android:textOn="ON" />
-        </LinearLayout>
 
 
 
