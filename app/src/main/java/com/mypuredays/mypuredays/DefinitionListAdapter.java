@@ -40,6 +40,9 @@ public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition>{
 
             name.setText(values.get(position).getName().toString());
 
+            
+            offOn.setVisibility(View.VISIBLE);
+
 
         }else
         {

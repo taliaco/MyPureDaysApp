@@ -4,6 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <Switch
+        android:id="@+id/on_off_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:visibility="invisible"
+
+        android:textOff="OFF"
+        android:textOn="ON"/>
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,18 +21,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="#ff1291ff"
-        android:layout_weight="4"
+        android:layout_weight="1"
         android:longClickable="true"/>
 
-
-    <Switch
-        android:id="@+id/on_off_switch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textOff="OFF"
-        android:textOn="ON"/>
 
 
 </LinearLayout>
