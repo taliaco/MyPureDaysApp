@@ -13,8 +13,8 @@
     <string name="icon">icon</string>
 
     <string name="minPeriodLengthColumn">מינימום ימי מחזור</string>
-    <string name="regularColumn">סדיר/לא סדיר  </string>
-    <string name="prishaDaysColumn">ימי פרישה  </string>
+    <string name="regularColumn">מחזור סדיר</string>
+    <string name="prishaDaysColumn">הצגת ימי פרישה  </string>
     <string name="periodLengthColumn">משך מחזור  </string>
     <string name="ovulationNotificationColumn">ספירת נקיים  </string>
     <string name="cleanNotificationColumn">תזכורת יומית לגלולה  </string>

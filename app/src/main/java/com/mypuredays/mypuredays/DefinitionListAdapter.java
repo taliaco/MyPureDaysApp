@@ -4,12 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition>{
+public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition> {
 
     private final Context context;
     private final ArrayList<ItemDefinition> values;
@@ -34,14 +35,13 @@ public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition>{
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
 
-            TextView name = (TextView)convertView.findViewById(R.id.item_name);
-            Switch offOn = (Switch)convertView.findViewById(R.id.on_off_switch);
+         //   TextView name = (TextView)convertView.findViewById(R.id.item_name);
+           // Switch offOn = (Switch)convertView.findViewById(R.id.on_off_switch);
 
 
-            name.setText(values.get(position).getName().toString());
+            //name.setText(values.get(position).getName().toString());
 
-            
-            offOn.setVisibility(View.VISIBLE);
+            //offOn.setVisibility(View.VISIBLE);
 
 
         }else
