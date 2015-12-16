@@ -38,10 +38,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Constants.COL_REGULAR + " INTEGER_TYPE,"
                 + Constants.COL_PRISHA_DAYS + " INTEGER_TYPE,"
                 + Constants.COL_PERIOD_LENGTH + " INTEGER_TYPE,"
-                + Constants.COL_OVULATION_NOTIFICATION + " INTEGER_TYPE,"
-                + Constants.COL_CLEAN_NOTIFICATION + " INTEGER_TYPE,"
                 + Constants.COL_COUNT_CLEAN + " INTEGER_TYPE,"
-                + Constants.COL_DAILY_NOTIFICATION + " INTEGER_TYPE);" );
+                + Constants.COL_DAILY_NOTIFICATION + " INTEGER_TYPE,"
+                + Constants.COL_CLEAN_NOTIFICATION + " INTEGER_TYPE,"
+                + Constants.COL_OVULATION_NOTIFICATION + " INTEGER_TYPE);" );
     }
 
     @Override

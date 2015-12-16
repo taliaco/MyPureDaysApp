@@ -19,22 +19,25 @@ public class Definition {
     private boolean _regulary;
     private boolean _prishaDays;
     private int _periodLength;
-    private int _ovulationNutification;
-    private int _cleanNotificationID;
     private boolean _countClean;
     private boolean _dailyNotification;
+    private int _cleanNotificationID;
+    private int _ovulationNutification;
+
 
     public Definition() {
 
         this._rowId = -1;
         this._minPeriodLength = 0;
-        this._dailyNotification = false;
         this._regulary = false;
         this._prishaDays = false;
         this._periodLength = 0;
-        this._ovulationNutification = 0;
         this._countClean = false;
+        this._dailyNotification = false;
         this._cleanNotificationID = 0;
+        this._ovulationNutification = 0;
+
+
     }
 
     public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,

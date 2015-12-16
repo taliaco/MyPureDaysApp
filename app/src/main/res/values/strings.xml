@@ -16,10 +16,10 @@
     <string name="regularColumn">מחזור סדיר</string>
     <string name="prishaDaysColumn">הצגת ימי פרישה  </string>
     <string name="periodLengthColumn">משך מחזור  </string>
-    <string name="ovulationNotificationColumn">ספירת נקיים  </string>
-    <string name="cleanNotificationColumn">תזכורת יומית לגלולה  </string>
-    <string name="countCleanColumn">תזכורת נקיים  </string>
-    <string name="dailyNotificationColumn">תזכורת ביוץ  </string>
+    <string name="countCleanColumn">ספירת נקיים  </string>
+    <string name="dailyNotificationColumn">תזכורת יומית לגלולה  </string>
+    <string name="cleanNotificationColumn">תזכורת נקיים  </string>
+    <string name="ovulationNotificationColumn">תזכורת ביוץ  </string>
 
     <string name="defaultNote">אין הערות</string>
 
