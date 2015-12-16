@@ -22,31 +22,30 @@ public class Definition {
     private boolean _countClean;
     private boolean _dailyNotification;
     private int _cleanNotificationID;
-    private int _ovulationNutification;
+    private boolean _ovulationNutification;
 
 
     public Definition() {
 
         this._rowId = -1;
         this._minPeriodLength = 0;
-        this._regulary = false;
-        this._prishaDays = false;
+        this._regulary = true;
+        this._prishaDays = true;
         this._periodLength = 0;
         this._countClean = false;
         this._dailyNotification = false;
         this._cleanNotificationID = 0;
-        this._ovulationNutification = 0;
+        this._ovulationNutification = false;
 
 
     }
 
     public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
-                      int _ovulationNutification, int _cleanNotificationID, boolean _countClean, boolean _dailyNotification) {
+                      boolean _countClean, boolean _dailyNotification, int _cleanNotificationID,boolean _ovulationNutification  ) {
         this._rowId = _rowId;
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
         this._prishaDays = _prishaDays;
-
         this._periodLength = _periodLength;
         this._ovulationNutification = _ovulationNutification;
         this._cleanNotificationID = _cleanNotificationID;
@@ -86,11 +85,11 @@ public class Definition {
         this._periodLength = _periodLength;
     }
 
-    public int get_ovulationNutification() {
+    public boolean get_ovulationNutification() {
         return _ovulationNutification;
     }
 
-    public void set_ovulationNutification(int _ovulationNutification) {
+    public void set_ovulationNutification(boolean _ovulationNutification) {
         this._ovulationNutification = _ovulationNutification;
     }
 

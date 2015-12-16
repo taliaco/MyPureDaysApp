@@ -66,6 +66,7 @@ public class DefinitionActivity extends Activity {
 
 
         Cursor c = bl.getDefinitionCursor();
+        Definition d = bl.getDefinition();
 
         for(int i=1; i<c.getColumnCount();i++){
 
@@ -77,12 +78,13 @@ public class DefinitionActivity extends Activity {
                     spinner_day_period_min.setAdapter(adapter);
                     //spinner_day_period_min.setOnItemSelectedListener();
 
-                    break;
+                break;
                 case 2: regularColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_period_constant.setChecked(bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    switch_period_constant.setChecked(d.is_regulary());
+                    Log.e("jjjjjj period  ", String.valueOf(d.is_regulary()));
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_prisha_day.setChecked(bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
                     break;
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -92,10 +94,10 @@ public class DefinitionActivity extends Activity {
                     spinner_period_during.setAdapter(adapter);
                     break;
                 case 5: countCleanColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_counter_pure_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_counter_pure_day.setChecked(d.is_countClean());
                     break;
                 case 6: dailyNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_pellet_reminder_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_pellet_reminder_day.setChecked(d.is_dailyNotification());
                     break;
                 case 7: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -105,7 +107,7 @@ public class DefinitionActivity extends Activity {
                     spinner_reminder_pure_day.setAdapter(adapter);
                     break;
                 case 8: ovulationNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_reminder_ovulation_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_reminder_ovulation_day.setChecked(d.get_ovulationNutification());
                     break;
                 default:
                     break;
