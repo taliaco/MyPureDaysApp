@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Talia on 25/11/2015.
+ * Created by Talia on 25/11/2015. apppppppppppppppppppppppppppppp
  */
 public class BL {
     DAL dal;

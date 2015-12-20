@@ -59,7 +59,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:id="@+id/LABEL_cleanCount"
@@ -90,7 +91,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/LABEL_periodLength"
             android:layout_width="fill_parent"
@@ -121,7 +123,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:id="@+id/LABEL_periodAvg"
@@ -155,7 +158,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/LABEL_dateMikveh"
             android:layout_width="fill_parent"
@@ -186,7 +190,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/LABEL_prishaDate"
             android:layout_width="fill_parent"
@@ -214,7 +219,8 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/LABEL_nextPeriodDate"
             android:layout_width="fill_parent"
