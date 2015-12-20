@@ -46,7 +46,6 @@ public class Definition {
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
         this._prishaDays = _prishaDays;
-
         this._periodLength = _periodLength;
         this._ovulationNutification = _ovulationNutification;
         this._cleanNotificationID = _cleanNotificationID;
