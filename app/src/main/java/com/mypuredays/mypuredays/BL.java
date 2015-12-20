@@ -147,7 +147,7 @@ public class BL {
         ArrayList<Day> arrDays = new ArrayList<>();
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-
+//fff
 
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         while (c.moveToNext()) {
