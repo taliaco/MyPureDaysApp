@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.mypuredays.mypuredays.DefinitionActivity">
 
@@ -11,6 +15,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Spinner
@@ -27,10 +33,11 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-
-            android:longClickable="true"/>
+            />
 
 
     </LinearLayout>
@@ -40,6 +47,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Switch
@@ -58,10 +67,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
@@ -70,6 +79,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Switch
@@ -87,10 +98,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
@@ -99,6 +110,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
 
@@ -116,10 +129,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
@@ -128,6 +141,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Switch
@@ -146,10 +161,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
@@ -158,6 +173,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Switch
@@ -175,10 +192,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
@@ -187,6 +204,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
 
@@ -204,10 +223,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1" />
 
 
     </LinearLayout>
@@ -216,6 +235,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/square_button6"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1">
 
         <Switch
@@ -234,10 +255,10 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="1"
-
-            android:longClickable="true"/>
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>

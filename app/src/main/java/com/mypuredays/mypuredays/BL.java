@@ -78,27 +78,18 @@ public class BL {
         return null;
     }
 
-    public boolean getDefinitionSwitchState(String columnName){
+    public void setSwitchDefinition(String columnName, boolean switchState){
 
-        Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
-        if (c.moveToFirst()) {
 
-            for(int i=0; i<c.getColumnCount(); i++){
-                if(c.getColumnName(i).equals(columnName)){
+        int switchStateInt = (switchState) ? 1 : 0;
 
-                   return (c.getInt(i) != 0);
+        ContentValues values = new ContentValues();
+        values.put(columnName, switchStateInt);
 
-                }
-            }
-        }
-
-        return false;
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
     }
 
-    public int getDefinitionSpinnerState(String columnName){
 
-        return 0;
-    }
 
     public void setStartEndLooking(Date date, Constants.DAY_TYPE dayType) {
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
@@ -139,7 +130,7 @@ public class BL {
         String[] selectionArgs = {Constants.DAY_TYPE.START_LOOKIND.toString()};
 
         String[] cols = new String []{Constants._ID,"MAX("+Constants.COL_DATE+")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
-        Cursor c = dal.DBReadRow(tableDay, cols,selection,selectionArgs);
+        Cursor c = dal.DBReadRow(tableDay, cols, selection, selectionArgs);
         if (c.moveToFirst()) {
 
             return c;
