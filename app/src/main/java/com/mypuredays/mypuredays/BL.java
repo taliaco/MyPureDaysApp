@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
 
-import java.io.Console;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Talia on 25/11/2015.
+ * Created by Talia on 25/11/2015. apppppppppppppppppppppppppppppp
  */
 public class BL {
     DAL dal;
@@ -33,40 +32,53 @@ public class BL {
 
     public void populateDefinition() {
         Definition def = new Definition();
-        int regularyInt, prishaDaysInt, countCleanInt, dailyNotificationInt;
+        Log.e("j populateDefinition  ", String.valueOf(def.is_regulary()));
+        int regularyInt, prishaDaysInt, countCleanInt, dailyNotificationInt, ovulationNutificationInt;
 
         regularyInt = (def.is_regulary()) ? 1 : 0;
         prishaDaysInt = (def.is_prishaDays()) ? 1 : 0;
         countCleanInt = (def.is_countClean()) ? 1 : 0;
         dailyNotificationInt = (def.is_dailyNotification()) ? 1 : 0;
-
+        ovulationNutificationInt = (def.get_ovulationNutification()) ? 1 : 0;
 
         ContentValues values = new ContentValues();
         values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLength());
         values.put(Constants.COL_REGULAR, regularyInt);
         values.put(Constants.COL_PRISHA_DAYS, prishaDaysInt);
         values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLength());
-        values.put(Constants.COL_OVULATION_NOTIFICATION, def.get_ovulationNutification());
-        values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
         values.put(Constants.COL_COUNT_CLEAN, countCleanInt);
         values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
-
+        values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
+        values.put(Constants.COL_OVULATION_NOTIFICATION, ovulationNutificationInt);
         dal.DBWrite(Constants.TABLE_DEFINITION, values);
     }
 
     public Definition getDefinition() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         Definition def;
-        Boolean regularColumn, prishaDaysColumn, countCleanColumn, dailyNotificationColumn;
+        Boolean regularColumn, prishaDaysColumn, countCleanColumn, dailyNotificationColumn, ovulationNutification;
         if (c.moveToFirst()) {
-            regularColumn = (c.getInt(1) != 0);
-            prishaDaysColumn = (c.getInt(2) != 0);
-            countCleanColumn = (c.getInt(7) != 0);
-            dailyNotificationColumn = (c.getInt(8) != 0);
-            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), c.getInt(5), c.getInt(6), countCleanColumn, dailyNotificationColumn);
+            regularColumn = (c.getInt(2) != 0);
+            prishaDaysColumn = (c.getInt(3) != 0);
+            countCleanColumn = (c.getInt(5) != 0);
+            dailyNotificationColumn = (c.getInt(6) != 0);
+            ovulationNutification = (c.getInt(8) != 0);
+
+            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, dailyNotificationColumn, c.getInt(7), ovulationNutification);
             return def;
         }
         return null;
+    }
+
+    public void setSwitchDefinition(String columnName, boolean switchState){
+
+
+        int switchStateInt = (switchState) ? 1 : 0;
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, switchStateInt);
+
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
     }
 
     public Cursor getDefinitionCursor() {
@@ -78,15 +90,11 @@ public class BL {
     }
 
     public boolean getDefinitionSwitchState(String columnName){
-
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         if (c.moveToFirst()) {
-
             for(int i=0; i<c.getColumnCount(); i++){
                 if(c.getColumnName(i).equals(columnName)){
-
-                   return (c.getInt(i) != 0);
-
+                    return (c.getInt(i) != 0);
                 }
             }
         }
@@ -95,7 +103,6 @@ public class BL {
     }
 
     public int getDefinitionSpinnerState(String columnName){
-
         return 0;
     }
 
@@ -108,9 +115,7 @@ public class BL {
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
-            //values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
             String criteria = Constants.COL_DATE + "=" + sdf.format(date);
-
             dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
         } else {
             String strDate = sdf.format(date);
@@ -123,7 +128,7 @@ public class BL {
 
 
 
-    public int getMaxIdDay(String tableName) {
+    public int getMaxId(String tableName) {
         String[] cols = new String []{"MAX(" + Constants._ID + ")"};
         Cursor c = dal.getMaxId(tableName, cols);
         if (c.moveToFirst()) {
@@ -131,7 +136,15 @@ public class BL {
             return c.getInt(0);
         }
         return -1;
+    }
 
+    public Cursor getLastDate(String tableName) {
+        String selection = Constants.COL_DAY_TYPE + "=?";
+        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKIND.ordinal())};
+        String[] cols = new String []{Constants._ID,"MAX(" + Constants.COL_DATE+ ")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
+        Cursor c = dal.DBReadRow(tableName, cols,selection,selectionArgs);
+        //c= dal.DBRead(tableName);
+        return c;
     }
 
     public ArrayList<Day> getAllDays() {
@@ -140,10 +153,7 @@ public class BL {
         int dayType = -1;
         Date dt = null;
         ArrayList<Day> arrDays = new ArrayList<>();
-
-        SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
-
-
+        SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_FORMAT,Locale.US);
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         while (c.moveToNext()) {
             try {
@@ -162,12 +172,9 @@ public class BL {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-
-
             Day day = new Day(c.getInt(0), dt, dayType, notes);
             arrDays.add(day);
         }
-
         return arrDays;
     }
 }

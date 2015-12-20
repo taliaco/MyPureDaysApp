@@ -5,8 +5,10 @@ import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -59,13 +61,11 @@ public class DefinitionActivity extends Activity {
         spinner_reminder_pure_day = (Spinner)findViewById(R.id.spinner_reminder_pure_day);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                android.R.layout.simple_spinner_item,paths);
-
-
+        ArrayAdapter<String> adapter;
 
 
         Cursor c = bl.getDefinitionCursor();
+        Definition d = bl.getDefinition();
 
         for(int i=1; i<c.getColumnCount();i++){
 
@@ -73,16 +73,19 @@ public class DefinitionActivity extends Activity {
 
                 case 1: minPeriodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
+                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
+                            android.R.layout.simple_spinner_item,paths);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_day_period_min.setAdapter(adapter);
-                    //spinner_day_period_min.setOnItemSelectedListener();
 
-                    break;
+
+                break;
                 case 2: regularColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_period_constant.setChecked(bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    switch_period_constant.setChecked(d.is_regulary());
+                    Log.e("jjjjjj period  ", String.valueOf(d.is_regulary()));
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_prisha_day.setChecked(bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
                     break;
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -92,10 +95,10 @@ public class DefinitionActivity extends Activity {
                     spinner_period_during.setAdapter(adapter);
                     break;
                 case 5: countCleanColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_counter_pure_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_counter_pure_day.setChecked(d.is_countClean());
                     break;
                 case 6: dailyNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_pellet_reminder_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_pellet_reminder_day.setChecked(d.is_dailyNotification());
                     break;
                 case 7: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -105,14 +108,67 @@ public class DefinitionActivity extends Activity {
                     spinner_reminder_pure_day.setAdapter(adapter);
                     break;
                 case 8: ovulationNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
-                    switch_reminder_ovulation_day.setText(Utils.getDefName(c.getColumnName(i), this));
+                    switch_reminder_ovulation_day.setChecked(d.get_ovulationNutification());
                     break;
                 default:
                     break;
 
+            }//switch end
+
+        }//for end
+
+
+        spinner_day_period_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+
+
+                Log.e("onItemSelected", "onItemSelected");
+
             }
 
-        }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("onNothingSelected", "onNothingSelected");
+
+            }
+        });
+
+        //set all switch listener
+        switch_period_constant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                bl.setSwitchDefinition(Constants.COL_REGULAR, isChecked);
+            }
+        });
+
+        switch_prisha_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, isChecked);
+            }
+        });
+
+        switch_counter_pure_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                bl.setSwitchDefinition(Constants.COL_COUNT_CLEAN, isChecked);
+            }
+        });
+
+        switch_pellet_reminder_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                bl.setSwitchDefinition(Constants.COL_OVULATION_NOTIFICATION, isChecked);
+            }
+        });
+
+        switch_reminder_ovulation_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+            }
+        });
     }
 
     @Override

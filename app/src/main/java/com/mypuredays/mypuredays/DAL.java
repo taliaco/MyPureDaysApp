@@ -23,15 +23,20 @@ public class DAL {
     public long DBWrite(String tableName, ContentValues val) {
         return dbRead.insertOrThrow(tableName, null, val);
     }
-
+    //return all the table
     public Cursor DBRead(String tableName) {
         String[] cols = Utils.getColumnsArray(tableName);
         Cursor c = dbRead.query(tableName, cols, null, null, null, null, null);
         return c;
     }
-
+    //return one row
     public Cursor DBReadRow(String tableName, String selection, String[] selectionArgs) {
         String[] cols = Utils.getColumnsArray(tableName);
+        Cursor c = dbRead.query(tableName, cols, selection, selectionArgs, null, null, null);
+        return c;
+    }
+
+    public Cursor DBReadRow(String tableName ,String[] cols , String selection, String[] selectionArgs) {
         Cursor c = dbRead.query(tableName, cols, selection, selectionArgs, null, null, null);
         return c;
     }
