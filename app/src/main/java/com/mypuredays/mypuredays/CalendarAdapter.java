@@ -1,16 +1,22 @@
 package com.mypuredays.mypuredays;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +27,7 @@ public class CalendarAdapter extends BaseAdapter {
 
     private java.util.Calendar month;
     public GregorianCalendar pmonth;
+    private BL bl;
     /**
      * calendar instance for previous month for getting complete view
      */
@@ -51,7 +58,7 @@ public class CalendarAdapter extends BaseAdapter {
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
         this.items = new ArrayList<String>();
-        df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         curentDateString = df.format(selectedDate.getTime());
         refreshDays();
 
@@ -80,6 +87,7 @@ public class CalendarAdapter extends BaseAdapter {
 
     // create a new view for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
+        bl = new BL(this.context);
         View v = convertView;
         TextView dayView;
         if (convertView == null) { // if it's not recycled, initialize some
@@ -95,7 +103,7 @@ public class CalendarAdapter extends BaseAdapter {
         String[] separatedTime = day_string.get(position).split("-");
 
 
-        String gridvalue = separatedTime[2].replaceFirst("^0*", "");
+        String gridvalue = separatedTime[0].replaceFirst("^0*", "");
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
             dayView.setTextColor(Color.GRAY);
             dayView.setClickable(false);
@@ -113,8 +121,11 @@ public class CalendarAdapter extends BaseAdapter {
         if (day_string.get(position).equals(curentDateString)) {
 
             v.setBackgroundColor(Color.CYAN);
-        } else {
+        }
+        else
+         {
             v.setBackgroundColor(Color.parseColor("#343434"));
+
         }
 
 
@@ -145,7 +156,57 @@ public class CalendarAdapter extends BaseAdapter {
         return v;
     }
 
-    public View setSelected(View view, int pos) {
+    public View setSelected(View view, final int pos) {
+        bl = new BL(this.context);
+        final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.activity_dialog_calendar);
+        dialog.setTitle(day_string.get(pos));
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.text);
+
+
+
+        Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
+        Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
+        Button dialogButtonSaveNote = (Button) dialog.findViewById(R.id.dialogButtonSaveNote);
+        // if button is clicked, close the custom dialog
+        dialogButtonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date();
+                try {
+                    date = sdf.parse(day_string.get(pos));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKIND);
+                dialog.dismiss();
+            }
+        });
+        dialogButtonEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = new Date();
+                try {
+                    date = sdf.parse(day_string.get(pos));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                bl.setStartEndLooking(date,Constants.DAY_TYPE.END_LOOKING);
+                dialog.dismiss();
+            }
+        });
+        dialogButtonSaveNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
         if (previousView != null) {
             previousView.setBackgroundColor(Color.parseColor("#343434"));
         }
@@ -155,15 +216,10 @@ public class CalendarAdapter extends BaseAdapter {
         int len = day_string.size();
         if (len > pos) {
             if (day_string.get(pos).equals(curentDateString)) {
-
             } else {
-
                 previousView = view;
-
             }
-
         }
-
 
         return view;
     }
@@ -235,9 +291,22 @@ public class CalendarAdapter extends BaseAdapter {
 
                     txt.setTextColor(Color.WHITE);
                 }
+                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKIND.ordinal()) {
+                    v.setBackgroundColor(Color.RED);
+                }
+                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+                    v.setBackgroundColor(Color.BLUE);
+                }
             }
         }
 
 
+    }
+    private int getDayType(String DateString){
+        for (int i = 0; i< date_collection_arr.size(); i++){
+            if (date_collection_arr.get(i).date.equals(DateString))
+                return date_collection_arr.get(i)._dateTypeId;
+        }
+        return Constants.DAY_TYPE.DEFAULT.ordinal();
     }
 }

@@ -2,6 +2,7 @@ package com.mypuredays.mypuredays;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -19,12 +20,12 @@ public class CalenderActivity extends Activity {
     private CalendarAdapter cal_adapter;
     private TextView tv_month;
     private ArrayList<Day> arrayListDays;
-
+    BL bl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
-        BL bl= new BL(this);
+        bl= new BL(this);
 
         //get all days from DB
         arrayListDays=bl.getAllDays();
@@ -90,8 +91,8 @@ public class CalenderActivity extends Activity {
                     setNextMonth();
                     refreshCalendar();
                 }
-                ((CalendarAdapter) parent.getAdapter()).setSelected(v, position);
-
+                //((CalendarAdapter) parent.getAdapter()).setSelected(v, position);
+                refreshCalendar();
               //  ((CalendarAdapter) parent.getAdapter()).getPositionList(selectedGridDate, CalenderActivity.this);
             }
 
@@ -126,8 +127,18 @@ public class CalenderActivity extends Activity {
     }
 
     public void refreshCalendar() {
+//        arrayListDays=bl.getAllDays();
+//        CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
+//
+//        //convert Day Type to CalendarCollection list
+//        for(int i=0; i<arrayListDays.size(); i++){
+//            CalendarCollection tmpCalendarCollection = new CalendarCollection(arrayListDays.get(i));
+//            CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+//
+//        }
         cal_adapter.refreshDays();
         cal_adapter.notifyDataSetChanged();
+
         tv_month.setText(android.text.format.DateFormat.format("MMMM yyyy", cal_month));
     }
 

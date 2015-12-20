@@ -23,7 +23,7 @@ public class CalendarCollection {
     public CalendarCollection(Day day){
         DateFormat df;
        // ArrayList<String> item = new ArrayList<String>();
-        df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         this.date = df.format(day.get_date());
 
         // this.date=day.get_date().toString();

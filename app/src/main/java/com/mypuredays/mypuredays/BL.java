@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Talia on 25/11/2015.
@@ -99,14 +100,15 @@ public class BL {
     }
 
     public void setStartEndLooking(Date date, Constants.DAY_TYPE dayType) {
-        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {sdf.format(date)};
 
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
-            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
+            values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
+            //values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
             String criteria = Constants.COL_DATE + "=" + sdf.format(date);
 
             dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
@@ -114,7 +116,7 @@ public class BL {
             String strDate = sdf.format(date);
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DATE, strDate);
-            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
+            values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
             dal.DBWrite(Constants.TABLE_DAY, values);
         }
     }
@@ -134,18 +136,18 @@ public class BL {
 
     public ArrayList<Day> getAllDays() {
         Resources res = context.getResources();
-        String notes="";
+        String notes;
         int dayType = -1;
         Date dt = null;
         ArrayList<Day> arrDays = new ArrayList<>();
 
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
 
 
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         while (c.moveToNext()) {
             try {
-                dt = ft.parse(c.getString(1).toString());
+                dt = ft.parse(c.getString(1));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -154,6 +156,11 @@ public class BL {
             }
             else{
                 notes = res.getString((R.string.defaultNote));
+            }
+            try {
+                dayType = c.getInt(2);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
 
 

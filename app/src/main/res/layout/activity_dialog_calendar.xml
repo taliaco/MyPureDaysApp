@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Button
+        android:id="@+id/dialogButtonStart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btDialogStart"
+        android:layout_marginTop="5dp" />
+    <Button
+        android:id="@+id/dialogButtonEnd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btDialogEnd"
+        android:layout_marginTop="5dp" />
+    <EditText
+        android:inputType="text"
+        android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF" />
+    />
+    <Button
+        android:id="@+id/dialogButtonSaveNote"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btDialogSaveNote"
+        android:layout_marginTop="5dp" />
+</LinearLayout>
