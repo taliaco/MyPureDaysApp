@@ -23,10 +23,16 @@ public class StatusActivity extends Activity {
         TextView textViewPeriodLength=(TextView) this.findViewById(R.id.FIELD_periodLength);
         TextView textViewPrishaDate=(TextView) this.findViewById(R.id.FIELD_prishaDate);
 
+
         //get the last date with start PeriodDate
         Cursor day = bl.getLastDate(Constants.TABLE_DAY);
-        textViewLastPeriodDate.setText(day.getString(1));
-    Log.e("GGGGGGGGGG", day.getString(1));
+        if (day.moveToFirst()) {
+            Log.e("GGGGGGGGGG", day.getString(1));
+            Log.e("GGGGGGGGGG", String.valueOf(day.getInt(2)));
+            textViewLastPeriodDate.setText(day.getString(1));
+        }
+
+
     }
 
 }

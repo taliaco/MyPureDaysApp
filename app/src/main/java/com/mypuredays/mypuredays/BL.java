@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Talia on 25/11/2015.
@@ -49,7 +50,6 @@ public class BL {
         values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
         values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
         values.put(Constants.COL_OVULATION_NOTIFICATION, ovulationNutificationInt);
-
         dal.DBWrite(Constants.TABLE_DEFINITION, values);
     }
 
@@ -70,6 +70,17 @@ public class BL {
         return null;
     }
 
+    public void setSwitchDefinition(String columnName, boolean switchState){
+
+
+        int switchStateInt = (switchState) ? 1 : 0;
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, switchStateInt);
+
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
+    }
+
     public Cursor getDefinitionCursor() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         if (c.moveToFirst()) {
@@ -79,15 +90,11 @@ public class BL {
     }
 
     public boolean getDefinitionSwitchState(String columnName){
-
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         if (c.moveToFirst()) {
-
             for(int i=0; i<c.getColumnCount(); i++){
                 if(c.getColumnName(i).equals(columnName)){
-
                    return (c.getInt(i) != 0);
-
                 }
             }
         }
@@ -96,27 +103,25 @@ public class BL {
     }
 
     public int getDefinitionSpinnerState(String columnName){
-
         return 0;
     }
 
     public void setStartEndLooking(Date date, Constants.DAY_TYPE dayType) {
-        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {sdf.format(date)};
 
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
-            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
+            values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
             String criteria = Constants.COL_DATE + "=" + sdf.format(date);
-
             dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
         } else {
             String strDate = sdf.format(date);
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DATE, strDate);
-            values.put(Constants.COL_DAY_TYPE, Utils.getDayTypeIDByName(dayType));
+            values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
             dal.DBWrite(Constants.TABLE_DAY, values);
         }
     }
@@ -133,35 +138,26 @@ public class BL {
         return -1;
     }
 
-    public Cursor getLastDate(String tableDay) {
-
+    public Cursor getLastDate(String tableName) {
         String selection = Constants.COL_DAY_TYPE + "=?";
-        String[] selectionArgs = {Constants.DAY_TYPE.START_LOOKIND.toString()};
-
-        String[] cols = new String []{Constants._ID,"MAX("+Constants.COL_DATE+")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
-        Cursor c = dal.DBReadRow(tableDay, cols,selection,selectionArgs);
-        if (c.moveToFirst()) {
-
-            return c;
-        }
-        return null;
-
+        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKIND.ordinal())};
+        String[] cols = new String []{Constants._ID,"MAX(" + Constants.COL_DATE+ ")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
+        Cursor c = dal.DBReadRow(tableName, cols,selection,selectionArgs);
+        //c= dal.DBRead(tableName);
+        return c;
     }
 
     public ArrayList<Day> getAllDays() {
         Resources res = context.getResources();
-        String notes="";
+        String notes;
         int dayType = -1;
         Date dt = null;
         ArrayList<Day> arrDays = new ArrayList<>();
-
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-
-
+        SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_FORMAT,Locale.US);
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         while (c.moveToNext()) {
             try {
-                dt = ft.parse(c.getString(1).toString());
+                dt = ft.parse(c.getString(1));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -171,12 +167,14 @@ public class BL {
             else{
                 notes = res.getString((R.string.defaultNote));
             }
-
-
+            try {
+                dayType = c.getInt(2);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             Day day = new Day(c.getInt(0), dt, dayType, notes);
             arrDays.add(day);
         }
-
         return arrDays;
     }
 }

@@ -16,23 +16,28 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:background="@drawable/button4"
-
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
         >
 
+        <TextView
+            android:id="@+id/FIELD_lastPeriodDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/LABEL_lastPeriodDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/lastPeriodDate"
-            />
-
-        <TextView
-            android:id="@+id/FIELD_lastPeriodDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textSize="20dp"
+            android:textIsSelectable="false"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -41,8 +46,20 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
 
         >
+
+
+        <TextView
+            android:id="@+id/FIELD_cleanCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
 
         <TextView
             android:id="@+id/LABEL_cleanCount"
@@ -50,13 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cleanCount"
-            />
-
-        <TextView
-            android:id="@+id/FIELD_cleanCount"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -65,21 +79,29 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
-        >
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
 
+        >
+        <TextView
+            android:id="@+id/FIELD_periodLength"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:id="@+id/LABEL_periodLength"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/periodLength"
-             />
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
 
-        <TextView
-            android:id="@+id/FIELD_periodLength"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -88,7 +110,18 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
+
         >
+        <TextView
+            android:id="@+id/FIELD_periodAvg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
 
         <TextView
             android:id="@+id/LABEL_periodAvg"
@@ -96,13 +129,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/periodAvg"
-            />
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
 
-        <TextView
-            android:id="@+id/FIELD_periodAvg"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_dateMikveh"
@@ -110,21 +141,30 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
+
         >
 
+
+
+        <TextView
+            android:id="@+id/FIELD_dateMikveh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:id="@+id/LABEL_dateMikveh"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/dateMikveh"
-            />
-
-        <TextView
-            android:id="@+id/FIELD_dateMikveh"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_prishaDate"
@@ -132,21 +172,30 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:background="@drawable/squarebutton"
+        android:layout_marginBottom="10dp"
+
         >
 
+
+
+        <TextView
+            android:id="@+id/FIELD_prishaDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:id="@+id/LABEL_prishaDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prishaDate"
-            />
-
-        <TextView
-            android:id="@+id/FIELD_prishaDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_nextPeriodDate"
@@ -154,21 +203,27 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:background="@drawable/squarebutton"
+
         >
 
+        <TextView
+            android:id="@+id/FIELD_nextPeriodDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:id="@+id/LABEL_nextPeriodDate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/nextPeriodDate"
-            />
-
-        <TextView
-            android:id="@+id/FIELD_nextPeriodDate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
     </LinearLayout>
 
 </LinearLayout>
