@@ -33,8 +33,15 @@ public class MainActivity extends Activity {
             // first time task
             bl.populateDB();
             try {
-                bl.setStartEndLooking(df.parse("01-12-2015"), Constants.DAY_TYPE.START_LOOKING);
-                bl.setStartEndLooking(df.parse("05-12-2015"), Constants.DAY_TYPE.END_LOOKING);
+                bl.setStartEndLooking(df.parse("01-08-2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("08-08-2015"), Constants.DAY_TYPE.END_LOOKING);
+
+                bl.setStartEndLooking(df.parse("05-09-2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("07-09-2015"), Constants.DAY_TYPE.END_LOOKING);
+
+                bl.setStartEndLooking(df.parse("05-10-2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("05-11-2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("05-12-2015"), Constants.DAY_TYPE.START_LOOKING);
             } catch (ParseException e) {
                 Log.e("ERROR", e.getMessage());
                 e.printStackTrace();
