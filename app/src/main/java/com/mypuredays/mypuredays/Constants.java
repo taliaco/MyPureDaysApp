@@ -19,7 +19,9 @@ public class Constants implements BaseColumns {
     public static final String COL_DATE = "dateColumn";
     public static final String COL_DAY_TYPE = "datTypeColumn";
     public static final String COL_NOTES = "notesColumn";
-    public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES};
+    public static final String COL_ONA ="onaClumn" ;
+
+    public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
 
     //Column for dayType table
     public static final String COL_ID_DAY_TYPE = "idDayTypeColumn";
@@ -48,14 +50,16 @@ public class Constants implements BaseColumns {
     public static final String DATE_FORMAT = "dd-MM-yyyy";
 
 
-
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }
 
 
     public enum DAY_TYPE{
-        DEFAULT, START_LOOKING, END_LOOKING, START_LOOKING_DAY, START_LOOKING_NIGHT, END_LOOKING_DAY, END_LOOKING_NIGHT,
+        DEFAULT, START_LOOKING, END_LOOKING
     }
 
+    public enum ONA_TYPE{
+        DEFAULT, DAY, NIGHT
+    }
 }
