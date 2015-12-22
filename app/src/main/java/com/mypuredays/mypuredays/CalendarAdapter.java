@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -191,8 +189,8 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKIND);
                 alertDialogBuilder.setMessage("התחלת ראיה ביום" + date);
+                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKING);
                 dialog.dismiss();
             }
         });
@@ -309,7 +307,7 @@ public class CalendarAdapter extends BaseAdapter {
 
                     txt.setTextColor(Color.WHITE);
                 }
-                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKIND.ordinal()) {
+                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
                     v.setBackgroundColor(Color.RED);
                 }
                 if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.END_LOOKING.ordinal()) {

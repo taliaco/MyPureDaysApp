@@ -40,9 +40,10 @@ public class Constants implements BaseColumns {
     public static final String COL_CLEAN_NOTIFICATION = "cleanNotificationColumn";
     public static final String COL_COUNT_CLEAN = "countCleanColumn";
     public static final String COL_DAILY_NOTIFICATION = "dailyNotificationColumn";
+    public static final String COL_TYPE_PERIOD = "typePeriodColumn";
     public static final String[] TABLE_DEFINITION_COLUMNS = {Constants._ID, Constants.COL_MIN_PERIOD_LENGTH, Constants.COL_REGULAR, Constants.COL_PRISHA_DAYS,
             Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN, Constants.COL_DAILY_NOTIFICATION,
-            Constants.COL_CLEAN_NOTIFICATION, Constants.COL_OVULATION_NOTIFICATION};
+            Constants.COL_CLEAN_NOTIFICATION, Constants.COL_OVULATION_NOTIFICATION, Constants.COL_TYPE_PERIOD};
 
     public static final String DATE_FORMAT = "dd-MM-yyyy";
 
@@ -53,12 +54,8 @@ public class Constants implements BaseColumns {
     }
 
 
-    public enum StartEnd {
-        START, END
-    }
-
     public enum DAY_TYPE{
-        DEFAULT, START_LOOKIND, END_LOOKING,
+        DEFAULT, START_LOOKING, END_LOOKING, START_LOOKING_DAY, START_LOOKING_NIGHT, END_LOOKING_DAY, END_LOOKING_NIGHT,
     }
 
 }

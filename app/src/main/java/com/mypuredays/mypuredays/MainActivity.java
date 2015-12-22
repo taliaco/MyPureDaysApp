@@ -26,7 +26,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
         bl = new BL(this);
-
+        try {
+            bl.setStartEndLooking(df.parse("08-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+            bl.setStartEndLooking(df.parse("01-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+            bl.setStartEndLooking(df.parse("20-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
+        } catch (ParseException e) {
+            Log.e("ERROR", e.getMessage());
+            e.printStackTrace();
+        }
+        bl = new BL(this);
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
 
         //first run
@@ -96,7 +104,7 @@ public class MainActivity extends Activity {
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){
             b.setText(res.getString(R.string.btEnd));
-            bl.setStartEndLooking(new Date(),Constants.DAY_TYPE.START_LOOKIND);
+            bl.setStartEndLooking(new Date(),Constants.DAY_TYPE.START_LOOKING);
             alertDialogBuilder.setMessage("התחלת ראיה היום" + new Date());
         }
         else{
