@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
         bl = new BL(this);
-        try {
+        try {////
             bl.setStartEndLooking(df.parse("08-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
             bl.setStartEndLooking(df.parse("01-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
             bl.setStartEndLooking(df.parse("20-12-2015"), Constants.DAY_TYPE.START_LOOKIND);
