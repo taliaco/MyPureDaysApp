@@ -20,6 +20,8 @@
     <string name="dailyNotificationColumn">תזכורת יומית לגלולה  </string>
     <string name="cleanNotificationColumn">תזכורת נקיים  </string>
     <string name="ovulationNotificationColumn">תזכורת ביוץ  </string>
+    <string name="typePeriodColumn">סוג עונה</string>
+
 
     <string name="defaultNote">אין הערות</string>
 

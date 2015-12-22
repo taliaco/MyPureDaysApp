@@ -28,6 +28,8 @@ public class Utils {
                 return res.getString((R.string.countCleanColumn));
             case Constants.COL_DAILY_NOTIFICATION:
                 return res.getString((R.string.dailyNotificationColumn));
+            case Constants.COL_TYPE_PERIOD:
+                return res.getString((R.string.typePeriodColumn));
             default:
                 return "";
         }
