@@ -189,8 +189,10 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                alertDialogBuilder.setMessage("התחלת ראיה ביום" + date);
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKING);
+                alertDialogBuilder.setMessage("התחלת ראיה ביום" + "\n" + date.getDate());
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
                 dialog.dismiss();
             }
         });
@@ -205,6 +207,8 @@ public class CalendarAdapter extends BaseAdapter {
                 }
                 bl.setStartEndLooking(date,Constants.DAY_TYPE.END_LOOKING);
                 alertDialogBuilder.setMessage("הפסק ראיה ביום" + date);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
                 dialog.dismiss();
             }
         });
