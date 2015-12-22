@@ -19,7 +19,7 @@ public class Constants implements BaseColumns {
     public static final String COL_DATE = "dateColumn";
     public static final String COL_DAY_TYPE = "datTypeColumn";
     public static final String COL_NOTES = "notesColumn";
-    public static final String COL_ONA ="onaClumn" ;
+    public static final String COL_ONA ="onaColumn" ;
 
     public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
 
