@@ -2,15 +2,15 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -157,6 +157,13 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View setSelected(View view, final int pos) {
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+        alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         bl = new BL(this.context);
         final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         final Dialog dialog = new Dialog(context);
@@ -171,6 +178,7 @@ public class CalendarAdapter extends BaseAdapter {
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
         Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
         Button dialogButtonSaveNote = (Button) dialog.findViewById(R.id.dialogButtonSaveNote);
+        Button dialogButtonClearDay = (Button) dialog.findViewById(R.id.dialogButtonClearDay);
         // if button is clicked, close the custom dialog
         dialogButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +189,8 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKIND);
+                alertDialogBuilder.setMessage("התחלת ראיה ביום" + date);
+                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKING);
                 dialog.dismiss();
             }
         });
@@ -195,6 +204,7 @@ public class CalendarAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
                 bl.setStartEndLooking(date,Constants.DAY_TYPE.END_LOOKING);
+                alertDialogBuilder.setMessage("הפסק ראיה ביום" + date);
                 dialog.dismiss();
             }
         });
@@ -204,7 +214,13 @@ public class CalendarAdapter extends BaseAdapter {
                 dialog.dismiss();
             }
         });
+        dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                dialog.dismiss();
+            }
+        });
         dialog.show();
 
         if (previousView != null) {
@@ -291,7 +307,7 @@ public class CalendarAdapter extends BaseAdapter {
 
                     txt.setTextColor(Color.WHITE);
                 }
-                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKIND.ordinal()) {
+                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
                     v.setBackgroundColor(Color.RED);
                 }
                 if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.END_LOOKING.ordinal()) {

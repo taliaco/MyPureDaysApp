@@ -89,21 +89,6 @@ public class BL {
         return null;
     }
 
-    public boolean getDefinitionSwitchState(String columnName){
-        Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
-        if (c.moveToFirst()) {
-            for(int i=0; i<c.getColumnCount(); i++){
-                if(c.getColumnName(i).equals(columnName)){
-                    return (c.getInt(i) != 0);
-                }
-            }
-        }
-        return false;
-    }
-
-    public int getDefinitionSpinnerState(String columnName){
-        return 0;
-    }
 
     public void setStartEndLooking(Date date, Constants.DAY_TYPE dayType) {
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
@@ -139,7 +124,7 @@ public class BL {
 
     public Cursor getLastDate(String tableName) {
         String selection = Constants.COL_DAY_TYPE + "=?";
-        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKIND.ordinal())};
+        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
         String[] cols = new String []{Constants._ID,"MAX(" + Constants.COL_DATE+ ")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
         Cursor c = dal.DBReadRow(tableName, cols,selection,selectionArgs);
         //c= dal.DBRead(tableName);

@@ -41,7 +41,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Constants.COL_COUNT_CLEAN + " INTEGER_TYPE,"
                 + Constants.COL_DAILY_NOTIFICATION + " INTEGER_TYPE,"
                 + Constants.COL_CLEAN_NOTIFICATION + " INTEGER_TYPE,"
-                + Constants.COL_OVULATION_NOTIFICATION + " INTEGER_TYPE);" );
+                + Constants.COL_OVULATION_NOTIFICATION + " INTEGER_TYPE,"
+                + Constants.COL_TYPE_PERIOD + " INTEGER_TYPE);" );
     }
 
     @Override

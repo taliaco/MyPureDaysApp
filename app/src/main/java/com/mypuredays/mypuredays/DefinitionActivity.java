@@ -21,18 +21,19 @@ public class DefinitionActivity extends Activity {
 
 
     private TextView minPeriodLengthColumn,regularColumn,prishaDaysColumn,periodLengthColumn,ovulationNotificationColumn,
-            cleanNotificationColumn,countCleanColumn,dailyNotificationColumn;
+            cleanNotificationColumn,countCleanColumn,dailyNotificationColumn, typePeriodColumn;
 
     private Switch switch_period_constant, switch_prisha_day, switch_counter_pure_day,switch_pellet_reminder_day,
             switch_reminder_ovulation_day;
 
-    private Spinner spinner_day_period_min,spinner_period_during, spinner_reminder_pure_day;
+    private Spinner spinner_day_period_min,spinner_period_during, spinner_reminder_pure_day, spinner_type_period;
 
     private BL bl;
 
     private static final String[]paths = {"4 ימים", "5 ימים"};
     private static final String[]paths1 = {"3 ימים","4 ימים", "5 ימים", "6 ימים", "7 ימים"};
     private static final String[]paths2 = {"ראשון ואחרון ", "כל יום ", "פעמיים ביום"};
+    private static final String[]paths3 = {"יום", "לילה", "לא רלוונטי"};
 
 
     @Override
@@ -49,6 +50,7 @@ public class DefinitionActivity extends Activity {
         dailyNotificationColumn= (TextView)findViewById(R.id.item_name6);
         cleanNotificationColumn= (TextView)findViewById(R.id.item_name7);
         ovulationNotificationColumn= (TextView)findViewById(R.id.item_name8);
+        typePeriodColumn= (TextView)findViewById(R.id.item_name9);
 
         switch_period_constant = (Switch)findViewById(R.id.switch_period_constant);
         switch_prisha_day = (Switch)findViewById(R.id.switch_prisha_day);
@@ -59,6 +61,7 @@ public class DefinitionActivity extends Activity {
         spinner_day_period_min = (Spinner)findViewById(R.id.spinner_day_period_min);
         spinner_period_during = (Spinner)findViewById(R.id.spinner_period_during);
         spinner_reminder_pure_day = (Spinner)findViewById(R.id.spinner_reminder_pure_day);
+        spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
 
 
         ArrayAdapter<String> adapter;
@@ -109,6 +112,13 @@ public class DefinitionActivity extends Activity {
                     break;
                 case 8: ovulationNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_reminder_ovulation_day.setChecked(d.get_ovulationNutification());
+                    break;
+                case 9: typePeriodColumn.setText(Utils.getDefName(c.getColumnName(i), this));
+
+                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
+                            android.R.layout.simple_spinner_item,paths3);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_type_period.setAdapter(adapter);
                     break;
                 default:
                     break;
