@@ -23,7 +23,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + Constants.TABLE_DAY + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.COL_DATE + " TEXT_TYPE,"
                 + Constants.COL_DAY_TYPE + " INTEGER_TYPE,"
-                + Constants.COL_NOTES + " TEXT_TYPE);"
+                + Constants.COL_NOTES + " TEXT_TYPE),"
                 + Constants.COL_ONA + " INTEGER_TYPE);" );
 
         db.execSQL("CREATE TABLE " + Constants.TABLE_DAY_TYPE + "(" + Constants._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
