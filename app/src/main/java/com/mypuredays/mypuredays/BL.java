@@ -122,11 +122,30 @@ public class BL {
         return -1;
     }
 
-    public Cursor getLastDate(String tableName) {
+    public Cursor getLastDate(String tableName) {//return the last date with start looking
         String selection = Constants.COL_DAY_TYPE + "=?";
         String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
         String[] cols = new String []{Constants._ID,"MAX(" + Constants.COL_DATE+ ")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
-        Cursor c = dal.DBReadRow(tableName, cols,selection,selectionArgs);
+        Cursor c = dal.DBReadRow(tableName, cols, selection, selectionArgs);
+        //c= dal.DBRead(tableName);
+        return c;
+    }
+
+    public Cursor getLastDate() {//return last date that action in DB
+//        String selection = Constants.COL_DAY_TYPE + "=?";
+//        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
+        String[] cols = new String []{Constants._ID,"MAX(" + Constants.COL_DATE+ ")",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
+        Cursor c = dal.DBReadByCol(Constants.TABLE_DAY, cols);
+        //c= dal.DBRead(tableName);
+        return c;
+    }
+
+
+    public Cursor getDateStartLooking() {//return all dayse with start looking order by date
+        String selection = Constants.COL_DAY_TYPE + "=?";
+        String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
+        String[] cols = new String []{Constants._ID, Constants.COL_DATE +" DESC",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols,selection,selectionArgs);
         //c= dal.DBRead(tableName);
         return c;
     }
