@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -157,13 +159,7 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View setSelected(View view, final int pos) {
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-        alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+
         bl = new BL(this.context);
         final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         final Dialog dialog = new Dialog(context);
@@ -172,8 +168,6 @@ public class CalendarAdapter extends BaseAdapter {
 
         // set the custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.text);
-
-
 
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
         Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
@@ -189,10 +183,9 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                alertDialogBuilder.setMessage("התחלת ראיה ביום" + "\n" + date.getDate());
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                Toast toast = Toast.makeText(context, "התחלת ראיה ביום" +  sdf.format(date), Toast.LENGTH_SHORT);
+                toast.show();
                 dialog.dismiss();
             }
         });
@@ -205,10 +198,9 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.END_LOOKING);
-                alertDialogBuilder.setMessage("הפסק ראיה ביום" + date);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING);
+                Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
+                toast.show();
                 dialog.dismiss();
             }
         });
