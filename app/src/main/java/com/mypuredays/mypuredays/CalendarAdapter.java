@@ -2,10 +2,7 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,10 +99,10 @@ public class CalendarAdapter extends BaseAdapter {
 
 
         dayView = (TextView) v.findViewById(R.id.date);
-        String[] separatedTime = day_string.get(position).split("-");
+        String[] separatedTime = day_string.get(position).split(Constants.DATE_SPLITTER);
 
 
-        String gridvalue = separatedTime[0].replaceFirst("^0*", "");
+        String gridvalue = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
             dayView.setTextColor(Color.GRAY);
             dayView.setClickable(false);
@@ -184,6 +181,11 @@ public class CalendarAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING);
+
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
+                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+
+
                 Toast toast = Toast.makeText(context, "התחלת ראיה ביום" +  sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
                 dialog.dismiss();
@@ -199,8 +201,13 @@ public class CalendarAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING);
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.END_LOOKING.ordinal());
+                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+
+
                 Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
+                CalenderActivity.refreshCalendar();
                 dialog.dismiss();
             }
         });
@@ -232,7 +239,6 @@ public class CalendarAdapter extends BaseAdapter {
                 previousView = view;
             }
         }
-
         return view;
     }
 
