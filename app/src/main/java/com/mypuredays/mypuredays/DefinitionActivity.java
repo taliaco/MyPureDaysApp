@@ -64,11 +64,15 @@ public class DefinitionActivity extends Activity {
         spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
 
 
+
+
         ArrayAdapter<String> adapter;
 
 
         Cursor c = bl.getDefinitionCursor();
         Definition d = bl.getDefinition();
+
+        //Log.e("getDefinition","  "+d.get_minPeriodLength());
 
         for(int i=1; i<c.getColumnCount();i++){
 
@@ -80,6 +84,7 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,paths);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_day_period_min.setAdapter(adapter);
+                    spinner_day_period_min.setSelection(d.get_minPeriodLength());
 
 
                 break;
@@ -96,6 +101,8 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,paths1);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_period_during.setAdapter(adapter);
+                    spinner_period_during.setSelection(d.get_periodLength());
+
                     break;
                 case 5: countCleanColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_counter_pure_day.setChecked(d.is_countClean());
@@ -109,6 +116,8 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,paths2);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_reminder_pure_day.setAdapter(adapter);
+                    spinner_reminder_pure_day.setSelection(d.get_cleanNotification());
+
                     break;
                 case 8: ovulationNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_reminder_ovulation_day.setChecked(d.get_ovulationNutification());
@@ -119,6 +128,8 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,paths3);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_period.setAdapter(adapter);
+                    spinner_type_period.setSelection(d.get_typePeriod());
+
                     break;
                 default:
                     break;
@@ -128,21 +139,6 @@ public class DefinitionActivity extends Activity {
         }//for end
 
 
-        spinner_day_period_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-
-
-                Log.e("onItemSelected", "onItemSelected");
-
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                Log.e("onNothingSelected", "onNothingSelected");
-
-            }
-        });
 
         //set all switch listener
         switch_period_constant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -179,6 +175,68 @@ public class DefinitionActivity extends Activity {
                 // true if the switch is in the On position
             }
         });
+
+        //
+        spinner_day_period_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view,
+                                       int position, long id) {
+               // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
+               // int index_item = position;
+
+                bl.setSpinnerDefinition(Constants.COL_MIN_PERIOD_LENGTH, position);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("onNothingSelected", "onNothingSelected");
+            }
+        });
+
+        spinner_period_during.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view,
+                                       int position, long id) {
+                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
+                // int index_item = position;
+
+                bl.setSpinnerDefinition(Constants.COL_PERIOD_LENGTH, position);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("onNothingSelected", "onNothingSelected");
+            }
+        });
+
+        spinner_reminder_pure_day.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view,
+                                       int position, long id) {
+                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
+                // int index_item = position;
+
+                bl.setSpinnerDefinition(Constants.COL_CLEAN_NOTIFICATION, position);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("onNothingSelected", "onNothingSelected");
+            }
+        });
+
+        spinner_type_period.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view,
+                                       int position, long id) {
+                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
+                // int index_item = position;
+
+                bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, position);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("onNothingSelected", "onNothingSelected");
+            }
+        });
+
+
+        //
+
+
     }
 
     @Override

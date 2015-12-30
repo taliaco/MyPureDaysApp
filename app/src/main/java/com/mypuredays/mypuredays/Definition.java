@@ -23,25 +23,27 @@ public class Definition {
     private boolean _dailyNotification;
     private int _cleanNotificationID;
     private boolean _ovulationNutification;
+    private int _typePeriod;
 
 
     public Definition() {
 
         this._rowId = -1;
         this._minPeriodLength = 0;
-        this._regulary = true;
-        this._prishaDays = true;
+        this._regulary = false;
+        this._prishaDays = false;
         this._periodLength = 0;
         this._countClean = false;
         this._dailyNotification = false;
         this._cleanNotificationID = 0;
         this._ovulationNutification = false;
+        this._typePeriod = 0;
 
 
     }
 
     public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
-                      boolean _countClean, boolean _dailyNotification, int _cleanNotificationID,boolean _ovulationNutification  ) {
+                      boolean _countClean, boolean _dailyNotification, int _cleanNotificationID,boolean _ovulationNutification, int _typePeriod  ) {
         this._rowId = _rowId;
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
@@ -51,6 +53,7 @@ public class Definition {
         this._cleanNotificationID = _cleanNotificationID;
         this._countClean = _countClean;
         this._dailyNotification = _dailyNotification;
+        this._typePeriod = _typePeriod;
     }
 
     public boolean is_regulary() {
@@ -95,6 +98,14 @@ public class Definition {
 
     public int get_cleanNotification() {
         return _cleanNotificationID;
+    }
+
+    public int get_typePeriod() {
+        return _typePeriod;
+    }
+
+    public void set_typePeriod(int _typePeriod) {
+        this._typePeriod = _typePeriod;
     }
 
     public void set_cleanNotification(int _cleanNotificationID) {
