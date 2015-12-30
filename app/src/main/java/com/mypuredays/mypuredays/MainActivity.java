@@ -19,7 +19,6 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
 
-    //hello
     BL bl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +26,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
         bl = new BL(this);
-        try {
-            bl.setStartEndLooking(df.parse("08-12-2015"), Constants.DAY_TYPE.START_LOOKING);
-            bl.setStartEndLooking(df.parse("01-12-2015"), Constants.DAY_TYPE.START_LOOKING);
-            bl.setStartEndLooking(df.parse("20-12-2015"), Constants.DAY_TYPE.START_LOOKING);
-        } catch (ParseException e) {
-            Log.e("ERROR", e.getMessage());
-            e.printStackTrace();
-        }
-        bl = new BL(this);
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
 
         //first run
         if (settings.getBoolean("my_first_time", true)) {
             // first time task
             bl.populateDB();
+            try {
+                bl.setStartEndLooking(df.parse("01/08/2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("08/08/2015"), Constants.DAY_TYPE.END_LOOKING);
+
+                bl.setStartEndLooking(df.parse("05/09/2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("07/09/2015"), Constants.DAY_TYPE.END_LOOKING);
+
+                bl.setStartEndLooking(df.parse("05/10/2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("05/11/2015"), Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(df.parse("05/12/2015"), Constants.DAY_TYPE.START_LOOKING);
+            } catch (ParseException e) {
+                Log.e("ERROR", e.getMessage());
+                e.printStackTrace();
+            }
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
             //openDefinition();

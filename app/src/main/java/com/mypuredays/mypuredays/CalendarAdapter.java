@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,10 +99,10 @@ public class CalendarAdapter extends BaseAdapter {
 
 
         dayView = (TextView) v.findViewById(R.id.date);
-        String[] separatedTime = day_string.get(position).split("-");
+        String[] separatedTime = day_string.get(position).split(Constants.DATE_SPLITTER);
 
 
-        String gridvalue = separatedTime[0].replaceFirst("^0*", "");
+        String gridvalue = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
             dayView.setTextColor(Color.GRAY);
             dayView.setClickable(false);
@@ -155,6 +156,7 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View setSelected(View view, final int pos) {
+
         bl = new BL(this.context);
         final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         final Dialog dialog = new Dialog(context);
@@ -164,11 +166,10 @@ public class CalendarAdapter extends BaseAdapter {
         // set the custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.text);
 
-
-
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
         Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
         Button dialogButtonSaveNote = (Button) dialog.findViewById(R.id.dialogButtonSaveNote);
+        Button dialogButtonClearDay = (Button) dialog.findViewById(R.id.dialogButtonClearDay);
         // if button is clicked, close the custom dialog
         dialogButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +180,14 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING);
+
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
+                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+
+
+                Toast toast = Toast.makeText(context, "התחלת ראיה ביום" +  sdf.format(date), Toast.LENGTH_SHORT);
+                toast.show();
                 dialog.dismiss();
             }
         });
@@ -192,7 +200,14 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date,Constants.DAY_TYPE.END_LOOKING);
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING);
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.END_LOOKING.ordinal());
+                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+
+
+                Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
+                toast.show();
+                CalenderActivity.refreshCalendar();
                 dialog.dismiss();
             }
         });
@@ -202,7 +217,13 @@ public class CalendarAdapter extends BaseAdapter {
                 dialog.dismiss();
             }
         });
+        dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                dialog.dismiss();
+            }
+        });
         dialog.show();
 
         if (previousView != null) {
@@ -218,7 +239,6 @@ public class CalendarAdapter extends BaseAdapter {
                 previousView = view;
             }
         }
-
         return view;
     }
 

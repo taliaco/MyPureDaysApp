@@ -29,6 +29,11 @@ public class DAL {
         Cursor c = dbRead.query(tableName, cols, null, null, null, null, null);
         return c;
     }
+    public Cursor DBReadByCol(String tableName,  String [] cols) {
+       // String[] cols = Utils.getColumnsArray(tableName);
+        Cursor c = dbRead.query(tableName, cols, null, null, null, null, null);
+        return c;
+    }
     //return one row
     public Cursor DBReadRow(String tableName, String selection, String[] selectionArgs) {
         String[] cols = Utils.getColumnsArray(tableName);

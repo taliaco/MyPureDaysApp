@@ -19,7 +19,9 @@ public class Constants implements BaseColumns {
     public static final String COL_DATE = "dateColumn";
     public static final String COL_DAY_TYPE = "datTypeColumn";
     public static final String COL_NOTES = "notesColumn";
-    public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES};
+    public static final String COL_ONA ="onaColumn" ;
+
+    public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
 
     //Column for dayType table
     public static final String COL_ID_DAY_TYPE = "idDayTypeColumn";
@@ -44,18 +46,22 @@ public class Constants implements BaseColumns {
     public static final String[] TABLE_DEFINITION_COLUMNS = {Constants._ID, Constants.COL_MIN_PERIOD_LENGTH, Constants.COL_REGULAR, Constants.COL_PRISHA_DAYS,
             Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN, Constants.COL_DAILY_NOTIFICATION,
             Constants.COL_CLEAN_NOTIFICATION, Constants.COL_OVULATION_NOTIFICATION, Constants.COL_TYPE_PERIOD};
-
-    public static final String DATE_FORMAT = "dd-MM-yyyy";
-
-
-
+    public static final String MONTH_TITLE_FORMAT = "MM/yyyy";
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_SPLITTER = "/";
+    public static final int MONTH_POSITION = 1;
+    public static final int DAY_POSITION = 0;
+    public static final int YEAR_POSITION = 2;
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }
 
 
     public enum DAY_TYPE{
-        DEFAULT, START_LOOKING, END_LOOKING, START_LOOKING_DAY, START_LOOKING_NIGHT, END_LOOKING_DAY, END_LOOKING_NIGHT,
+        DEFAULT, START_LOOKING, END_LOOKING
     }
 
+    public enum ONA_TYPE{
+        DEFAULT, DAY, NIGHT
+    }
 }

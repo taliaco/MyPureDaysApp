@@ -37,4 +37,18 @@
     <string name="btDialogEnd">הפסק ראיה</string>
     <string name="btDialogSaveNote">שמירת הערה</string>
     <string name="btClearDay">נקה יום</string>
+
+
+    <string name="Sunday">א</string>
+    <string name="Monday">ב</string>
+    <string name="Tuesday">ג</string>
+    <string name="Wednesday">ד</string>
+    <string name="Thursday">ה</string>
+    <string name="Friday">ו</string>
+    <string name="Saturday">ש</string>
+
+    <string name="CalendarTitle">לוח שנה</string>
+    <string name="arrowRight">חץ ימינה</string>
+    <string name="arrowLeft">חץ שמאלה</string>
+    <string name="Notes">אין הערות</string>
 </resources>

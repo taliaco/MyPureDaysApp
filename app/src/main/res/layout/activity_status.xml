@@ -60,7 +60,8 @@
             android:textSize="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:text="--"/>
 
         <TextView
             android:id="@+id/LABEL_cleanCount"
@@ -69,6 +70,34 @@
             android:layout_weight="1"
             android:text="@string/cleanCount"
             android:layout_marginBottom="10dp"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LAYOUT_dateMikveh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@drawable/square1"
+        android:layout_marginBottom="10dp"
+        >
+        <TextView
+            android:id="@+id/FIELD_dateMikveh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
+        <TextView
+            android:id="@+id/LABEL_dateMikveh"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dateMikveh"
             android:textSize="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"/>
@@ -138,38 +167,7 @@
 
 
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/LAYOUT_dateMikveh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:background="@drawable/square1"
-        android:layout_marginBottom="10dp"
 
-        >
-
-
-
-        <TextView
-            android:id="@+id/FIELD_dateMikveh"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"/>
-        <TextView
-            android:id="@+id/LABEL_dateMikveh"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dateMikveh"
-            android:textSize="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_prishaDate"
         android:layout_width="match_parent"
