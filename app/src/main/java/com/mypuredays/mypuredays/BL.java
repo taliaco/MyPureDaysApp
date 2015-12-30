@@ -26,8 +26,6 @@ public class BL {
 
     public void populateDB() {
         populateDefinition();
-
-        //ClearDayType clrDayType = new ClearDayType()
     }
 
     public void populateDefinition() {
@@ -64,12 +62,13 @@ public class BL {
             dailyNotificationColumn = (c.getInt(6) != 0);
             ovulationNutification = (c.getInt(8) != 0);
 
-            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, dailyNotificationColumn, c.getInt(7), ovulationNutification);
+            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, dailyNotificationColumn, c.getInt(7), ovulationNutification, c.getInt(9));
             return def;
         }
         return null;
     }
 
+    //hello
     public void setSwitchDefinition(String columnName, boolean switchState){
 
 
@@ -80,6 +79,17 @@ public class BL {
 
         dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
     }
+
+    public void setSpinnerDefinition(String columnName, int position){
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, position);
+        Log.e("position"," "+position );
+
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
+    }
+
+
 
     public Cursor getDefinitionCursor() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
