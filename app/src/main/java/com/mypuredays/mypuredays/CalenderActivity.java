@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -16,7 +17,8 @@ import java.util.GregorianCalendar;
 
 
 public class CalenderActivity extends Activity {
-    public GregorianCalendar cal_month, cal_month_copy;
+    public  GregorianCalendar cal_month;
+    public GregorianCalendar cal_month_copy;
     private CalendarAdapter cal_adapter;
     private TextView tv_month;
     private ArrayList<Day> arrayListDays;
@@ -43,9 +45,8 @@ public class CalenderActivity extends Activity {
         cal_adapter = new CalendarAdapter(this, cal_month,CalendarCollection.date_collection_arr);
 
 
-
         tv_month = (TextView) findViewById(R.id.tv_month);
-        tv_month.setText(android.text.format.DateFormat.format("MMMM yyyy", cal_month));
+        tv_month.setText(android.text.format.DateFormat.format(Constants.MONTH_TITLE_FORMAT, cal_month));
 
         ImageButton previous = (ImageButton) findViewById(R.id.ib_prev);
 
@@ -71,34 +72,42 @@ public class CalenderActivity extends Activity {
 
         GridView gridview = (GridView) findViewById(R.id.gv_calendar);
         gridview.setAdapter(cal_adapter);
+        gridview.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+
+                String selectedGridDate = CalendarAdapter.day_string.get(position);
+                String[] separatedTime = selectedGridDate.split(Constants.DATE_SPLITTER);
+                String gridvalueString = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
+                int gridvalue = Integer.parseInt(gridvalueString);
+                if ((gridvalue > 25) && (position < 8)) {
+                    return true;
+                } else if ((gridvalue < 7) && (position > 28)) {
+                    return true;
+                }
+                ((CalendarAdapter) parent.getAdapter()).setSelected(v, position);
+
+                refreshCalendar();
+                return true;
+            }
+
+        });
         gridview.setOnItemClickListener(new OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                ((CalendarAdapter) parent.getAdapter()).setSelected(v,position);
-                String selectedGridDate = CalendarAdapter.day_string
-                        .get(position);
-
-                String[] separatedTime = selectedGridDate.split("-");
-                String gridvalueString = separatedTime[2].replaceFirst("^0*","");
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                String selectedGridDate = CalendarAdapter.day_string.get(position);
+                String[] separatedTime = selectedGridDate.split(Constants.DATE_SPLITTER);
+                String gridvalueString = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
                 int gridvalue = Integer.parseInt(gridvalueString);
-
-                if ((gridvalue > 10) && (position < 8)) {
+                if ((gridvalue > 25) && (position < 8)) {
                     setPreviousMonth();
                     refreshCalendar();
                 } else if ((gridvalue < 7) && (position > 28)) {
                     setNextMonth();
                     refreshCalendar();
                 }
-                //((CalendarAdapter) parent.getAdapter()).setSelected(v, position);
-                refreshCalendar();
-              //  ((CalendarAdapter) parent.getAdapter()).getPositionList(selectedGridDate, CalenderActivity.this);
             }
-
         });
-
-
     }
 
 
@@ -127,19 +136,10 @@ public class CalenderActivity extends Activity {
     }
 
     public void refreshCalendar() {
-//        arrayListDays=bl.getAllDays();
-//        CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
-//
-//        //convert Day Type to CalendarCollection list
-//        for(int i=0; i<arrayListDays.size(); i++){
-//            CalendarCollection tmpCalendarCollection = new CalendarCollection(arrayListDays.get(i));
-//            CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-//
-//        }
+
         cal_adapter.refreshDays();
         cal_adapter.notifyDataSetChanged();
+        tv_month.setText(android.text.format.DateFormat.format(Constants.MONTH_TITLE_FORMAT, cal_month));
 
-        tv_month.setText(android.text.format.DateFormat.format("MMMM yyyy", cal_month));
     }
-
 }
