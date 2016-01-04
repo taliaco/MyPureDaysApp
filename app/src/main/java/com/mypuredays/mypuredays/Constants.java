@@ -52,6 +52,13 @@ public class Constants implements BaseColumns {
     public static final int MONTH_POSITION = 1;
     public static final int DAY_POSITION = 0;
     public static final int YEAR_POSITION = 2;
+
+    public static final String[]minPeriodLengthSpinner = {"4 ימים", "5 ימים"};
+    public static final String[]periodLengthSpinner = {"3 ימים","4 ימים", "5 ימים", "6 ימים", "7 ימים"};
+    public static final String[]cleanDayNotificationSpinner = {"ראשון ואחרון ", "כל יום ", "פעמיים ביום"};
+    public static final String[]typePeriodSpinner = {"יום", "לילה", "לא רלוונטי","לא קבוע"};
+
+
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }

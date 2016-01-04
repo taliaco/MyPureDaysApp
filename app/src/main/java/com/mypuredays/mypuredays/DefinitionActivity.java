@@ -30,11 +30,6 @@ public class DefinitionActivity extends Activity {
 
     private BL bl;
 
-    private static final String[]paths = {"4 ימים", "5 ימים"};
-    private static final String[]paths1 = {"3 ימים","4 ימים", "5 ימים", "6 ימים", "7 ימים"};
-    private static final String[]paths2 = {"ראשון ואחרון ", "כל יום ", "פעמיים ביום"};
-    private static final String[]paths3 = {"יום", "לילה", "לא רלוונטי"};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +73,7 @@ public class DefinitionActivity extends Activity {
                 case 1: minPeriodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,paths);
+                            android.R.layout.simple_spinner_item,Constants.minPeriodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_day_period_min.setAdapter(adapter);
                     spinner_day_period_min.setSelection(d.get_minPeriodLength());
@@ -95,7 +90,7 @@ public class DefinitionActivity extends Activity {
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,paths1);
+                            android.R.layout.simple_spinner_item,Constants.periodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_period_during.setAdapter(adapter);
                     spinner_period_during.setSelection(d.get_periodLength());
@@ -110,7 +105,7 @@ public class DefinitionActivity extends Activity {
                 case 7: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,paths2);
+                            android.R.layout.simple_spinner_item,Constants.cleanDayNotificationSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_reminder_pure_day.setAdapter(adapter);
                     spinner_reminder_pure_day.setSelection(d.get_cleanNotification());
@@ -122,7 +117,7 @@ public class DefinitionActivity extends Activity {
                 case 9: typePeriodColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,paths3);
+                            android.R.layout.simple_spinner_item,Constants.typePeriodSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_period.setAdapter(adapter);
                     spinner_type_period.setSelection(d.get_typePeriod());
