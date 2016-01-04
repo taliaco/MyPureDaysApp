@@ -50,28 +50,67 @@ public class StatusActivity extends Activity {
         textViewNextPeriodDate.setText(date);
 
         textViewPeriodAvg.setText(avgBetweenPeriod());
-
-       // textViewCleanCount();
+        textViewCleanCount.setText(textViewCleanCount(definition));
+        textViewDateMikveh.setText(textViewDateMikveh(definition));
     }
 
-//    private String textViewCleanCount(){
-//        Cursor day= bl.getLastDate();
-//        Date today=new Date();
-//        sdf.format(today);
-//        if(day.moveToFirst()){
-//            if( day.getInt(2)==1){//start looking
-//              if(day.getInt(2)==1)
-//            }
-//            else if(day.getInt(2)==2){//end looking
-//
-//            }
-//            else{
-//
-//            }
-//
-//        }
-//        return "אין ספירה";
-//    }
+    private String textViewDateMikveh(Cursor definition){
+        Cursor day= bl.getLastDate();
+        int periodLength= definition.getInt(4);//PERIOD_LENGTH from definition
+        long numDayse;
+        Date today=new Date();
+        sdf.format(today);
+        if(day.moveToFirst()){
+            numDayse=countDaysBetweenDates(convertStrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            if( day.getInt(2)==1){//start looking
+
+                    if(numDayse<=periodLength+7) {//check if today is not after mikvhe
+                        return sdf.format(addDaysToDate((periodLength + 7), day.getString(1)));
+                    }
+            }
+            else if(day.getInt(2)==2){//end looking
+                if (numDayse<=7) {
+                    return sdf.format(addDaysToDate(7,day.getString(1)));
+                }
+            }
+        }
+        return "-";
+    }
+    private String textViewCleanCount(Cursor definition){
+        Cursor day= bl.getLastDate();
+        int periodLength= definition.getInt(4);//PERIOD_LENGTH from definition
+        long numDayse;
+        Date today=new Date();
+        sdf.format(today);
+        if(day.moveToFirst()){
+            numDayse=countDaysBetweenDates(convertStrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            if( day.getInt(2)==1){//start looking
+                if(numDayse<periodLength){//still in period
+                    return "-";
+                }else if(numDayse>=periodLength){//end perion
+                    if(numDayse<=periodLength+7) {//check if today is not after nekiim
+                        return String.valueOf(numDayse - periodLength);
+                    }
+                }
+            }
+            else if(day.getInt(2)==2){//end looking
+                if (numDayse<=7) {
+                    return String.valueOf(numDayse);
+                }
+            }
+
+        }
+        return "-";
+    }
+
+    private Date convertStrToDate(String strDate){
+        try {
+            return sdf.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     private String avgBetweenPeriod(){
         boolean average=false;//Is there an average(Use at least 4 months )
         Cursor day=bl.getDateStartLooking();
@@ -90,11 +129,7 @@ public class StatusActivity extends Activity {
         }
         if (average==true){
             for (i=0; i< 3; i++){
-                try {
-                    countDate+= countDaysBetweenDates(sdf.parse(dates[dates.length-i-1]), sdf.parse(dates[dates.length-i-2]));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    countDate+= countDaysBetweenDates(convertStrToDate(dates[dates.length - i - 1]), convertStrToDate(dates[dates.length-i-2]));
             }
             Float f = new Float ((float)countDate);
             return (String.valueOf(Math.round(f/3)));
@@ -103,22 +138,23 @@ public class StatusActivity extends Activity {
     }
 
     private long countDaysBetweenDates(Date date1, Date date2){
-
-        long diff = date1.getTime() - date2.getTime();
+        long diff;
+        if(date1.getTime()>date2.getTime()) {
+            diff = date1.getTime() - date2.getTime();
+        }else{
+            diff = date2.getTime() - date1.getTime();
+        }
         return (diff  / 1000 / 60 / 60 / 24);
     }
 
     private Date addDaysToDate(int numDays, String date){
         Date dateToString;
         Calendar cal=null;
-        try {
-            dateToString = sdf.parse(date);
+            dateToString = convertStrToDate(date);
             cal = Calendar.getInstance();
             cal.setTime(dateToString);
             cal.add(Calendar.DATE, numDays);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         return cal.getTime();
         //return date;
 
