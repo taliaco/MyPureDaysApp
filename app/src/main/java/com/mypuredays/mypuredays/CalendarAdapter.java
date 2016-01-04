@@ -207,7 +207,6 @@ public class CalendarAdapter extends BaseAdapter {
 
                 Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
-                CalenderActivity.refreshCalendar();
                 dialog.dismiss();
             }
         });
