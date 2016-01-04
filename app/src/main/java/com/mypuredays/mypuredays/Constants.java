@@ -62,6 +62,6 @@ public class Constants implements BaseColumns {
     }
 
     public enum ONA_TYPE{
-        DEFAULT, DAY, NIGHT
+        DEFAULT, UNKNOWN, DAY, NIGHT
     }
 }

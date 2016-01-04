@@ -42,15 +42,16 @@ public class DefinitionActivity extends Activity {
         setContentView(R.layout.activity_definition);
 
         bl = new BL(this);
-        minPeriodLengthColumn= (TextView)findViewById(R.id.item_name1);
-        regularColumn= (TextView)findViewById(R.id.item_name2);
-        prishaDaysColumn= (TextView)findViewById(R.id.item_name3);
-        periodLengthColumn= (TextView)findViewById(R.id.item_name4);
-        countCleanColumn= (TextView)findViewById(R.id.item_name5);
-        dailyNotificationColumn= (TextView)findViewById(R.id.item_name6);
-        cleanNotificationColumn= (TextView)findViewById(R.id.item_name7);
-        ovulationNotificationColumn= (TextView)findViewById(R.id.item_name8);
-        typePeriodColumn= (TextView)findViewById(R.id.item_name9);
+
+        minPeriodLengthColumn= (TextView)findViewById(R.id.item_name_day_period_min);
+        regularColumn= (TextView)findViewById(R.id.item_name_period_constant);
+        prishaDaysColumn= (TextView)findViewById(R.id.item_name_prisha_day);
+        periodLengthColumn= (TextView)findViewById(R.id.item_name_period_during);
+        countCleanColumn= (TextView)findViewById(R.id.item_name_counter_pure_day);
+        dailyNotificationColumn= (TextView)findViewById(R.id.item_name_pellet_reminder_day);
+        cleanNotificationColumn= (TextView)findViewById(R.id.item_name_reminder_pure_day);
+        ovulationNotificationColumn= (TextView)findViewById(R.id.item_name_reminder_ovulation_day);
+        typePeriodColumn= (TextView)findViewById(R.id.item_name_type_period);
 
         switch_period_constant = (Switch)findViewById(R.id.switch_period_constant);
         switch_prisha_day = (Switch)findViewById(R.id.switch_prisha_day);
@@ -63,11 +64,7 @@ public class DefinitionActivity extends Activity {
         spinner_reminder_pure_day = (Spinner)findViewById(R.id.spinner_reminder_pure_day);
         spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
 
-
-
-
         ArrayAdapter<String> adapter;
-
 
         Cursor c = bl.getDefinitionCursor();
         Definition d = bl.getDefinition();
