@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,7 +44,7 @@ public class StatusActivity extends Activity {
         textViewLastPeriodDate.setText(lastDateStr);
         //convert date type to string
         //add 28 days to date
-        String date = sdf.format(addDaysToDate(28,lastDateStr));
+        String date = sdf.format(Utils.addDaysToDate(28, lastDateStr));
         textViewNextPeriodDate.setText(date);
 
         textViewPeriodAvg.setText(avgBetweenPeriod());
@@ -61,16 +59,16 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(convertStrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
 
                     if(numDayse<=periodLength+7) {//check if today is not after mikvhe
-                        return sdf.format(addDaysToDate((periodLength + 7), day.getString(1)));
+                        return sdf.format(Utils.addDaysToDate((periodLength + 7), day.getString(1)));
                     }
             }
             else if(day.getInt(2)==2){//end looking
                 if (numDayse<=7) {
-                    return sdf.format(addDaysToDate(7,day.getString(1)));
+                    return sdf.format(Utils.addDaysToDate(7, day.getString(1)));
                 }
             }
         }
@@ -83,7 +81,7 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(convertStrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
                 if(numDayse<periodLength){//still in period
                     return "-";
@@ -103,14 +101,7 @@ public class StatusActivity extends Activity {
         return "-";
     }
 
-    private Date convertStrToDate(String strDate){
-        try {
-            return sdf.parse(strDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     private String avgBetweenPeriod(){
         boolean average=false;//Is there an average(Use at least 4 months )
         Cursor day=bl.getDateStartLooking();
@@ -129,7 +120,7 @@ public class StatusActivity extends Activity {
         }
         if (average==true){
             for (i=0; i< 3; i++){
-                    countDate+= countDaysBetweenDates(convertStrToDate(dates[dates.length - i - 1]), convertStrToDate(dates[dates.length-i-2]));
+                    countDate+= countDaysBetweenDates(Utils.StrToDate(dates[dates.length - i - 1]), Utils.StrToDate(dates[dates.length - i - 2]));
             }
             Float f = new Float ((float)countDate);
             return (String.valueOf(Math.round(f/3)));
@@ -147,17 +138,6 @@ public class StatusActivity extends Activity {
         return (diff  / 1000 / 60 / 60 / 24);
     }
 
-    private Date addDaysToDate(int numDays, String date){
-        Date dateToString;
-        Calendar cal=null;
-            dateToString = convertStrToDate(date);
-            cal = Calendar.getInstance();
-            cal.setTime(dateToString);
-            cal.add(Calendar.DATE, numDays);
 
-        return cal.getTime();
-        //return date;
-
-    }
 
 }

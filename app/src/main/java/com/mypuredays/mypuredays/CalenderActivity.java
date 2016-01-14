@@ -2,7 +2,6 @@ package com.mypuredays.mypuredays;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -11,16 +10,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
 
 public class CalenderActivity extends Activity {
     public  GregorianCalendar cal_month;
     public GregorianCalendar cal_month_copy;
     private CalendarAdapter cal_adapter;
     private TextView tv_month;
+    private TextView TextView_Note;
     private ArrayList<Day> arrayListDays;
     BL bl;
     @Override
@@ -37,13 +35,11 @@ public class CalenderActivity extends Activity {
         for(int i=0; i<arrayListDays.size(); i++){
             CalendarCollection tmpCalendarCollection = new CalendarCollection(arrayListDays.get(i));
             CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-
         }
-
+        TextView_Note = (TextView) findViewById(R.id.TextView_Note);
         cal_month = (GregorianCalendar) GregorianCalendar.getInstance();
         cal_month_copy = (GregorianCalendar) cal_month.clone();
         cal_adapter = new CalendarAdapter(this, cal_month,CalendarCollection.date_collection_arr);
-
 
         tv_month = (TextView) findViewById(R.id.tv_month);
         tv_month.setText(android.text.format.DateFormat.format(Constants.MONTH_TITLE_FORMAT, cal_month));
@@ -76,7 +72,7 @@ public class CalenderActivity extends Activity {
 
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 
-                String selectedGridDate = CalendarAdapter.day_string.get(position);
+                String selectedGridDate = cal_adapter.day_string.get(position);
                 String[] separatedTime = selectedGridDate.split(Constants.DATE_SPLITTER);
                 String gridvalueString = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
                 int gridvalue = Integer.parseInt(gridvalueString);
@@ -86,16 +82,15 @@ public class CalenderActivity extends Activity {
                     return true;
                 }
                 ((CalendarAdapter) parent.getAdapter()).setSelected(v, position);
-
                 refreshCalendar();
                 return true;
             }
 
         });
-        gridview.setOnItemClickListener(new OnItemClickListener() {
 
+        gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                String selectedGridDate = CalendarAdapter.day_string.get(position);
+                String selectedGridDate = cal_adapter.day_string.get(position);
                 String[] separatedTime = selectedGridDate.split(Constants.DATE_SPLITTER);
                 String gridvalueString = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
                 int gridvalue = Integer.parseInt(gridvalueString);
@@ -106,37 +101,43 @@ public class CalenderActivity extends Activity {
                     setNextMonth();
                     refreshCalendar();
                 }
+                else{
+                    String note = "";
+                    int len = CalendarCollection.date_collection_arr.size();
+                    String dateStr = cal_adapter.getPosDate(position);
+
+                    for (int i = 0; i < len; i++) {
+                        CalendarCollection cal_obj = CalendarCollection.date_collection_arr.get(i);
+                        if(cal_obj.date.equals(dateStr) && (cal_obj.notes != null || !cal_obj.notes.equals(""))) {
+                            TextView_Note.setText(cal_obj.notes);
+                            break;
+                        }else{
+                            TextView_Note.setText(getResources().getString((R.string.defaultNote)));
+                        }
+                    }
+                }
             }
         });
     }
 
 
     protected void setNextMonth() {
-        if (cal_month.get(GregorianCalendar.MONTH) == cal_month
-                .getActualMaximum(GregorianCalendar.MONTH)) {
-            cal_month.set((cal_month.get(GregorianCalendar.YEAR) + 1),
-                    cal_month.getActualMinimum(GregorianCalendar.MONTH), 1);
+        if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {
+            cal_month.set((cal_month.get(GregorianCalendar.YEAR) + 1), cal_month.getActualMinimum(GregorianCalendar.MONTH), 1);
         } else {
-            cal_month.set(GregorianCalendar.MONTH,
-                    cal_month.get(GregorianCalendar.MONTH) + 1);
+            cal_month.set(GregorianCalendar.MONTH, cal_month.get(GregorianCalendar.MONTH) + 1);
         }
-
     }
 
     protected void setPreviousMonth() {
-        if (cal_month.get(GregorianCalendar.MONTH) == cal_month
-                .getActualMinimum(GregorianCalendar.MONTH)) {
-            cal_month.set((cal_month.get(GregorianCalendar.YEAR) - 1),
-                    cal_month.getActualMaximum(GregorianCalendar.MONTH), 1);
+        if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMinimum(GregorianCalendar.MONTH)) {
+            cal_month.set((cal_month.get(GregorianCalendar.YEAR) - 1), cal_month.getActualMaximum(GregorianCalendar.MONTH), 1);
         } else {
-            cal_month.set(GregorianCalendar.MONTH,
-                    cal_month.get(GregorianCalendar.MONTH) - 1);
+            cal_month.set(GregorianCalendar.MONTH, cal_month.get(GregorianCalendar.MONTH) - 1);
         }
-
     }
 
     public void refreshCalendar() {
-
         cal_adapter.refreshDays();
         cal_adapter.notifyDataSetChanged();
         tv_month.setText(android.text.format.DateFormat.format(Constants.MONTH_TITLE_FORMAT, cal_month));

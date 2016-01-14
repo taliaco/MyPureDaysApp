@@ -3,8 +3,13 @@ package com.mypuredays.mypuredays;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.mypuredays.mypuredays.R;
-import com.mypuredays.mypuredays.Constants;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by Talia on 02/12/2015.
  */
@@ -20,20 +25,19 @@ public class Utils {
                 return res.getString((R.string.prishaDaysColumn));
             case Constants.COL_PERIOD_LENGTH:
                 return res.getString((R.string.periodLengthColumn));
-            case Constants.COL_OVULATION_NOTIFICATION:
-                return res.getString((R.string.ovulationNotificationColumn));
+            case Constants.COL_MIKVE_NOTIFICATION:
+                return res.getString((R.string.mikveNotificationColumn));
             case Constants.COL_CLEAN_NOTIFICATION:
                 return res.getString((R.string.cleanNotificationColumn));
             case Constants.COL_COUNT_CLEAN:
                 return res.getString((R.string.countCleanColumn));
-            case Constants.COL_DAILY_NOTIFICATION:
-                return res.getString((R.string.dailyNotificationColumn));
             case Constants.COL_TYPE_PERIOD:
                 return res.getString((R.string.typePeriodColumn));
             default:
                 return "";
         }
     }
+
     public static Constants.DEF_TYPE getDefType(String columnName){
         switch (columnName){
             case Constants.COL_MIN_PERIOD_LENGTH:
@@ -44,7 +48,7 @@ public class Utils {
                 return Constants.DEF_TYPE.BOOLEAN;
             case Constants.COL_PERIOD_LENGTH:
                 return Constants.DEF_TYPE.INTEGER;
-            case Constants.COL_OVULATION_NOTIFICATION:
+            case Constants.COL_MIKVE_NOTIFICATION:
                 return Constants.DEF_TYPE.BOOLEAN;
             case Constants.COL_CLEAN_NOTIFICATION:
                 return Constants.DEF_TYPE.BOOLEAN;
@@ -72,5 +76,30 @@ public class Utils {
 
     public static int getDayTypeIDByName(Constants.DAY_TYPE dayType){
         return 0;
+    }
+    public static Date addDaysToDate(int numDays, String date){
+        Date dateToString;
+        Calendar cal=null;
+        dateToString = StrToDate(date);
+        cal = Calendar.getInstance();
+        cal.setTime(dateToString);
+        cal.add(Calendar.DATE, numDays);
+
+        return cal.getTime();
+        //return date;
+
+    }
+    public static Date StrToDate(String strDate){
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        try {
+            return sdf.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String DateToStr(Date strDate){
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        return sdf.format(strDate);
     }
 }

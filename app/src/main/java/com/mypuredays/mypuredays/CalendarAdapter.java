@@ -2,7 +2,9 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ public class CalendarAdapter extends BaseAdapter {
     /**
      * calendar instance for previous month for getting complete view
      */
-    public GregorianCalendar pmonthmaxset;
+    public GregorianCalendar pMonthMaxSet;
     private GregorianCalendar selectedDate;
     int firstDay;
     int maxWeeknumber;
@@ -41,19 +43,22 @@ public class CalendarAdapter extends BaseAdapter {
     int mnthlength;
     String itemvalue, curentDateString;
     DateFormat df;
-
+    private int avgPeriondLength;
     private ArrayList<String> items;
-    public static List<String> day_string;
+    public  List<String> day_string;
     private View previousView;
     public ArrayList<CalendarCollection> date_collection_arr;
 
     public CalendarAdapter(Context context, GregorianCalendar monthCalendar, ArrayList<CalendarCollection> date_collection_arr) {
+
         this.date_collection_arr = date_collection_arr;
-        CalendarAdapter.day_string = new ArrayList<String>();
+        day_string = new ArrayList<String>();
         Locale.setDefault(Locale.US);
         month = monthCalendar;
         selectedDate = (GregorianCalendar) monthCalendar.clone();
         this.context = context;
+        bl = new BL(this.context);
+        avgPeriondLength = bl.getDefinition().get_periodLength();
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
         this.items = new ArrayList<String>();
@@ -86,7 +91,8 @@ public class CalendarAdapter extends BaseAdapter {
 
     // create a new view for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        bl = new BL(this.context);
+//        bl = new BL(this.context);
+
         View v = convertView;
         TextView dayView;
         if (convertView == null) { // if it's not recycled, initialize some
@@ -157,14 +163,14 @@ public class CalendarAdapter extends BaseAdapter {
 
     public View setSelected(View view, final int pos) {
 
-        bl = new BL(this.context);
+//        bl = new BL(this.context);
         final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.activity_dialog_calendar);
         dialog.setTitle(day_string.get(pos));
 
         // set the custom dialog components - text, image and button
-        TextView text = (TextView) dialog.findViewById(R.id.text);
+        final TextView dialogNote = (TextView) dialog.findViewById(R.id.dialogNote);
 
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
         Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
@@ -184,7 +190,7 @@ public class CalendarAdapter extends BaseAdapter {
 
                 CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-
+                notifyDataSetChanged();
 
                 Toast toast = Toast.makeText(context, "התחלת ראיה ביום" +  sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
@@ -203,7 +209,7 @@ public class CalendarAdapter extends BaseAdapter {
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING,Constants.ONA_TYPE.DEFAULT);
                 CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.END_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-
+                notifyDataSetChanged();
 
                 Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
@@ -213,13 +219,24 @@ public class CalendarAdapter extends BaseAdapter {
         dialogButtonSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date date = new Date();
+                try {
+                    date = sdf.parse(day_string.get(pos));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                bl.saveNote(date, dialogNote.getText().toString());
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,dialogNote.getText().toString(),Constants.DAY_TYPE.DEFAULT.ordinal());
+                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+                notifyDataSetChanged();
+                Toast toast = Toast.makeText(context, context.getResources().getText(R.string.NoteSaved), Toast.LENGTH_SHORT);
+                toast.show();
                 dialog.dismiss();
             }
         });
         dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
             }
         });
@@ -233,8 +250,7 @@ public class CalendarAdapter extends BaseAdapter {
 
         int len = day_string.size();
         if (len > pos) {
-            if (day_string.get(pos).equals(curentDateString)) {
-            } else {
+            if (!(day_string.get(pos).equals(curentDateString))) {
                 previousView = view;
             }
         }
@@ -259,21 +275,18 @@ public class CalendarAdapter extends BaseAdapter {
          * Calendar instance for getting a complete gridview including the three
          * month's (previous,current,next) dates.
          */
-        pmonthmaxset = (GregorianCalendar) pmonth.clone();
+        pMonthMaxSet = (GregorianCalendar) pmonth.clone();
         /**
          * setting the start date as previous month's required date.
          */
-        pmonthmaxset.set(GregorianCalendar.DAY_OF_MONTH, calMaxP + 1);
-
+        pMonthMaxSet.set(GregorianCalendar.DAY_OF_MONTH, calMaxP + 1);
         /**
          * filling calendar gridview.
          */
         for (int n = 0; n < mnthlength; n++) {
-
-            itemvalue = df.format(pmonthmaxset.getTime());
-            pmonthmaxset.add(GregorianCalendar.DATE, 1);
+            itemvalue = df.format(pMonthMaxSet.getTime());
+            pMonthMaxSet.add(GregorianCalendar.DATE, 1);
             day_string.add(itemvalue);
-
         }
     }
 
@@ -288,42 +301,59 @@ public class CalendarAdapter extends BaseAdapter {
                     month.get(GregorianCalendar.MONTH) - 1);
         }
         maxP = pmonth.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-
         return maxP;
     }
 
 
     public void setEventView(View v, int pos, TextView txt) {
-
         int len = CalendarCollection.date_collection_arr.size();
         for (int i = 0; i < len; i++) {
             CalendarCollection cal_obj = CalendarCollection.date_collection_arr.get(i);
             String date = cal_obj.date;
             int len1 = day_string.size();
             if (len1 > pos) {
-
                 if (day_string.get(pos).equals(date)) {
                     v.setBackgroundColor(Color.GREEN);
                   //RippleDrawable  v.setBackgroundResource(R.drawable.rounded_calender_item);
-
                     txt.setTextColor(Color.WHITE);
                 }
-                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-                    v.setBackgroundColor(Color.RED);
+                int dayType = getDayType(day_string.get(pos));
+
+                if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+                    v.setBackgroundColor(Constants.PERIOD_COLOR);
                 }
-                if(getDayType(day_string.get(pos)) == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
-                    v.setBackgroundColor(Color.BLUE);
+                else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+                    v.setBackgroundColor(Constants.PERIOD_COLOR);
+                }
+                else if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
+                    v.setBackgroundColor(Constants.PERIOD_COLOR);
+                }
+                else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
+                    v.setBackgroundColor(Constants.CLEAR_DAYS_COLOR);
+                }
+                else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
+                    v.setBackgroundColor(Constants.PRISHA_DAYS_COLOR);
                 }
             }
         }
-
-
     }
     private int getDayType(String DateString){
+
         for (int i = 0; i< date_collection_arr.size(); i++){
             if (date_collection_arr.get(i).date.equals(DateString))
                 return date_collection_arr.get(i)._dateTypeId;
+            if (date_collection_arr.get(i)._dateTypeId == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+
+                Date dateEndPeriod = Utils.addDaysToDate(avgPeriondLength,DateString);
+                if(Utils.StrToDate(date_collection_arr.get(i).date).after(Utils.StrToDate(DateString)) && Utils.StrToDate(date_collection_arr.get(i).date).before(dateEndPeriod)){
+                    return Constants.DAY_TYPE.START_LOOKING.ordinal();
+                }
+
+            }
         }
         return Constants.DAY_TYPE.DEFAULT.ordinal();
+    }
+    public String getPosDate(int position){
+        return day_string.get(position);
     }
 }
