@@ -17,9 +17,8 @@
     <string name="prishaDaysColumn">הצגת ימי פרישה  </string>
     <string name="periodLengthColumn">משך מחזור  </string>
     <string name="countCleanColumn">ספירת נקיים  </string>
-    <string name="dailyNotificationColumn">תזכורת יומית לגלולה  </string>
     <string name="cleanNotificationColumn">תזכורת נקיים  </string>
-    <string name="ovulationNotificationColumn">תזכורת ביוץ  </string>
+    <string name="mikveNotificationColumn"> תזכורת למקווה  </string>
     <string name="typePeriodColumn">סוג עונה</string>
 
 
@@ -51,4 +50,20 @@
     <string name="arrowRight">חץ ימינה</string>
     <string name="arrowLeft">חץ שמאלה</string>
     <string name="Notes">אין הערות</string>
+
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="claenFirstAndLast">ראשון ואחרון</string>
+    <string name="claenFirstThreeDays">3 ימים ראשונים</string>
+    <string name="claenOnceADay">פעם ביום</string>
+    <string name="claenTwiceADay">פעמיים ביום</string>
+    <string name="claenIrrelevant">לא רלוונטי</string>
+    <string name="onaDefault">לא רלוונטי</string>
+    <string name="onaUnknow">לא ידוע</string>
+    <string name="onaDay">יום</string>
+    <string name="onaNigth">לילה</string>
+
 </resources>

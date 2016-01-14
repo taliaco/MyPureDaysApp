@@ -228,37 +228,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1">
-
-        <Switch
-            android:id="@+id/switch_pellet_reminder_day"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:visibility="visible"
-            android:textOff="OFF"
-            android:textOn="ON"/>
-
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/item_name_pellet_reminder_day"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"/>
-
-
-    </LinearLayout>
-
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -269,7 +238,7 @@
         android:layout_weight="1">
 
         <Switch
-            android:id="@+id/switch_reminder_ovulation_day"
+            android:id="@+id/switch_mikve_reminder_day"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -280,7 +249,7 @@
 
         <TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/item_name_reminder_ovulation_day"
+            android:id="@+id/item_name_mikve_reminder_day"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"

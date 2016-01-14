@@ -38,14 +38,14 @@ public class Constants implements BaseColumns {
     public static final String COL_REGULAR = "regularColumn";
     public static final String COL_PRISHA_DAYS = "prishaDaysColumn";
     public static final String COL_PERIOD_LENGTH = "periodLengthColumn";
-    public static final String COL_OVULATION_NOTIFICATION = "ovulationNotificationColumn";
+    public static final String COL_MIKVE_NOTIFICATION = "mikveNotificationColumn";
     public static final String COL_CLEAN_NOTIFICATION = "cleanNotificationColumn";
     public static final String COL_COUNT_CLEAN = "countCleanColumn";
     public static final String COL_DAILY_NOTIFICATION = "dailyNotificationColumn";
     public static final String COL_TYPE_PERIOD = "typePeriodColumn";
     public static final String[] TABLE_DEFINITION_COLUMNS = {Constants._ID, Constants.COL_MIN_PERIOD_LENGTH, Constants.COL_REGULAR, Constants.COL_PRISHA_DAYS,
-            Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN, Constants.COL_DAILY_NOTIFICATION,
-            Constants.COL_CLEAN_NOTIFICATION, Constants.COL_OVULATION_NOTIFICATION, Constants.COL_TYPE_PERIOD};
+            Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN,
+            Constants.COL_CLEAN_NOTIFICATION, Constants.COL_MIKVE_NOTIFICATION, Constants.COL_TYPE_PERIOD};
     public static final String MONTH_TITLE_FORMAT = "MM/yyyy";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATE_SPLITTER = "/";
@@ -53,10 +53,7 @@ public class Constants implements BaseColumns {
     public static final int DAY_POSITION = 0;
     public static final int YEAR_POSITION = 2;
 
-    public static final String[]minPeriodLengthSpinner = {"4 ימים", "5 ימים"};
-    public static final String[]periodLengthSpinner = {"3 ימים","4 ימים", "5 ימים", "6 ימים", "7 ימים"};
-    public static final String[]cleanDayNotificationSpinner = {"ראשון ואחרון ", "כל יום ", "פעמיים ביום"};
-    public static final String[]typePeriodSpinner = {"יום", "לילה", "לא רלוונטי","לא קבוע"};
+
 
 
     public enum DEF_TYPE {
