@@ -180,7 +180,7 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING);
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
 
                 CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
@@ -200,14 +200,13 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING);
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING,Constants.ONA_TYPE.DEFAULT);
                 CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.END_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
 
 
                 Toast toast = Toast.makeText(context, "הפסק ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
-                CalenderActivity.refreshCalendar();
                 dialog.dismiss();
             }
         });

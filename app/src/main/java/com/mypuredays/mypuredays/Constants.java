@@ -47,11 +47,11 @@ public class Constants implements BaseColumns {
             Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN, Constants.COL_DAILY_NOTIFICATION,
             Constants.COL_CLEAN_NOTIFICATION, Constants.COL_OVULATION_NOTIFICATION, Constants.COL_TYPE_PERIOD};
     public static final String MONTH_TITLE_FORMAT = "MM/yyyy";
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
-    public static final String DATE_SPLITTER = "/";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_SPLITTER = "-";
     public static final int MONTH_POSITION = 1;
-    public static final int DAY_POSITION = 0;
-    public static final int YEAR_POSITION = 2;
+    public static final int DAY_POSITION = 2;
+    public static final int YEAR_POSITION = 0;
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }

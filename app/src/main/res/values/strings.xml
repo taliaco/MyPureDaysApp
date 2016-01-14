@@ -51,4 +51,8 @@
     <string name="arrowRight">חץ ימינה</string>
     <string name="arrowLeft">חץ שמאלה</string>
     <string name="Notes">אין הערות</string>
+
+    <string name="dayOna">עונת יום</string>
+    <string name="nightOna"> עונת לילה</string>
+
 </resources>

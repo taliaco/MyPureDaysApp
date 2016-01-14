@@ -69,7 +69,7 @@ public class Definition {
         this._minPeriodLength = _minPeriodLength;
     }
 
-    public boolean is_prishaDays() {
+    public boolean is_prishaDays() {//true=display prisha date
         return _prishaDays;
     }
 
