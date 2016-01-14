@@ -112,16 +112,8 @@ public class BL {
 
 
 
-    public int getMaxId(String tableName) {
-        String[] cols = new String []{"MAX(" + Constants._ID + ")"};
-        Cursor c = dal.getMaxId(tableName, cols);
-        if (c.moveToFirst()) {
-            Log.e("MAX ID", String.valueOf(c.getInt(0)));
-            return c.getInt(0);
-        }
-        return -1;
-    }
 
+    //must change the method name to "getLastStartLooking" and remove the table name from parameters
     public Cursor getLastDate(String tableName) {//return the last date with start looking
         String selection = Constants.COL_DAY_TYPE + "=?";
         String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
@@ -145,7 +137,7 @@ public class BL {
         String selection = Constants.COL_DAY_TYPE + "=?";
         String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
         String[] cols = new String []{Constants._ID, Constants.COL_DATE +" DESC",Constants.COL_DAY_TYPE ,Constants.COL_NOTES};
-        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols,selection,selectionArgs);
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         //c= dal.DBRead(tableName);
         return c;
     }
@@ -179,5 +171,38 @@ public class BL {
             arrDays.add(day);
         }
         return arrDays;
+    }
+
+    public void saveNote(Date date, String text) {
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        String selection = Constants.COL_DATE + "=?";
+        String[] selectionArgs = {sdf.format(date)};
+
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
+        if (c.moveToFirst()) {
+            ContentValues values = new ContentValues();
+            values.put(Constants.COL_NOTES, text);
+            String criteria = Constants.COL_DATE + "=" + sdf.format(date);
+            dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
+        } else {
+            String strDate = sdf.format(date);
+            ContentValues values = new ContentValues();
+            values.put(Constants.COL_DATE, strDate);
+            values.put(Constants.COL_DAY_TYPE, Constants.DAY_TYPE.DEFAULT.ordinal());
+            values.put(Constants.COL_NOTES, text);
+            dal.DBWrite(Constants.TABLE_DAY, values);
+        }
+
+    }
+
+
+    public int getMaxId(String tableName) {
+        String[] cols = new String []{"MAX(" + Constants._ID + ")"};
+        Cursor c = dal.getMaxId(tableName, cols);
+        if (c.moveToFirst()) {
+            Log.e("MAX ID", String.valueOf(c.getInt(0)));
+            return c.getInt(0);
+        }
+        return -1;
     }
 }

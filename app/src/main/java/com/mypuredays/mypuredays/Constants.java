@@ -1,5 +1,6 @@
 package com.mypuredays.mypuredays;
 
+import android.graphics.Color;
 import android.provider.BaseColumns;
 
 /**
@@ -58,10 +59,15 @@ public class Constants implements BaseColumns {
 
 
     public enum DAY_TYPE{
-        DEFAULT, START_LOOKING, END_LOOKING
+        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY
     }
 
     public enum ONA_TYPE{
         DEFAULT, DAY, NIGHT
     }
+
+    public static int PERIOD_COLOR = Color.RED;
+    public static int CLEAR_DAYS_COLOR = Color.WHITE;
+    public static int PRISHA_DAYS_COLOR = Color.MAGENTA;
+
 }

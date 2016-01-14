@@ -51,4 +51,5 @@
     <string name="arrowRight">חץ ימינה</string>
     <string name="arrowLeft">חץ שמאלה</string>
     <string name="Notes">אין הערות</string>
+    <string name="NoteSaved">ההערה נשמרה</string>
 </resources>

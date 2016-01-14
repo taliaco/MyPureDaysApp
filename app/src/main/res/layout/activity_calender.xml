@@ -72,7 +72,6 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="5dip"
                         android:gravity="center"
-                        android:text="01/2016"
                         android:textColor="#ffffff"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -185,8 +184,7 @@
                 android:listSelector="@android:color/transparent"
                 android:numColumns="7"
                 android:padding="2dp"
-                android:stretchMode="columnWidth"
-                android:textAlignment="gravity">
+                android:stretchMode="columnWidth">
 
             </GridView>
 
