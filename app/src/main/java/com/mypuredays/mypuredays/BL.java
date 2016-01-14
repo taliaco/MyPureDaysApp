@@ -26,20 +26,18 @@ public class BL {
 
     public void populateDB() {
         populateDefinition();
-
-        //ClearDayType clrDayType = new ClearDayType()
     }
 
     public void populateDefinition() {
         Definition def = new Definition();
         Log.e("j populateDefinition  ", String.valueOf(def.is_regulary()));
-        int regularyInt, prishaDaysInt, countCleanInt, dailyNotificationInt, ovulationNutificationInt;
+        int regularyInt, prishaDaysInt, countCleanInt, dailyNotificationInt, mikveNutificationInt;
 
         regularyInt = (def.is_regulary()) ? 1 : 0;
         prishaDaysInt = (def.is_prishaDays()) ? 1 : 0;
         countCleanInt = (def.is_countClean()) ? 1 : 0;
-        dailyNotificationInt = (def.is_dailyNotification()) ? 1 : 0;
-        ovulationNutificationInt = (def.get_ovulationNutification()) ? 1 : 0;
+       // dailyNotificationInt = (def.is_dailyNotification()) ? 1 : 0;
+        mikveNutificationInt = (def.get_mikveNutification()) ? 1 : 0;
 
         ContentValues values = new ContentValues();
         values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLength());
@@ -47,29 +45,29 @@ public class BL {
         values.put(Constants.COL_PRISHA_DAYS, prishaDaysInt);
         values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLength());
         values.put(Constants.COL_COUNT_CLEAN, countCleanInt);
-        values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
+       // values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
         values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
-        values.put(Constants.COL_OVULATION_NOTIFICATION, ovulationNutificationInt);
+        values.put(Constants.COL_MIKVE_NOTIFICATION, mikveNutificationInt);
         dal.DBWrite(Constants.TABLE_DEFINITION, values);
     }
 
     public Definition getDefinition() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         Definition def;
-        Boolean regularColumn, prishaDaysColumn, countCleanColumn, dailyNotificationColumn, ovulationNutification;
+        Boolean regularColumn, prishaDaysColumn, countCleanColumn, mikveNutification;
         if (c.moveToFirst()) {
             regularColumn = (c.getInt(2) != 0);
             prishaDaysColumn = (c.getInt(3) != 0);
             countCleanColumn = (c.getInt(5) != 0);
-            dailyNotificationColumn = (c.getInt(6) != 0);
-            ovulationNutification = (c.getInt(8) != 0);
+            mikveNutification = (c.getInt(7) != 0);
 
-            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, dailyNotificationColumn, c.getInt(7), ovulationNutification);
+            def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, c.getInt(6), mikveNutification, c.getInt(8));
             return def;
         }
         return null;
     }
 
+    //hello
     public void setSwitchDefinition(String columnName, boolean switchState){
 
 
@@ -80,6 +78,17 @@ public class BL {
 
         dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
     }
+
+    public void setSpinnerDefinition(String columnName, int position){
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, position);
+        Log.e("position"," "+position );
+
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
+    }
+
+
 
     public Cursor getDefinitionCursor() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);

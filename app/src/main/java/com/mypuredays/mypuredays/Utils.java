@@ -25,20 +25,19 @@ public class Utils {
                 return res.getString((R.string.prishaDaysColumn));
             case Constants.COL_PERIOD_LENGTH:
                 return res.getString((R.string.periodLengthColumn));
-            case Constants.COL_OVULATION_NOTIFICATION:
-                return res.getString((R.string.ovulationNotificationColumn));
+            case Constants.COL_MIKVE_NOTIFICATION:
+                return res.getString((R.string.mikveNotificationColumn));
             case Constants.COL_CLEAN_NOTIFICATION:
                 return res.getString((R.string.cleanNotificationColumn));
             case Constants.COL_COUNT_CLEAN:
                 return res.getString((R.string.countCleanColumn));
-            case Constants.COL_DAILY_NOTIFICATION:
-                return res.getString((R.string.dailyNotificationColumn));
             case Constants.COL_TYPE_PERIOD:
                 return res.getString((R.string.typePeriodColumn));
             default:
                 return "";
         }
     }
+
     public static Constants.DEF_TYPE getDefType(String columnName){
         switch (columnName){
             case Constants.COL_MIN_PERIOD_LENGTH:
@@ -49,7 +48,7 @@ public class Utils {
                 return Constants.DEF_TYPE.BOOLEAN;
             case Constants.COL_PERIOD_LENGTH:
                 return Constants.DEF_TYPE.INTEGER;
-            case Constants.COL_OVULATION_NOTIFICATION:
+            case Constants.COL_MIKVE_NOTIFICATION:
                 return Constants.DEF_TYPE.BOOLEAN;
             case Constants.COL_CLEAN_NOTIFICATION:
                 return Constants.DEF_TYPE.BOOLEAN;

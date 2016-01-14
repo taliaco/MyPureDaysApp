@@ -20,9 +20,9 @@ public class Definition {
     private boolean _prishaDays;
     private int _periodLength;
     private boolean _countClean;
-    private boolean _dailyNotification;
     private int _cleanNotificationID;
-    private boolean _ovulationNutification;
+    private boolean _mikveNutification;
+    private int _typePeriod;
 
 
     public Definition() {
@@ -33,24 +33,24 @@ public class Definition {
         this._prishaDays = true;
         this._periodLength = 4;
         this._countClean = false;
-        this._dailyNotification = false;
         this._cleanNotificationID = 0;
-        this._ovulationNutification = false;
+        this._mikveNutification = false;
+        this._typePeriod = 0;
 
 
     }
 
     public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
-                      boolean _countClean, boolean _dailyNotification, int _cleanNotificationID,boolean _ovulationNutification  ) {
+                      boolean _countClean,  int _cleanNotificationID,boolean _mikveNutification, int _typePeriod  ) {
         this._rowId = _rowId;
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
         this._prishaDays = _prishaDays;
         this._periodLength = _periodLength;
-        this._ovulationNutification = _ovulationNutification;
+        this._mikveNutification = _mikveNutification;
         this._cleanNotificationID = _cleanNotificationID;
         this._countClean = _countClean;
-        this._dailyNotification = _dailyNotification;
+        this._typePeriod = _typePeriod;
     }
 
     public boolean is_regulary() {
@@ -85,16 +85,24 @@ public class Definition {
         this._periodLength = _periodLength;
     }
 
-    public boolean get_ovulationNutification() {
-        return _ovulationNutification;
+    public boolean get_mikveNutification() {
+        return _mikveNutification;
     }
 
-    public void set_ovulationNutification(boolean _ovulationNutification) {
-        this._ovulationNutification = _ovulationNutification;
+    public void set_mikveNutification(boolean _mikveNutification) {
+        this._mikveNutification = _mikveNutification;
     }
 
     public int get_cleanNotification() {
         return _cleanNotificationID;
+    }
+
+    public int get_typePeriod() {
+        return _typePeriod;
+    }
+
+    public void set_typePeriod(int _typePeriod) {
+        this._typePeriod = _typePeriod;
     }
 
     public void set_cleanNotification(int _cleanNotificationID) {
@@ -109,13 +117,6 @@ public class Definition {
         this._countClean = _countClean;
     }
 
-    public boolean is_dailyNotification() {
-        return _dailyNotification;
-    }
-
-    public void set_dailyNotification(boolean _dailyNotification) {
-        this._dailyNotification = _dailyNotification;
-    }
 
     public static class AndroidListAdapter extends ArrayAdapter<CalendarCollection> {
 
