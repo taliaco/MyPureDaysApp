@@ -72,14 +72,15 @@
         <TextView
             android:id="@+id/LABEL_cleanCount"
             android:layout_width="fill_parent"
+            android:textIsSelectable="false"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cleanCount"
-            android:layout_marginBottom="10dp"
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_dateMikveh"
@@ -162,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"/>
@@ -200,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"/>
@@ -211,7 +212,7 @@
             android:layout_weight="1"
             android:text="@string/prishaDate"
             android:textSize="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -231,7 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"/>
@@ -242,9 +243,9 @@
             android:layout_weight="1"
             android:text="@string/nextPeriodDate"
             android:textSize="20dp"
-            android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </LinearLayout>

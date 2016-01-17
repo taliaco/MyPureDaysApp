@@ -1,5 +1,6 @@
 package com.mypuredays.mypuredays;
 
+import android.graphics.Color;
 import android.provider.BaseColumns;
 
 /**
@@ -47,25 +48,26 @@ public class Constants implements BaseColumns {
             Constants.COL_PERIOD_LENGTH, Constants.COL_COUNT_CLEAN,
             Constants.COL_CLEAN_NOTIFICATION, Constants.COL_MIKVE_NOTIFICATION, Constants.COL_TYPE_PERIOD};
     public static final String MONTH_TITLE_FORMAT = "MM/yyyy";
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
-    public static final String DATE_SPLITTER = "/";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_SPLITTER = "-";
     public static final int MONTH_POSITION = 1;
-    public static final int DAY_POSITION = 0;
-    public static final int YEAR_POSITION = 2;
-
-
-
-
+    public static final int DAY_POSITION = 2;
+    public static final int YEAR_POSITION = 0;
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }
 
 
     public enum DAY_TYPE{
-        DEFAULT, START_LOOKING, END_LOOKING
+        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY
     }
 
     public enum ONA_TYPE{
         DEFAULT, UNKNOWN, DAY, NIGHT
     }
+
+    public static int PERIOD_COLOR = Color.RED;
+    public static int CLEAR_DAYS_COLOR = Color.WHITE;
+    public static int PRISHA_DAYS_COLOR = Color.MAGENTA;
+
 }

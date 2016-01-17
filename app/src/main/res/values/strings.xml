@@ -51,6 +51,10 @@
     <string name="arrowLeft">חץ שמאלה</string>
     <string name="Notes">אין הערות</string>
 
+    <string name="dayOna">עונת יום</string>
+    <string name="nightOna"> עונת לילה</string>
+
+
     <string name="three">3</string>
     <string name="four">4</string>
     <string name="five">5</string>
@@ -66,4 +70,5 @@
     <string name="onaDay">יום</string>
     <string name="onaNigth">לילה</string>
 
+    <string name="NoteSaved">ההערה נשמרה</string>
 </resources>

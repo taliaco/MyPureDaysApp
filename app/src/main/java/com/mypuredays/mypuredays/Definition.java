@@ -28,10 +28,10 @@ public class Definition {
     public Definition() {
 
         this._rowId = -1;
-        this._minPeriodLength = 0;
-        this._regulary = false;
-        this._prishaDays = false;
-        this._periodLength = 0;
+        this._minPeriodLength = 4;
+        this._regulary = true;
+        this._prishaDays = true;
+        this._periodLength = 4;
         this._countClean = false;
         this._cleanNotificationID = 0;
         this._mikveNutification = false;
@@ -69,7 +69,7 @@ public class Definition {
         this._minPeriodLength = _minPeriodLength;
     }
 
-    public boolean is_prishaDays() {
+    public boolean is_prishaDays() {//true=display prisha date
         return _prishaDays;
     }
 
