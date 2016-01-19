@@ -229,10 +229,10 @@ public class DAL {
 //        SQLiteDatabase dbWriter = db.getWritableDatabase();
 //
 //        ContentValues values = new ContentValues();
-//        values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLength());
+//        values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLengthID());
 //        values.put(Constants.COL_REGULAR, regularyInt);
 //        values.put(Constants.COL_PRISHA_DAYS, prishaDaysInt);
-//        values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLength());
+//        values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLengthID());
 //        values.put(Constants.COL_OVULATION_NOTIFICATION, def.get_ovulationNutification());
 //        values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
 //        values.put(Constants.COL_COUNT_CLEAN, countCleanInt);

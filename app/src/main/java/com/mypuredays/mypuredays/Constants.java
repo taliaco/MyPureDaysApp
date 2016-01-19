@@ -70,4 +70,11 @@ public class Constants implements BaseColumns {
     public static int CLEAR_DAYS_COLOR = Color.WHITE;
     public static int PRISHA_DAYS_COLOR = Color.MAGENTA;
 
+    public static int CLEAR_DAYS_LENGTH = 7;
+
+    public static final String[] MIN_PERIOD_LENGTH_SPINNER   = new String[]{"4","5"};
+    public static final String[] PERIOD_LENGTH_SPINNER =  new String[]{"3","4","5","6","7"};
+    public static final String[] CLEAR_DAY_NOTIFICATION_SPINNER = new String[]{"ראשון ואחרון", "3 ימים ראשונים", "פעם ביום", "פעמיים ביום", "לא רלוונטי"};
+    public static final String[] TYPE_ONA_SPINNER = new String[]{"לא רלוונטי", "לא ידוע","יום", "לילה"};
+
 }

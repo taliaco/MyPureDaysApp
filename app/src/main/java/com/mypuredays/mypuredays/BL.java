@@ -41,10 +41,10 @@ public class BL {
         mikveNutificationInt = (def.get_mikveNutification()) ? 1 : 0;
         Log.e("j populate prishaDays", String.valueOf(def.is_prishaDays()));
         ContentValues values = new ContentValues();
-        values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLength());
+        values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLengthID());
         values.put(Constants.COL_REGULAR, regularyInt);
         values.put(Constants.COL_PRISHA_DAYS, prishaDaysInt);
-        values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLength());
+        values.put(Constants.COL_PERIOD_LENGTH, def.get_periodLengthID());
         values.put(Constants.COL_COUNT_CLEAN, countCleanInt);
         // values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
         values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
@@ -57,6 +57,7 @@ public class BL {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         Definition def = new Definition();
         Boolean regularColumn, prishaDaysColumn, countCleanColumn, mikveNutification;
+
         if (c.moveToFirst()) {
             regularColumn = (c.getInt(2) != 0);
             prishaDaysColumn = (c.getInt(3) != 0);
@@ -149,6 +150,14 @@ public class BL {
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadByCol(Constants.TABLE_DAY, cols,selection,selectionArgs);
         //c= dal.DBRead(tableName);
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        Date dateEndDate = null;
+        Definition def = getDefinition();
+        try {
+            dateEndDate = sdf.parse(dateEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         int dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
         try {
             if (c.moveToFirst()) {
@@ -157,10 +166,26 @@ public class BL {
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
                         break;
                     case 1: //add period length check
-                        dayType = Constants.DAY_TYPE.PERIOD.ordinal();
+
+                        if(Utils.addDaysToDate(def.get_periodLength(), c.getString(1)).before(dateEndDate)){
+                            if(Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)){
+                                dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
+                            }
+                            else{
+                                dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
+                            }
+                        }
+                        else{
+                            dayType = Constants.DAY_TYPE.PERIOD.ordinal();
+                        }
                         break;
                     case 2: //add max 7 days check
-                        dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
+                        if(Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)){
+                            dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
+                        }
+                        else{
+                            dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
+                        }
                         break;
                     case 5:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
