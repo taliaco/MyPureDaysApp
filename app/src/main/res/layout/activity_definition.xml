@@ -211,6 +211,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear_layout_type_period"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
