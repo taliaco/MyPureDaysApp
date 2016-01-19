@@ -2,9 +2,7 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +56,7 @@ public class CalendarAdapter extends BaseAdapter {
         selectedDate = (GregorianCalendar) monthCalendar.clone();
         this.context = context;
         bl = new BL(this.context);
-        avgPeriondLength = bl.getDefinition().get_periodLength();
+        avgPeriondLength = bl.getDefinition().get_periodLengthID();
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
         this.items = new ArrayList<String>();
@@ -349,35 +347,9 @@ public class CalendarAdapter extends BaseAdapter {
 
         if(dayType >0){
             return dayType;
-//            if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()){
-//                return Constants.DAY_TYPE.PERIOD.ordinal();
-//            }
-//            if (dayType == Constants.DAY_TYPE.PERIOD.ordinal()){
-//                return Constants.DAY_TYPE.PERIOD.ordinal();
-//            }
-//            if (dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()){
-//                return Constants.DAY_TYPE.PERIOD.ordinal();
-//            }
-//            if (dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
-//                return Constants.DAY_TYPE.CLEAR_DAY.ordinal();
-//            }
-//            if (dayType == Constants.DAY_TYPE.MIKVEH.ordinal()){
-//                return Constants.DAY_TYPE.MIKVEH.ordinal();
-//            }
         }
 
-//        for (int i = 0; i< date_collection_arr.size(); i++){
-//            if (date_collection_arr.get(i).date.equals(DateString))
-//                return date_collection_arr.get(i)._dateTypeId;
-//            if (date_collection_arr.get(i)._dateTypeId == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-//
-//                Date dateEndPeriod = Utils.addDaysToDate(avgPeriondLength,DateString);
-//                if(Utils.StrToDate(date_collection_arr.get(i).date).after(Utils.StrToDate(DateString)) && Utils.StrToDate(date_collection_arr.get(i).date).before(dateEndPeriod)){
-//                    return Constants.DAY_TYPE.START_LOOKING.ordinal();
-//                }
-//
-//            }
-//        }
+
         return Constants.DAY_TYPE.DEFAULT.ordinal();
     }
     public String getPosDate(int position){

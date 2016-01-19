@@ -18,8 +18,8 @@ public class DefinitionActivity extends Activity {
 
     private String[] minPeriodLengthSpinner;
     private String[] periodLengthSpinner;
-    private String[] cleanDayNotificationSpinner;
-    private String[] typePeriodSpinner;
+    private String[] clearDayNotificationSpinner;
+    private String[] typeOnaSpinner;
 
     private TextView minPeriodLengthColumn,regularColumn,prishaDaysColumn,periodLengthColumn,mikveNotificationColumn,
             cleanNotificationColumn,countCleanColumn, typePeriodColumn;
@@ -65,13 +65,14 @@ public class DefinitionActivity extends Activity {
         Definition d = bl.getDefinition();
 
         Resources res = getResources();
-        minPeriodLengthSpinner  = new String[]{res.getString((R.string.four)), res.getString((R.string.five))};
-        periodLengthSpinner =  new String[]{res.getString((R.string.three)), res.getString((R.string.four)), res.getString((R.string.five)), res.getString((R.string.six)), res.getString((R.string.seven))};
-        cleanDayNotificationSpinner = new String[]{res.getString((R.string.claenFirstAndLast)), res.getString((R.string.claenFirstThreeDays)), res.getString((R.string.claenOnceADay)), res.getString((R.string.claenTwiceADay)), res.getString((R.string.claenIrrelevant))};
-        typePeriodSpinner = new String[]{res.getString((R.string.onaDefault)),res.getString((R.string.onaUnknow)), res.getString((R.string.onaDay)),res.getString((R.string.onaNigth)), };
+        minPeriodLengthSpinner = Constants.MIN_PERIOD_LENGTH_SPINNER;
+        periodLengthSpinner = Constants.PERIOD_LENGTH_SPINNER;
+        clearDayNotificationSpinner = Constants.CLEAR_DAY_NOTIFICATION_SPINNER;
+        typeOnaSpinner = Constants.TYPE_ONA_SPINNER;
 
 
-        //Log.e("getDefinition","  "+d.get_minPeriodLength());
+
+        //Log.e("getDefinition","  "+d.get_minPeriodLengthID());
 
         for(int i=1; i<c.getColumnCount();i++){
 
@@ -83,7 +84,7 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,minPeriodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_day_period_min.setAdapter(adapter);
-                    spinner_day_period_min.setSelection(d.get_minPeriodLength());
+                    spinner_day_period_min.setSelection(d.get_minPeriodLengthID());
 
 
                 break;
@@ -100,7 +101,7 @@ public class DefinitionActivity extends Activity {
                             android.R.layout.simple_spinner_item,periodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_period_during.setAdapter(adapter);
-                    spinner_period_during.setSelection(d.get_periodLength());
+                    spinner_period_during.setSelection(d.get_periodLengthID());
 
                     break;
                 case 5: countCleanColumn.setText(Utils.getDefName(c.getColumnName(i), this));
@@ -110,7 +111,7 @@ public class DefinitionActivity extends Activity {
                 case 6: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,cleanDayNotificationSpinner);
+                            android.R.layout.simple_spinner_item, clearDayNotificationSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_reminder_pure_day.setAdapter(adapter);
                     spinner_reminder_pure_day.setSelection(d.get_cleanNotification());
@@ -122,10 +123,10 @@ public class DefinitionActivity extends Activity {
                 case 8: typePeriodColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
                     adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,typePeriodSpinner);
+                            android.R.layout.simple_spinner_item, typeOnaSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_period.setAdapter(adapter);
-                    spinner_type_period.setSelection(d.get_typeOna());
+                    spinner_type_period.setSelection(d.get_typeOnaID());
 
                     break;
                 default:
