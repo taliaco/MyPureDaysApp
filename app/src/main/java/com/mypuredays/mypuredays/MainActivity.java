@@ -148,7 +148,6 @@ public class MainActivity extends Activity {
                 else if(def.get_typeOna()==Constants.ONA_TYPE.DAY.ordinal()){
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                 }
-
             }
             else {//user not keep prisha days
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);//ona=0
