@@ -316,41 +316,68 @@ public class CalendarAdapter extends BaseAdapter {
                     v.setBackgroundColor(Color.GREEN);
                   //RippleDrawable  v.setBackgroundResource(R.drawable.rounded_calender_item);
                     txt.setTextColor(Color.WHITE);
-                }
-                int dayType = getDayType(day_string.get(pos));
 
-                if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-                    v.setBackgroundColor(Constants.PERIOD_COLOR);
                 }
-                else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
-                    v.setBackgroundColor(Constants.PERIOD_COLOR);
-                }
-                else if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
-                    v.setBackgroundColor(Constants.PERIOD_COLOR);
-                }
-                else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
-                    v.setBackgroundColor(Constants.CLEAR_DAYS_COLOR);
-                }
-                else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
-                    v.setBackgroundColor(Constants.PRISHA_DAYS_COLOR);
-                }
+
             }
+        }
+        int dayType = getDayType(day_string.get(0), day_string.get(pos));
+
+        if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+            v.setBackgroundColor(Constants.PERIOD_COLOR);
+        }
+        else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+            v.setBackgroundColor(Constants.PERIOD_COLOR);
+        }
+        else if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
+            v.setBackgroundColor(Constants.PERIOD_COLOR);
+        }
+        else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
+            v.setBackgroundColor(Constants.CLEAR_DAYS_COLOR);
+        }
+        else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
+            v.setBackgroundColor(Constants.PRISHA_DAYS_COLOR);
         }
     }
-    private int getDayType(String DateString){
-
-        for (int i = 0; i< date_collection_arr.size(); i++){
-            if (date_collection_arr.get(i).date.equals(DateString))
-                return date_collection_arr.get(i)._dateTypeId;
-            if (date_collection_arr.get(i)._dateTypeId == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-
-                Date dateEndPeriod = Utils.addDaysToDate(avgPeriondLength,DateString);
-                if(Utils.StrToDate(date_collection_arr.get(i).date).after(Utils.StrToDate(DateString)) && Utils.StrToDate(date_collection_arr.get(i).date).before(dateEndPeriod)){
-                    return Constants.DAY_TYPE.START_LOOKING.ordinal();
-                }
-
-            }
+    private int getDayType(String dateStart,String dateEnd){
+        int dayType;
+        Day day = bl.getDay(dateEnd);
+        if (day != null){
+            return day.get_dayTypeId();
         }
+        dayType = bl.getLastDayTypeBetweenDate(dateStart, dateEnd);
+
+        if(dayType >0){
+            return dayType;
+//            if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()){
+//                return Constants.DAY_TYPE.PERIOD.ordinal();
+//            }
+//            if (dayType == Constants.DAY_TYPE.PERIOD.ordinal()){
+//                return Constants.DAY_TYPE.PERIOD.ordinal();
+//            }
+//            if (dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()){
+//                return Constants.DAY_TYPE.PERIOD.ordinal();
+//            }
+//            if (dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+//                return Constants.DAY_TYPE.CLEAR_DAY.ordinal();
+//            }
+//            if (dayType == Constants.DAY_TYPE.MIKVEH.ordinal()){
+//                return Constants.DAY_TYPE.MIKVEH.ordinal();
+//            }
+        }
+
+//        for (int i = 0; i< date_collection_arr.size(); i++){
+//            if (date_collection_arr.get(i).date.equals(DateString))
+//                return date_collection_arr.get(i)._dateTypeId;
+//            if (date_collection_arr.get(i)._dateTypeId == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+//
+//                Date dateEndPeriod = Utils.addDaysToDate(avgPeriondLength,DateString);
+//                if(Utils.StrToDate(date_collection_arr.get(i).date).after(Utils.StrToDate(DateString)) && Utils.StrToDate(date_collection_arr.get(i).date).before(dateEndPeriod)){
+//                    return Constants.DAY_TYPE.START_LOOKING.ordinal();
+//                }
+//
+//            }
+//        }
         return Constants.DAY_TYPE.DEFAULT.ordinal();
     }
     public String getPosDate(int position){

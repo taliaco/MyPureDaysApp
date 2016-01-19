@@ -21,7 +21,7 @@ public class DAL {
     }
 
     public long DBWrite(String tableName, ContentValues val) {
-        return dbRead.insertOrThrow(tableName, null, val);
+        return dbWrite.insertOrThrow(tableName, null, val);
     }
     //return all the table
     public Cursor DBRead(String tableName) {
@@ -30,8 +30,13 @@ public class DAL {
         return c;
     }
     public Cursor DBReadByCol(String tableName,  String [] cols) {
-       // String[] cols = Utils.getColumnsArray(tableName);
+        // String[] cols = Utils.getColumnsArray(tableName);
         Cursor c = dbRead.query(tableName, cols, null, null, null, null, null);
+        return c;
+    }
+    public Cursor DBReadByCol(String tableName,  String [] cols,String selection, String[] selectionArgs) {
+        // String[] cols = Utils.getColumnsArray(tableName);
+        Cursor c = dbRead.query(tableName, cols, selection, selectionArgs, null, null, null);
         return c;
     }
     //return one row
