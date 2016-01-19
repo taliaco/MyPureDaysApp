@@ -31,7 +31,7 @@ public class BL {
 
     public void populateDefinition() {
         Definition def = new Definition();
-        Log.e("j populateDefinition  ", String.valueOf(def.is_regulary()));
+
         int regularyInt, prishaDaysInt, countCleanInt, mikveNutificationInt;
 
         regularyInt = (def.is_regulary()) ? 1 : 0;
@@ -39,7 +39,7 @@ public class BL {
         countCleanInt = (def.is_countClean()) ? 1 : 0;
         // dailyNotificationInt = (def.is_dailyNotification()) ? 1 : 0;
         mikveNutificationInt = (def.get_mikveNutification()) ? 1 : 0;
-
+        Log.e("j populate prishaDays", String.valueOf(def.is_prishaDays()));
         ContentValues values = new ContentValues();
         values.put(Constants.COL_MIN_PERIOD_LENGTH, def.get_minPeriodLengthID());
         values.put(Constants.COL_REGULAR, regularyInt);
@@ -49,6 +49,7 @@ public class BL {
         // values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
         values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
         values.put(Constants.COL_MIKVE_NOTIFICATION, mikveNutificationInt);
+        values.put(Constants.COL_TYPE_PERIOD, def.get_typeOna());
         dal.DBWrite(Constants.TABLE_DEFINITION, values);
     }
 
