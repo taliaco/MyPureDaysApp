@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="6dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingTop="6dp"
     android:orientation="vertical"
     tools:context="com.mypuredays.mypuredays.DefinitionActivity">
 
@@ -15,7 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
         <Switch
@@ -36,6 +36,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"/>
 
 
@@ -46,7 +47,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
         <Spinner
@@ -65,6 +66,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"
             />
 
@@ -77,7 +79,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
 
@@ -97,6 +99,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"/>
 
 
@@ -112,7 +115,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
         <Switch
@@ -133,6 +136,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"/>
 
 
@@ -143,7 +147,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
 
@@ -163,6 +167,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1" />
 
 
@@ -173,7 +178,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
         <Switch
@@ -193,6 +198,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"/>
 
 
@@ -203,7 +209,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
 
@@ -223,6 +229,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1" />
 
 
@@ -234,7 +241,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
         <Switch
@@ -255,6 +262,7 @@
             android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"/>
 
 
