@@ -49,7 +49,7 @@ public class BL {
         // values.put(Constants.COL_DAILY_NOTIFICATION, dailyNotificationInt);
         values.put(Constants.COL_CLEAN_NOTIFICATION, def.get_cleanNotification());
         values.put(Constants.COL_MIKVE_NOTIFICATION, mikveNutificationInt);
-        values.put(Constants.COL_TYPE_PERIOD, def.get_typeOna());
+        values.put(Constants.COL_TYPE_PERIOD, def.get_typeOnaID());
         dal.DBWrite(Constants.TABLE_DEFINITION, values);
     }
 

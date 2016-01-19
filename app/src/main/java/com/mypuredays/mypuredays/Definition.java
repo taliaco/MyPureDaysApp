@@ -104,6 +104,7 @@ public class Definition {
     public int get_typeOnaID() {
         return _typOna;
     }
+
     public int get_typeOna() {
         return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typOna]);
     }
