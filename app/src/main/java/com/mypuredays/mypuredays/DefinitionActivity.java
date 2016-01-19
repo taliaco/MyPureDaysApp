@@ -90,7 +90,7 @@ public class DefinitionActivity extends Activity {
                 break;
                 case 2: regularColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_period_constant.setChecked(d.is_regulary());
-                    Log.e("jjjjjj period  ", String.valueOf(d.is_regulary()));
+                    //Log.e("jjjjjj period  ", String.valueOf(d.is_regulary()));
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
@@ -149,7 +149,12 @@ public class DefinitionActivity extends Activity {
         switch_prisha_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                Log.e("switch_prisha_day", "  isChecked= "+isChecked);
                 bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, isChecked);
+                if(!isChecked){
+                    Log.e("ifswitch_prisha_day", "  isChecked= "+isChecked);
+                    bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, Constants.ONA_TYPE.DEFAULT.ordinal());
+                }
             }
         });
 
@@ -217,8 +222,12 @@ public class DefinitionActivity extends Activity {
                                        int position, long id) {
                 // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
                 // int index_item = position;
-
+                Log.e("spinner", "  position= "+position);
                 bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, position);
+                if(position == (Constants.ONA_TYPE.DEFAULT.ordinal())){
+                    Log.e("ifspinner", "  position= "+position);
+                    bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, false);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {

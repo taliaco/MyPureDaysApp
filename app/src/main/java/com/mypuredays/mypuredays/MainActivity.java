@@ -137,6 +137,7 @@ public class MainActivity extends Activity {
                         dialogPrisha.dismiss();
                     }
                 });
+                dialogPrisha.show();
             }
 
             else if(def.is_prishaDays()==true){//user keep prisha && ona=day or night
