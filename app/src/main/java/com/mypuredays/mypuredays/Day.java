@@ -16,6 +16,7 @@ public class Day {
     public static ArrayList<Day> day_arr;
 
 
+    public Day(int rowId, Date date, int dayTypeId, String notes, int ona)
 
 
     public Day(int rowId, Date date, int dayTypeId, String notes, int ona)
@@ -24,6 +25,7 @@ public class Day {
         _date=date;
         _dayTypeId =dayTypeId;
         _notes=notes;
+        _ona=ona;
         _ona=ona;
 
     }
@@ -44,12 +46,14 @@ public class Day {
 
         return _date;
     }
-    public int get_ona() {
-        return _ona;
-    }
 
     public void set_ona(int _ona) {
         this._ona = _ona;
+    }
+
+    public int get_ona() {
+
+        return _ona;
     }
 
     public int get_dayTypeId() {

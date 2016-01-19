@@ -51,8 +51,8 @@ public class DAL {
         return c;
     }
 
-    public void DBUpdate(String tableName, ContentValues val, String criteria) {
-        dbWrite.update(tableName, val, criteria, null);
+    public void DBUpdate(String tableName, ContentValues val, String criteria, String[] criteriaVal) {
+        dbWrite.update(tableName, val, criteria, criteriaVal);
     }
 
     public void DBDeleteItem(String tableName, String criteria) {

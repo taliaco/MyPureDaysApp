@@ -54,7 +54,7 @@ public class BL {
 
     public Definition getDefinition() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
-        Definition def;
+        Definition def = new Definition();
         Boolean regularColumn, prishaDaysColumn, countCleanColumn, mikveNutification;
         if (c.moveToFirst()) {
             regularColumn = (c.getInt(2) != 0);
@@ -63,9 +63,9 @@ public class BL {
             mikveNutification = (c.getInt(7) != 0);
 
             def = new Definition(c.getInt(0), c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, c.getInt(6), mikveNutification, c.getInt(8));
-            return def;
+
         }
-        return null;
+        return def;
     }
 
     //hello
@@ -77,7 +77,7 @@ public class BL {
         ContentValues values = new ContentValues();
         values.put(columnName, switchStateInt);
 
-        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null,null);
     }
 
     public void setSpinnerDefinition(String columnName, int position) {
@@ -85,8 +85,8 @@ public class BL {
         ContentValues values = new ContentValues();
         values.put(columnName, position);
         Log.e("position", " " + position);
+        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null,null);
 
-        dal.DBUpdate(Constants.TABLE_DEFINITION, values, null);
     }
 
 
@@ -109,8 +109,8 @@ public class BL {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
             values.put(Constants.COL_ONA, ona.ordinal());
-            String criteria = Constants.COL_DATE + "=" + sdf.format(date);
-            dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
+            String criteria = Constants.COL_DATE + "=?" ;
+            dal.DBUpdate(Constants.TABLE_DAY, values, criteria, new String[] {sdf.format(date)});
         } else {
             String strDate = sdf.format(date);
             ContentValues values = new ContentValues();
@@ -179,7 +179,7 @@ public class BL {
     public Cursor getDateStartLooking() {//return all dayse with start looking order by date
         String selection = Constants.COL_DAY_TYPE + "=?";
         String[] selectionArgs = {String.valueOf(Constants.DAY_TYPE.START_LOOKING.ordinal())};
-        String[] cols = new String[]{Constants._ID, Constants.COL_DATE + " DESC", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        String[] cols = new String []{Constants._ID, Constants.COL_DATE +" DESC",Constants.COL_DAY_TYPE ,Constants.COL_NOTES,Constants.COL_ONA};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         //c= dal.DBRead(tableName);
         return c;
@@ -189,8 +189,8 @@ public class BL {
         Resources res = context.getResources();
         String notes = "";
         int dayType = -1;
+        int ona=Constants.ONA_TYPE.DEFAULT.ordinal();
         Date dt = null;
-        int ona = Constants.ONA_TYPE.DEFAULT.ordinal();
         ArrayList<Day> arrDays = new ArrayList<>();
         SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
@@ -221,6 +221,24 @@ public class BL {
                 Day day = new Day(c.getInt(0), dt, dayType, notes, ona);
                 arrDays.add(day);
             }
+            if(c.getString(3)!=null){
+                notes = c.getString(3);
+            }
+            else{
+                notes = res.getString((R.string.defaultNote));
+            }
+            try {
+                dayType = c.getInt(2);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+            try{
+               ona=c.getInt(4);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            Day day = new Day(c.getInt(0), dt, dayType, notes,ona);
+            arrDays.add(day);
         } finally {
             c.close();
         }
@@ -237,8 +255,8 @@ public class BL {
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_NOTES, text);
-            String criteria = Constants.COL_DATE + "=" + sdf.format(date);
-            dal.DBUpdate(Constants.TABLE_DAY, values, criteria);
+            String criteria = Constants.COL_DATE + "=?" + sdf.format(date);
+            dal.DBUpdate(Constants.TABLE_DAY, values, criteria, new String[] {sdf.format(date)});
         } else {
             String strDate = sdf.format(date);
             ContentValues values = new ContentValues();
