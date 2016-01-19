@@ -2,10 +2,12 @@ package com.mypuredays.mypuredays;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -101,5 +103,12 @@ public class Utils {
     public static String DateToStr(Date strDate){
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         return sdf.format(strDate);
+    }
+    public void printAllDays(BL bl){
+        ArrayList<Day> d=new ArrayList<Day>();
+        d=bl.getAllDays();
+        for(int i=0; i<d.size(); i++){
+            Log.e("date:  ", d.get(i).get_date() + "ona type:  " + d.get(i).get_ona());
+        }
     }
 }

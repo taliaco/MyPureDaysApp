@@ -24,7 +24,7 @@ import java.util.Locale;
 public class MainActivity extends Activity {
 
     BL bl;
-    CharSequence txt = "Hello toast!";
+    public  CharSequence txt = "Hello toast!";
 
     final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
 
@@ -100,38 +100,28 @@ public class MainActivity extends Activity {
         final int duration = Toast.LENGTH_LONG;
         Definition def =bl.getDefinition();
         Resources res = getResources();
-       // AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final Date date = new Date();//today
+        final String dateStr= Utils.DateToStr(date);
 
-        //alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-           // @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
+
         final Dialog dialogPrisha = new Dialog(this);
         Button b =(Button)findViewById(R.id.btStartEnd);
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){//START
             b.setText(res.getString(R.string.btEnd));
-            if(def.is_prishaDays()==true){//user keep prisha days
+            if(def.is_prishaDays()==true && def.get_typeOna()==Constants.ONA_TYPE.UNKNOWN.ordinal()){//user keep prisha days and the ona unknow
                 dialogPrisha.setContentView(R.layout.activity_dialog_onot);
-
+                dialogPrisha.setTitle("בחרי עונה");
                 Button dialogButtonDay = (Button) dialogPrisha.findViewById(R.id.dialogButtonDay);
                 Button dialogButtonNight = (Button) dialogPrisha.findViewById(R.id.dialogButtonNight);
 
                 dialogButtonDay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Date date = new Date();
                         bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
-                        Cursor c= bl.getLastDate();
-                        if (c.moveToFirst()) {
-                            txt= c.getString(1)+" "+c.getInt(2)+" "+c.getString(3)+" "+c.getInt(4);//t i t i
+                            txt="התחל ראייה היום"  + " "+ dateStr;
                             Toast toast = Toast.makeText(context, txt, duration);
                             toast.show();
-                        }
-//                        CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
-//                        CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
                         dialogPrisha.dismiss();
                     }
                 });
@@ -139,54 +129,39 @@ public class MainActivity extends Activity {
                 dialogButtonNight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Date date = new Date();
                         bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
-                        Cursor c= bl.getLastDate();
-                        if (c.moveToFirst()) {
-                            txt= c.getString(1)+" "+c.getInt(2)+" "+c.getString(3)+" "+c.getInt(4);//t i t i
-                            Toast toast = Toast.makeText(context, txt, duration);
-                            toast.show();
-                        }
+                        Cursor c = bl.getLastDate();
+                        txt="התחל ראייה היום"  + " "+ dateStr;
+                        Toast toast = Toast.makeText(context, txt, duration);
+                        toast.show();
                         dialogPrisha.dismiss();
                     }
                 });
+            }
 
-               //dialog.setTitle(day_string.get(pos));
-//                txt="התחל ראייה היום"  + " "+ new Date();
-//                Toast toast = Toast.makeText(context, txt, duration);
-//                toast.show();
-                dialogPrisha.show();
+            else if(def.is_prishaDays()==true){//user keep prisha && ona=day or night
+               // take the ona type from definition
+                if(def.get_typeOna()==Constants.ONA_TYPE.NIGHT.ordinal()){
+                    bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
+                }
+                else if(def.get_typeOna()==Constants.ONA_TYPE.DAY.ordinal()){
+                    bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
+                }
+
             }
             else {//user not keep prisha days
-                bl.setStartEndLooking(new Date(), Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);//ona=0
-                //alertDialogBuilder.setMessage("התחלת ראיה היום" + new Date());
-                Cursor c= bl.getLastDate();
-                if (c.moveToFirst()) {
-                    txt= c.getString(1)+" "+c.getInt(2)+" "+c.getString(3)+" "+c.getInt(4);//t i t i
-                }
-               // txt="התחל ראייה היום"  + " "+ new Date();
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);//ona=0
+                txt="התחל ראייה היום"  + " "+ dateStr;
                 Toast toast = Toast.makeText(context, txt, duration);
                 toast.show();
             }
         }
-        else{//END
+        else{//END LOOKING
                 b.setText(res.getString(R.string.btStart));
-                bl.setStartEndLooking(new Date(), Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
-                //alertDialogBuilder.setMessage("הפסק ראיה היום" + new Date());
-            Cursor c= bl.getLastDate();
-            if (c.moveToFirst()) {
-                txt= c.getString(1)+" "+c.getInt(2)+" "+c.getString(3)+" "+c.getInt(4);//t i t i
-            }
-            //txt="הפסק ראייה היום"    +new Date();
-            Toast toast = Toast.makeText(context, txt, duration);
-            toast.show();
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
+                txt="הפסק  ראייה היום"    +" "+dateStr;
+                Toast toast = Toast.makeText(context, txt, duration);
+                toast.show();
         }
-
-       // AlertDialog alertDialog = alertDialogBuilder.create();
-        //alertDialog.show();
     }
-
-
-
-
 }
