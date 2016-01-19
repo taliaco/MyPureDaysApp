@@ -141,11 +141,11 @@ public class BL {
         //c= dal.DBRead(tableName);
         return c;
     }
+    //return the real type of the "currentDay" day.
+    public int getTypeOfDate(String startCheckDate, String currentDay) {//return last daytype before the date parameter
 
-    public int getLastDayTypeBetweenDate(String dateStart,String dateEnd) {//return last daytype before the date parameter
-
-        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<?";
-        String[] selectionArgs = {dateStart,dateEnd};
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=?";
+        String[] selectionArgs = {startCheckDate,currentDay};
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadByCol(Constants.TABLE_DAY, cols,selection,selectionArgs);
         //c= dal.DBRead(tableName);
@@ -153,21 +153,25 @@ public class BL {
         Date dateEndDate = null;
         Definition def = getDefinition();
         try {
-            dateEndDate = sdf.parse(dateEnd);
+            dateEndDate = sdf.parse(currentDay);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        Day nextDay;
         int dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
         try {
             if (c.moveToFirst()) {
+                nextDay = getFirstLooking(Utils.StrToDate(currentDay));
                 switch (c.getInt(2)) {
                     case 0:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
                         break;
                     case 1: //add period length check
-
                         if(Utils.addDaysToDate(def.get_periodLength(), c.getString(1)).before(dateEndDate)){
-                            if(Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)){
+                            if (nextDay != null && nextDay.get_dayTypeId() == Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                                dayType = Constants.DAY_TYPE.PERIOD.ordinal();
+                            }
+                            else if(Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)){
                                 dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
                             }
                             else{
@@ -200,6 +204,23 @@ public class BL {
         return dayType;
     }
 
+    public Day getFirstLooking(Date currentDate){
+        String selection = Constants.COL_DATE + ">?";
+        String[] selectionArgs = {Utils.DateToStr(currentDate)};
+        String[] cols = new String[]{Constants._ID, "MIN(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
+        String firstDate = "";
+        try {
+            if (c.moveToFirst()) {
+                firstDate = c.getString(1);
+            }
+        }finally {
+            c.close();
+        }
+        if (firstDate!=null && !firstDate.equals(""))
+            return getDay(firstDate) ;
+        return null;
+    }
 
     public Cursor getDateStartLooking() {//return all dayse with start looking order by date
         String selection = Constants.COL_DAY_TYPE + "=?";

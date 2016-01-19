@@ -41,12 +41,8 @@ public class MainActivity extends Activity {
             // first time task
             bl.populateDB();
             try {
-                bl.setStartEndLooking(df.parse("2015-08-01"), Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
-                bl.setStartEndLooking(df.parse("2015-08-08"), Constants.DAY_TYPE.END_LOOKING,Constants.ONA_TYPE.DEFAULT);
-
+                bl.setStartEndLooking(df.parse("2015-08-05"), Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
                 bl.setStartEndLooking(df.parse("2015-09-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
-                bl.setStartEndLooking(df.parse("2015-09-07"), Constants.DAY_TYPE.END_LOOKING,Constants.ONA_TYPE.DEFAULT);
-
                 bl.setStartEndLooking(df.parse("2015-10-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
                 bl.setStartEndLooking(df.parse("2015-11-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
                 bl.setStartEndLooking(df.parse("2015-12-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
