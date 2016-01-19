@@ -28,10 +28,10 @@ public class Definition {
     public Definition() {
 
         this._rowId = -1;
-        this._minPeriodLength = 4;
+        this._minPeriodLength = 0;
         this._regulary = true;
         this._prishaDays = true;
-        this._periodLength = 4;
+        this._periodLength = 0;
         this._countClean = false;
         this._cleanNotificationID = 0;
         this._mikveNutification = false;
