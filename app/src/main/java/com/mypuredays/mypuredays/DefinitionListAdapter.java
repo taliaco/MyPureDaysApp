@@ -50,7 +50,7 @@ public class DefinitionListAdapter extends ArrayAdapter<ItemDefinition> {
         }
 //        ItemDefinition list_obj=values.get(position);
 //        viewHolder.tv_date.setText(list_obj.get_cleanNotification());
-//        viewHolder.tv_event.setText(list_obj.get_minPeriodLength());
+//        viewHolder.tv_event.setText(list_obj.get_minPeriodLengthID());
 
         return convertView;
     }

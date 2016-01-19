@@ -61,10 +61,12 @@ public class Definition {
         this._regulary = _regulary;
     }
 
-    public int get_minPeriodLength() {
+    public int get_minPeriodLengthID() {
         return _minPeriodLength;
     }
-
+    public int get_minPeriodLength() {
+        return Integer.parseInt(Constants.MIN_PERIOD_LENGTH_SPINNER[_minPeriodLength]);
+    }
     public void set_minPeriodLength(int _minPeriodLength) {
         this._minPeriodLength = _minPeriodLength;
     }
@@ -77,10 +79,12 @@ public class Definition {
         this._prishaDays = _prishaDays;
     }
 
-    public int get_periodLength() {
+    public int get_periodLengthID() {
         return _periodLength;
     }
-
+    public int get_periodLength() {
+        return Integer.parseInt(Constants.PERIOD_LENGTH_SPINNER[_periodLength]);
+    }
     public void set_periodLength(int _periodLength) {
         this._periodLength = _periodLength;
     }
@@ -97,10 +101,12 @@ public class Definition {
         return _cleanNotificationID;
     }
 
-    public int get_typeOna() {
+    public int get_typeOnaID() {
         return _typOna;
     }
-
+    public int get_typeOna() {
+        return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typOna]);
+    }
     public void set_typeOna(int _typeOna) {
         this._typOna = _typeOna;
     }

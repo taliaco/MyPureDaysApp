@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){//START
             b.setText(res.getString(R.string.btEnd));
-            if(def.is_prishaDays()==true && def.get_typeOna()==Constants.ONA_TYPE.UNKNOWN.ordinal()){//user keep prisha days and the ona unknow
+            if(def.is_prishaDays()==true && def.get_typeOnaID()==Constants.ONA_TYPE.UNKNOWN.ordinal()){//user keep prisha days and the ona unknow
                 dialogPrisha.setContentView(R.layout.activity_dialog_onot);
                 dialogPrisha.setTitle("בחרי עונה");
                 Button dialogButtonDay = (Button) dialogPrisha.findViewById(R.id.dialogButtonDay);
@@ -141,10 +141,10 @@ public class MainActivity extends Activity {
 
             else if(def.is_prishaDays()==true){//user keep prisha && ona=day or night
                // take the ona type from definition
-                if(def.get_typeOna()==Constants.ONA_TYPE.NIGHT.ordinal()){
+                if(def.get_typeOnaID()==Constants.ONA_TYPE.NIGHT.ordinal()){
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
                 }
-                else if(def.get_typeOna()==Constants.ONA_TYPE.DAY.ordinal()){
+                else if(def.get_typeOnaID()==Constants.ONA_TYPE.DAY.ordinal()){
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                 }
 
