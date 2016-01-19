@@ -22,26 +22,26 @@ public class Definition {
     private boolean _countClean;
     private int _cleanNotificationID;
     private boolean _mikveNutification;
-    private int _typePeriod;
+    private int _typOna;//type ona 
 
 
     public Definition() {
 
         this._rowId = -1;
-        this._minPeriodLength = 4;
+        this._minPeriodLength = 0;
         this._regulary = true;
         this._prishaDays = true;
-        this._periodLength = 4;
+        this._periodLength = 0;
         this._countClean = false;
         this._cleanNotificationID = 0;
         this._mikveNutification = false;
-        this._typePeriod = 0;
+        this._typOna = 0;
 
 
     }
 
     public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
-                      boolean _countClean,  int _cleanNotificationID,boolean _mikveNutification, int _typePeriod  ) {
+                      boolean _countClean,  int _cleanNotificationID,boolean _mikveNutification, int _typeOna  ) {
         this._rowId = _rowId;
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
@@ -50,7 +50,7 @@ public class Definition {
         this._mikveNutification = _mikveNutification;
         this._cleanNotificationID = _cleanNotificationID;
         this._countClean = _countClean;
-        this._typePeriod = _typePeriod;
+        this._typOna = _typeOna;
     }
 
     public boolean is_regulary() {
@@ -97,12 +97,12 @@ public class Definition {
         return _cleanNotificationID;
     }
 
-    public int get_typePeriod() {
-        return _typePeriod;
+    public int get_typeOna() {
+        return _typOna;
     }
 
-    public void set_typePeriod(int _typePeriod) {
-        this._typePeriod = _typePeriod;
+    public void set_typeOna(int _typeOna) {
+        this._typOna = _typeOna;
     }
 
     public void set_cleanNotification(int _cleanNotificationID) {
