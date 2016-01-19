@@ -221,24 +221,6 @@ public class BL {
                 Day day = new Day(c.getInt(0), dt, dayType, notes, ona);
                 arrDays.add(day);
             }
-            if(c.getString(3)!=null){
-                notes = c.getString(3);
-            }
-            else{
-                notes = res.getString((R.string.defaultNote));
-            }
-            try {
-                dayType = c.getInt(2);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-            try{
-               ona=c.getInt(4);
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-            Day day = new Day(c.getInt(0), dt, dayType, notes,ona);
-            arrDays.add(day);
         } finally {
             c.close();
         }

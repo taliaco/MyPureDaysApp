@@ -15,10 +15,6 @@ public class Day {
     private int _ona;
     public static ArrayList<Day> day_arr;
 
-
-    public Day(int rowId, Date date, int dayTypeId, String notes, int ona)
-
-
     public Day(int rowId, Date date, int dayTypeId, String notes, int ona)
     {
         _rowId=rowId;
