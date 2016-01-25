@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
 
 
-        int lastPeriodType= bl.getLastDayTypeBetweenDate("1970-01-01", Utils.DateToStr(new Date()));
+        int lastPeriodType= bl.getTypeOfDate("1970-01-01", Utils.DateToStr(new Date()));
         if(lastPeriodType==Constants.DAY_TYPE.START_LOOKING.ordinal()||lastPeriodType==Constants.DAY_TYPE.PERIOD.ordinal()){
             b.setText(res.getString(R.string.btEnd));
         }else{
