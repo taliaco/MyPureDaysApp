@@ -19,7 +19,6 @@
         <activity android:name=".StatusActivity" />
         <activity android:name=".DefinitionActivity" />
         <activity android:name=".CalenderActivity" />
-        <activity android:name=".ListViewActivity" />
         <activity android:name=".DialogCalendar"></activity>
         <activity android:name=".dialogOnot"></activity>
     </application>

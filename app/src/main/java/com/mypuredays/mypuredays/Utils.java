@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
+import net.sourceforge.zmanim.ComplexZmanimCalendar;
+import net.sourceforge.zmanim.hebrewcalendar.HebrewDateFormatter;
+import net.sourceforge.zmanim.hebrewcalendar.JewishCalendar;
+import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
+import net.sourceforge.zmanim.util.GeoLocation;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by Talia on 02/12/2015.
@@ -110,5 +117,32 @@ public class Utils {
         for(int i=0; i<d.size(); i++){
             Log.e("date:  ", d.get(i).get_date() + "ona type:  " + d.get(i).get_ona());
         }
+    }
+    public static String getHebDate(){
+        String locationName = "Lakewood, NJ";
+        double latitude = 40.096; //Lakewood, NJ
+        double longitude = -74.222; //Lakewood, NJ
+        double elevation = 0; //optional elevation
+        TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
+        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
+        ComplexZmanimCalendar czc = new ComplexZmanimCalendar(location);
+
+
+        czc.getCalendar().set(Calendar.MONTH, Calendar.JANUARY);
+        czc.getCalendar().set(Calendar.DAY_OF_MONTH, 24);
+        czc.getCalendar().set(Calendar.YEAR, 2016);
+        Date sunrise = czc.getSunrise();
+
+        HebrewDateFormatter hdf = new HebrewDateFormatter();
+
+        JewishCalendar jd = new JewishCalendar(5775, JewishDate.ADAR, 23);
+        System.out.println(hdf.formatParsha(jd));
+        hdf.setHebrewFormat(true);
+        System.out.println(hdf.formatParsha(jd));
+        JewishDate Jdate = new JewishDate(new Date());
+
+        return String.valueOf(Jdate.getJewishDayOfMonth()) + " " + Jdate.getJewishMonth();
+//return "kakakka";
+
     }
 }
