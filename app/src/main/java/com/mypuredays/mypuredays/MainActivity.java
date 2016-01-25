@@ -24,8 +24,9 @@ import java.util.Locale;
 public class MainActivity extends Activity {
 
     BL bl;
+    Button b;
+    Resources res;
     public  CharSequence txt = "Hello toast!";
-
     final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
 
     @Override
@@ -34,7 +35,18 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
         bl = new BL(this);
+         res = getResources();
+         b =(Button)findViewById(R.id.btStartEnd);
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
+
+
+        int lastPeriodType= bl.getLastDayTypeBetweenDate("1970-01-01", Utils.DateToStr(new Date()));
+        if(lastPeriodType==Constants.DAY_TYPE.START_LOOKING.ordinal()||lastPeriodType==Constants.DAY_TYPE.PERIOD.ordinal()){
+            b.setText(res.getString(R.string.btEnd));
+        }else{
+            b.setText(res.getString(R.string.btStart));
+        }
+
 
         //first run
         if (settings.getBoolean("my_first_time", true)) {
@@ -57,7 +69,6 @@ public class MainActivity extends Activity {
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
             //openDefinition();
-
         }
     }
 
@@ -99,17 +110,17 @@ public class MainActivity extends Activity {
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_LONG;
         Definition def =bl.getDefinition();
-        Resources res = getResources();
+
         final Date date = new Date();//today
         final String dateStr= Utils.DateToStr(date);
 
 
         final Dialog dialogPrisha = new Dialog(this);
-        Button b =(Button)findViewById(R.id.btStartEnd);
+
         String text = b.getText().toString();
         if(text.equals(res.getString(R.string.btStart))){//START
-            b.setText(res.getString(R.string.btEnd));
-            if(def.is_prishaDays()==true && def.get_typeOnaID()==Constants.ONA_TYPE.UNKNOWN.ordinal()){//user keep prisha days and the ona unknow
+
+            if(def.is_prishaDays()== true && def.get_typeOnaID()==Constants.ONA_TYPE.UNKNOWN.ordinal()){//user keep prisha days and the ona unknow
                 dialogPrisha.setContentView(R.layout.activity_dialog_onot);
                 dialogPrisha.setTitle("בחרי עונה");
                 Button dialogButtonDay = (Button) dialogPrisha.findViewById(R.id.dialogButtonDay);
@@ -123,6 +134,7 @@ public class MainActivity extends Activity {
                             Toast toast = Toast.makeText(context, txt, duration);
                             toast.show();
                         dialogPrisha.dismiss();
+                        b.setText(res.getString(R.string.btEnd));
                     }
                 });
 
@@ -135,6 +147,7 @@ public class MainActivity extends Activity {
                         Toast toast = Toast.makeText(context, txt, duration);
                         toast.show();
                         dialogPrisha.dismiss();
+                        b.setText(res.getString(R.string.btEnd));
                     }
                 });
                 dialogPrisha.show();
@@ -144,16 +157,20 @@ public class MainActivity extends Activity {
                // take the ona type from definition
                 if(def.get_typeOnaID()==Constants.ONA_TYPE.NIGHT.ordinal()){
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
-                }
-                else if(def.get_typeOnaID()==Constants.ONA_TYPE.DAY.ordinal()){
+                } else if(def.get_typeOnaID()==Constants.ONA_TYPE.DAY.ordinal()){
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                 }
+                txt="התחל ראייה היום"  + " "+ dateStr;
+                Toast toast = Toast.makeText(context, txt, duration);
+                toast.show();
+                b.setText(res.getString(R.string.btEnd));
             }
             else {//user not keep prisha days
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);//ona=0
                 txt="התחל ראייה היום"  + " "+ dateStr;
                 Toast toast = Toast.makeText(context, txt, duration);
                 toast.show();
+                b.setText(res.getString(R.string.btEnd));
             }
         }
         else{//END LOOKING

@@ -144,7 +144,7 @@ public class BL {
 
     public int getLastDayTypeBetweenDate(String dateStart,String dateEnd) {//return last daytype before the date parameter
 
-        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<?";
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=?";
         String[] selectionArgs = {dateStart,dateEnd};
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadByCol(Constants.TABLE_DAY, cols,selection,selectionArgs);
