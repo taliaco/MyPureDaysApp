@@ -211,11 +211,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear_layout_type_period"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/square_button6"
         android:layout_marginBottom="5dp"
+        android:visibility="gone"
         android:layout_weight="1">
 
 

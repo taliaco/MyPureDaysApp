@@ -29,13 +29,13 @@ public class Definition {
 
         this._rowId = -1;
         this._minPeriodLength = 0;
-        this._regulary = true;
-        this._prishaDays = true;
+        this._regulary = false;
+        this._prishaDays = false;
         this._periodLength = 0;
         this._countClean = false;
-        this._cleanNotificationID = 0;
+        this._cleanNotificationID = 4;
         this._mikveNutification = false;
-        this._typOna = 0;
+        this._typOna = 1;
 
 
     }
@@ -104,6 +104,7 @@ public class Definition {
     public int get_typeOnaID() {
         return _typOna;
     }
+
     public int get_typeOna() {
         return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typOna]);
     }

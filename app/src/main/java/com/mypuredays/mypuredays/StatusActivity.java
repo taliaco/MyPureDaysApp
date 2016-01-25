@@ -3,6 +3,7 @@ package com.mypuredays.mypuredays;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -50,6 +51,8 @@ public class StatusActivity extends Activity {
         textViewPeriodAvg.setText(avgBetweenPeriod());
         textViewCleanCount.setText(textViewCleanCount(definition));
         textViewDateMikveh.setText(textViewDateMikveh(definition));
+
+        Log.e("SUNRISE", Utils.getHebDate());
     }
 
     private String textViewDateMikveh(Cursor definition){

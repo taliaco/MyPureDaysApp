@@ -343,7 +343,7 @@ public class CalendarAdapter extends BaseAdapter {
         if (day != null){
             return day.get_dayTypeId();
         }
-        dayType = bl.getLastDayTypeBetweenDate(dateStart, dateEnd);
+        dayType = bl.getTypeOfDate("1980-01-01", dateEnd);
 
         if(dayType >0){
             return dayType;

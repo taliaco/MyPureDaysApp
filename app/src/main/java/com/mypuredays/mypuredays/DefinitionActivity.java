@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class DefinitionActivity extends Activity {
 
     private BL bl;
 
+    private LinearLayout linear_ona_type;
+
 
 
     @Override
@@ -39,6 +42,7 @@ public class DefinitionActivity extends Activity {
         setContentView(R.layout.activity_definition);
 
         bl = new BL(this);
+        linear_ona_type = (LinearLayout)findViewById(R.id.linear_layout_type_period);
 
         minPeriodLengthColumn= (TextView)findViewById(R.id.item_name_day_period_min);
         regularColumn= (TextView)findViewById(R.id.item_name_period_constant);
@@ -94,6 +98,7 @@ public class DefinitionActivity extends Activity {
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    Log.e("d.is_prishaDays()", "  isChecked= " + d.is_prishaDays());
                     break;
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -151,9 +156,19 @@ public class DefinitionActivity extends Activity {
 
                 Log.e("switch_prisha_day", "  isChecked= "+isChecked);
                 bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, isChecked);
+               // if(spinner_type_period.getSelectedItem() != Constants.ONA_TYPE.DEFAULT.ordinal()){
+                //    linear_ona_type.setVisibility(View.GONE);
+               // }
                 if(!isChecked){
-                    Log.e("ifswitch_prisha_day", "  isChecked= "+isChecked);
-                    bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, Constants.ONA_TYPE.DEFAULT.ordinal());
+                    Log.e("ifswitch_prisha_day", "  isChecked= " + isChecked);
+                   // bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, Constants.ONA_TYPE.DEFAULT.ordinal());
+                    spinner_type_period.setSelection(Constants.ONA_TYPE.UNKNOWN.ordinal());
+                    //linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+                    linear_ona_type.setVisibility(View.GONE);
+                }
+                else{
+                   // linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,1f));
+                    linear_ona_type.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -225,8 +240,9 @@ public class DefinitionActivity extends Activity {
                 Log.e("spinner", "  position= "+position);
                 bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, position);
                 if(position == (Constants.ONA_TYPE.DEFAULT.ordinal())){
-                    Log.e("ifspinner", "  position= "+position);
-                    bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, false);
+                    Log.e("ifspinner", "  position= " + position);
+                    //bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, false);
+                    switch_prisha_day.setChecked(false);
                 }
             }
 
