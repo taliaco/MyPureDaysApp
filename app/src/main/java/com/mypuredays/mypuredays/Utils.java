@@ -2,13 +2,10 @@ package com.mypuredays.mypuredays;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.util.Log;
 
-import net.sourceforge.zmanim.ComplexZmanimCalendar;
-import net.sourceforge.zmanim.hebrewcalendar.HebrewDateFormatter;
-import net.sourceforge.zmanim.hebrewcalendar.JewishCalendar;
 import net.sourceforge.zmanim.hebrewcalendar.JewishDate;
-import net.sourceforge.zmanim.util.GeoLocation;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by Talia on 02/12/2015.
@@ -98,6 +94,76 @@ public class Utils {
         //return date;
 
     }
+
+    public static String getPrishaDate(String lastDateStr, BL bl){
+
+        /*
+        CHECK IF THE USER KEEP PRISHA DAY
+        ----CHECK IF THE PERIOD SADIR
+         */
+
+
+
+        Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
+        String strPrishaDates="";
+        arrDate[0]=getJdateNextMonth(lastDateStr);
+        arrDate[1]=differenceDayse(lastDateStr, bl);
+        arrDate[2]=Utils.addDaysToDate(30, lastDateStr);
+
+        if(arrDate[0].compareTo(arrDate[1])>0){
+            strPrishaDates+=DateToStr(arrDate[0])+" "+ DateToStr(arrDate[1]);
+            if(arrDate[2].compareTo(arrDate[0])>0 && arrDate[2].compareTo(arrDate[1])>0){
+                strPrishaDates+=DateToStr(arrDate[2]);
+            }
+        }else{
+            strPrishaDates+=DateToStr(arrDate[0]);
+            if(arrDate[2].compareTo(arrDate[0])>0){
+                strPrishaDates+=DateToStr(arrDate[2])+"";
+            }
+        }
+
+
+        return strPrishaDates;
+    }
+/*   count days between last period and corrent period.
+     add the number of the day to the last begin period
+ */
+    public static Date differenceDayse(String lastDateStr ,BL bl){
+        Cursor day=bl.getDateStartLooking();
+        String[] dates=new String[day.getCount()];
+        int i=0;//indwx of arry days
+            while (day.moveToNext()) {
+                dates[i]=day.getString(1);
+                i++;
+             }
+        long countDate = countDaysBetweenDates(Utils.StrToDate(dates[dates.length- 1]), Utils.StrToDate(dates[dates.length- 2]));
+        int numDays=(int)(Math.round(countDate));
+
+        return addDaysToDate(numDays ,lastDateStr);
+    }
+
+    public static Date getJdateNextMonth(String lastDateStr) {//return the same day in the next month
+        int[] arrJDate = new int[3];
+        int[] arrJDateTemp = new int[3];
+        Date dt =new Date();
+        arrJDate = Utils.getHebDate(Utils.StrToDate(lastDateStr));//get int array {day, month, year} of last period date (jewish date)
+        for (int i = 0; i < 3; i++) {
+            dt=Utils.addDaysToDate(30 + i, lastDateStr);
+            arrJDateTemp = Utils.getHebDate(dt);//get date +30+i days
+            if (arrJDate[0] == arrJDateTemp[0]) {//same day in next month
+                return dt;
+            }else {
+                dt=Utils.addDaysToDate(30 - i, lastDateStr);
+                arrJDateTemp = Utils.getHebDate(dt);//get date +30+i days
+                if (arrJDate[0] == arrJDateTemp[0]) {//same day in next month
+                    return dt;
+            }
+        }
+    }
+        return new Date();
+    }
+
+
     public static Date StrToDate(String strDate){
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         try {
@@ -118,31 +184,26 @@ public class Utils {
             Log.e("date:  ", d.get(i).get_date() + "ona type:  " + d.get(i).get_ona());
         }
     }
-    public static String getHebDate(){
-        String locationName = "Lakewood, NJ";
-        double latitude = 40.096; //Lakewood, NJ
-        double longitude = -74.222; //Lakewood, NJ
-        double elevation = 0; //optional elevation
-        TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
-        GeoLocation location = new GeoLocation(locationName, latitude, longitude, elevation, timeZone);
-        ComplexZmanimCalendar czc = new ComplexZmanimCalendar(location);
-
-
-        czc.getCalendar().set(Calendar.MONTH, Calendar.JANUARY);
-        czc.getCalendar().set(Calendar.DAY_OF_MONTH, 24);
-        czc.getCalendar().set(Calendar.YEAR, 2016);
-        Date sunrise = czc.getSunrise();
-
-        HebrewDateFormatter hdf = new HebrewDateFormatter();
-
-        JewishCalendar jd = new JewishCalendar(5775, JewishDate.ADAR, 23);
-        System.out.println(hdf.formatParsha(jd));
-        hdf.setHebrewFormat(true);
-        System.out.println(hdf.formatParsha(jd));
-        JewishDate Jdate = new JewishDate(new Date());
-
-        return String.valueOf(Jdate.getJewishDayOfMonth()) + " " + Jdate.getJewishMonth();
-//return "kakakka";
+    public static int[] getHebDate(Date date){
+        //hebrew date array format {day, month, year}
+        int[] arrDate =new int[3];
+        JewishDate Jdate = new JewishDate(date);
+        arrDate[0]=Jdate.getJewishDayOfMonth();
+        arrDate[1]=Jdate.getJewishMonth();
+        arrDate[2]=Jdate.getJewishYear();
+        return arrDate;
+       // return String.valueOf(Jdate.getJewishDayOfMonth()) + " " + Jdate.getJewishMonth()+" "+Jdate.getJewishYear();
 
     }
+    public static long countDaysBetweenDates(Date date1, Date date2){
+        long diff;
+        if(date1.getTime()>date2.getTime()) {
+            diff = date1.getTime() - date2.getTime();
+        }else{
+            diff = date2.getTime() - date1.getTime();
+        }
+        return (diff  / 1000 / 60 / 60 / 24);
+    }
+
+
 }
