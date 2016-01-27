@@ -92,38 +92,57 @@ public class Utils {
 
         return cal.getTime();
         //return date;
-
     }
-
-    public static String getPrishaDate(String lastDateStr, BL bl){
-
+    public static Date[] getPrishaDate(String lastDateStr, BL bl){
         /*
-        CHECK IF THE USER KEEP PRISHA DAY
         ----CHECK IF THE PERIOD SADIR
          */
-
-
-
+        Definition def =bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
+        int avg; //avg Between Period
+        arrDate[0]=null;
+        arrDate[1]=null;
+        arrDate[2]=null;
+        if(def.is_regulary()==true) {//period sadir
+            avg=avgBetweenPeriod(bl);
+            if(avg!=-1){
+                arrDate[0] = Utils.addDaysToDate(avg,lastDateStr);
+            }else{
+                arrDate[0] = Utils.addDaysToDate(28,lastDateStr);
+            }
+            return  arrDate;
+
+        }
+
         String strPrishaDates="";
         arrDate[0]=getJdateNextMonth(lastDateStr);
         arrDate[1]=differenceDayse(lastDateStr, bl);
         arrDate[2]=Utils.addDaysToDate(30, lastDateStr);
 
-        if(arrDate[0].compareTo(arrDate[1])>0){
-            strPrishaDates+=DateToStr(arrDate[0])+" "+ DateToStr(arrDate[1]);
-            if(arrDate[2].compareTo(arrDate[0])>0 && arrDate[2].compareTo(arrDate[1])>0){
-                strPrishaDates+=DateToStr(arrDate[2]);
-            }
-        }else{
-            strPrishaDates+=DateToStr(arrDate[0]);
-            if(arrDate[2].compareTo(arrDate[0])>0){
-                strPrishaDates+=DateToStr(arrDate[2])+"";
-            }
+        if(arrDate[0].compareTo(arrDate[1])==0){
+            arrDate[1]=null;
+        }
+        if(arrDate[2]==null || arrDate[2].compareTo(arrDate[0])==0){
+            arrDate[2]=null;
+        }
+        if(arrDate[2]==null || arrDate[1]==null || arrDate[2].compareTo(arrDate[1])==0){
+            arrDate[2]=null;
         }
 
+        return arrDate;
 
-        return strPrishaDates;
+//        if(arrDate[0].compareTo(arrDate[1])>0){
+//            strPrishaDates+=DateToStr(arrDate[0])+" "+ DateToStr(arrDate[1]);
+//            if(arrDate[2].compareTo(arrDate[0])>0 && arrDate[2].compareTo(arrDate[1])>0){
+//                strPrishaDates+=DateToStr(arrDate[2]);
+//            }
+//        }else{
+//            strPrishaDates+=DateToStr(arrDate[0]);
+//            if(arrDate[2].compareTo(arrDate[0])>0){
+//                strPrishaDates+=DateToStr(arrDate[2])+"";
+//            }
+        //}
+//        return strPrishaDates;
     }
 /*   count days between last period and corrent period.
      add the number of the day to the last begin period
@@ -205,5 +224,30 @@ public class Utils {
         return (diff  / 1000 / 60 / 60 / 24);
     }
 
+    public static int avgBetweenPeriod(BL bl){
 
+        boolean average=false;//Is there an average(Use at least 4 months )
+        Cursor day=bl.getDateStartLooking();
+        String[] dates=new String[day.getCount()];
+        int i=0;//indwx of varr days
+        long countDate=0; //count the days between date for AVG
+        if(day.getCount()<4){//there average
+            average=false;
+        }
+        else {
+            while (day.moveToNext()) {
+                dates[i]=day.getString(1);
+                i++;
+            }
+            average=true;
+        }
+        if (average==true){
+            for (i=0; i< 3; i++){
+                countDate+=Utils.countDaysBetweenDates(Utils.StrToDate(dates[dates.length - i - 1]), Utils.StrToDate(dates[dates.length - i - 2]));
+            }
+            Float f = new Float ((float)countDate);
+            return (Math.round(f / 3));
+        }
+        return -1;
+    }
 }
