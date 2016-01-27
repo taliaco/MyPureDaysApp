@@ -235,6 +235,11 @@ public class CalendarAdapter extends BaseAdapter {
         dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                bl.DBDeleteDay(day_string.get(pos));
+                CalendarCollection calendarCollectiontmp = new CalendarCollection(day_string.get(pos),"");
+                CalendarCollection.date_collection_arr.remove(calendarCollectiontmp);
+                notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
@@ -322,13 +327,18 @@ public class CalendarAdapter extends BaseAdapter {
         int dayType = getDayType(day_string.get(0), day_string.get(pos));
 
         if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
+//            v.setBackgroundColor(Constants.PERIOD_COLOR);
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+
         }
         else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
+//            v.setBackgroundColor(Constants.PERIOD_COLOR);
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
         }
         else if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
+//            v.setBackgroundColor(Constants.PERIOD_COLOR);
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+
         }
         else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
             v.setBackgroundColor(Constants.CLEAR_DAYS_COLOR);

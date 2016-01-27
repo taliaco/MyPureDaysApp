@@ -55,8 +55,8 @@ public class DAL {
         dbWrite.update(tableName, val, criteria, criteriaVal);
     }
 
-    public void DBDeleteItem(String tableName, String criteria) {
-        dbWrite.delete(tableName, criteria, null);
+    public void DBDeleteItem(String tableName, String criteria, String[] criteriaVal) {
+        dbWrite.delete(tableName, criteria,criteriaVal);
     }
 
     public Cursor getMaxId(String tableName, String[] cols){

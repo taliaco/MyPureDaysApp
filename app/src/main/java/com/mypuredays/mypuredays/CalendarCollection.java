@@ -34,4 +34,14 @@ public class CalendarCollection {
         this._dateTypeId = dayTypeID;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (other == null) return false;
+        if (other == this) return true;
+        if (!(other instanceof CalendarCollection))return false;
+        CalendarCollection otherCalendarCollection = (CalendarCollection)other;
+        if (otherCalendarCollection.date.equals(date)) return true;
+        return false;
+    }
+
 }

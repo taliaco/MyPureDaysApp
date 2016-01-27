@@ -351,4 +351,10 @@ public class BL {
 
 
     }
+    public void DBDeleteDay(String date) {
+        String selection = Constants.COL_DATE + "=?";
+        String[] selectionArgs = {date};
+        dal.DBDeleteItem(Constants.TABLE_DAY, selection, selectionArgs);
+
+    }
 }

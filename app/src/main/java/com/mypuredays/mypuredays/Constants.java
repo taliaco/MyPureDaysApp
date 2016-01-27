@@ -67,6 +67,7 @@ public class Constants implements BaseColumns {
     }
 
     public static int PERIOD_COLOR = Color.RED;
+    public static int PERIOD_CIRCLE = R.drawable.period_circle;
     public static int CLEAR_DAYS_COLOR = Color.WHITE;
     public static int PRISHA_DAYS_COLOR = Color.MAGENTA;
 
