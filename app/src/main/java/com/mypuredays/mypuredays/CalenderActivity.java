@@ -19,7 +19,6 @@ public class CalenderActivity extends Activity {
     private CalendarAdapter cal_adapter;
     private TextView tv_month;
     private TextView TextView_Note;
-    private ArrayList<Day> arrayListDays;
     BL bl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +27,11 @@ public class CalenderActivity extends Activity {
         bl= new BL(this);
 
         //get all days from DB
-        arrayListDays=bl.getAllDays();
-        CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
+        ArrayList<Day> arrayListDays = bl.getAllDays();
+        CalendarCollection.date_collection_arr=new ArrayList<>();
 
         //convert Day Type to CalendarCollection list
-        for(int i=0; i<arrayListDays.size(); i++){
+        for(int i=0; i< arrayListDays.size(); i++){
             CalendarCollection tmpCalendarCollection = new CalendarCollection(arrayListDays.get(i));
             CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
         }
@@ -102,7 +101,6 @@ public class CalenderActivity extends Activity {
                     refreshCalendar();
                 }
                 else{
-                    String note = "";
                     int len = CalendarCollection.date_collection_arr.size();
                     String dateStr = cal_adapter.getPosDate(position);
 
@@ -119,7 +117,6 @@ public class CalenderActivity extends Activity {
             }
         });
     }
-
 
     protected void setNextMonth() {
         if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {

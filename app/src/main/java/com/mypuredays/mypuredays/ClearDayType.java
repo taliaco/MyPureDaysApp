@@ -10,18 +10,12 @@ import android.widget.TextView;
 
 import java.util.GregorianCalendar;
 
-/**
- * Created by David on 19/11/2015.
- */
 public class ClearDayType {
 
-    private int _rowId;
     private int _ID;
     private String _Type;
 
-    public ClearDayType(int rowId, int _ID, String _Type) {
-
-        this._rowId=rowId;
+    public ClearDayType( int _ID, String _Type) {
         this._ID = _ID;
         this._Type = _Type;
     }

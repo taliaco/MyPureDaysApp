@@ -29,7 +29,7 @@ public class StatusActivity extends Activity {
         TextView textViewPrishaDate=(TextView) this.findViewById(R.id.FIELD_prishaDate);
 
         //get the last date with start PeriodDate
-        Cursor day = bl.getLastDate(Constants.TABLE_DAY);
+        Cursor day = bl.getLastStartLooking();
         Cursor definition =bl.getDefinitionCursor();
 
         String lastDateStr=""; // last date of start period
@@ -39,6 +39,7 @@ public class StatusActivity extends Activity {
         if (day.moveToFirst()) {
             lastDateStr=day.getString(1);
         }
+        textViewPrishaDate.setText(Utils.getPrishaDate(lastDateStr, bl));
         textViewLastPeriodDate.setText(lastDateStr);
         Date[] arrDate =Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
         //if arrDate[2 or 3] = null
@@ -66,6 +67,7 @@ public class StatusActivity extends Activity {
         textViewNextPeriodDate.setText(nextPeriodDateStr);
         textViewCleanCount.setText(textViewCleanCount(definition));
         textViewDateMikveh.setText(textViewDateMikveh(definition));
+
     }
 
 
