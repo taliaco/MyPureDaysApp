@@ -3,7 +3,6 @@ package com.mypuredays.mypuredays;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -29,7 +28,6 @@ public class StatusActivity extends Activity {
         TextView textViewPeriodLength=(TextView) this.findViewById(R.id.FIELD_periodLength);
         TextView textViewPrishaDate=(TextView) this.findViewById(R.id.FIELD_prishaDate);
 
-
         //get the last date with start PeriodDate
         Cursor day = bl.getLastDate(Constants.TABLE_DAY);
         Cursor definition =bl.getDefinitionCursor();
@@ -38,10 +36,11 @@ public class StatusActivity extends Activity {
         if (definition.moveToFirst()) {
             textViewPeriodLength.setText( Integer.toString(definition.getInt(1)));
         }
-
         if (day.moveToFirst()) {
             lastDateStr=day.getString(1);
         }
+        //Log.e("eeeeeeeeee",Utils.DateToStr(Utils.getJdateNextMonth(lastDateStr)));
+        textViewPrishaDate.setText(Utils.getPrishaDate(lastDateStr, bl));
         textViewLastPeriodDate.setText(lastDateStr);
         //convert date type to string
         //add 28 days to date
@@ -52,8 +51,9 @@ public class StatusActivity extends Activity {
         textViewCleanCount.setText(textViewCleanCount(definition));
         textViewDateMikveh.setText(textViewDateMikveh(definition));
 
-        Log.e("SUNRISE", Utils.getHebDate());
+       // Log.e("SUNRISE", Utils.getHebDate(new Date())[0]);
     }
+
 
     private String textViewDateMikveh(Cursor definition){
         Cursor day= bl.getLastDate();
@@ -62,7 +62,7 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
 
                     if(numDayse<=periodLength+7) {//check if today is not after mikvhe
@@ -84,13 +84,14 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
                 if(numDayse<periodLength){//still in period
                     return "-";
                 }else if(numDayse>=periodLength){//end perion
                     if(numDayse<=periodLength+7) {//check if today is not after nekiim
                         return String.valueOf(numDayse - periodLength);
+
                     }
                 }
             }
@@ -123,7 +124,7 @@ public class StatusActivity extends Activity {
         }
         if (average==true){
             for (i=0; i< 3; i++){
-                    countDate+= countDaysBetweenDates(Utils.StrToDate(dates[dates.length - i - 1]), Utils.StrToDate(dates[dates.length - i - 2]));
+                    countDate+=Utils.countDaysBetweenDates(Utils.StrToDate(dates[dates.length - i - 1]), Utils.StrToDate(dates[dates.length - i - 2]));
             }
             Float f = new Float ((float)countDate);
             return (String.valueOf(Math.round(f/3)));
@@ -131,15 +132,6 @@ public class StatusActivity extends Activity {
         return "אין מספיק נתונים";
     }
 
-    private long countDaysBetweenDates(Date date1, Date date2){
-        long diff;
-        if(date1.getTime()>date2.getTime()) {
-            diff = date1.getTime() - date2.getTime();
-        }else{
-            diff = date2.getTime() - date1.getTime();
-        }
-        return (diff  / 1000 / 60 / 60 / 24);
-    }
 
 
 
