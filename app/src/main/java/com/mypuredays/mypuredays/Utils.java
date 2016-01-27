@@ -107,7 +107,7 @@ public class Utils {
 
         String strPrishaDates="";
         arrDate[0]=getJdateNextMonth(lastDateStr);
-        arrDate[1]=differenceDayse(lastDateStr, bl);
+        arrDate[1]= differenceDays(lastDateStr, bl);
         arrDate[2]=Utils.addDaysToDate(30, lastDateStr);
 
         if(arrDate[0].compareTo(arrDate[1])==0){
@@ -138,7 +138,7 @@ public class Utils {
 /*   count days between last period and corrent period.
      add the number of the day to the last begin period
  */
-    public static Date differenceDayse(String lastDateStr ,BL bl){
+    public static Date differenceDays(String lastDateStr, BL bl){
         Cursor day=bl.getDateStartLooking();
         String[] dates=new String[day.getCount()];
         int i=0;//indwx of arry days
