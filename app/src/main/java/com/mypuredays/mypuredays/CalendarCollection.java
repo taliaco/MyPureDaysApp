@@ -22,7 +22,7 @@ public class CalendarCollection {
         DateFormat df;
         df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         this.date = df.format(day.get_date());
-        this.notes=day.get_notes().toString();
+        this.notes= day.get_notes();
         this._dateTypeId=day.get_dayTypeId();
     }
 
@@ -40,8 +40,7 @@ public class CalendarCollection {
         if (other == this) return true;
         if (!(other instanceof CalendarCollection))return false;
         CalendarCollection otherCalendarCollection = (CalendarCollection)other;
-        if (otherCalendarCollection.date.equals(date)) return true;
-        return false;
+        return otherCalendarCollection.date.equals(date);
     }
 
 }

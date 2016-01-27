@@ -3,9 +3,6 @@ package com.mypuredays.mypuredays;
 import android.graphics.Color;
 import android.provider.BaseColumns;
 
-/**
- * Created by yael on 23/11/2015.
- */
 public class Constants implements BaseColumns {
 
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -20,8 +17,7 @@ public class Constants implements BaseColumns {
     public static final String COL_DATE = "dateColumn";
     public static final String COL_DAY_TYPE = "datTypeColumn";
     public static final String COL_NOTES = "notesColumn";
-    public static final String COL_ONA ="onaColumn" ;
-
+    public static final String COL_ONA = "onaColumn";
     public static final String[] TABLE_DAY_COLUMNS = {Constants._ID, Constants.COL_DATE, Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
 
     //Column for dayType table
@@ -54,19 +50,21 @@ public class Constants implements BaseColumns {
     public static final int MONTH_POSITION = 1;
     public static final int DAY_POSITION = 2;
     public static final int YEAR_POSITION = 0;
+
+    //ENUM
     public enum DEF_TYPE {
         INTEGER, BOOLEAN, STRING, DATE
     }
 
-
-    public enum DAY_TYPE{
+    public enum DAY_TYPE {
         DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY
     }
 
-    public enum ONA_TYPE{
+    public enum ONA_TYPE {
         DEFAULT, UNKNOWN, DAY, NIGHT
     }
 
+    //calendar day design
     public static int PERIOD_COLOR = Color.RED;
     public static int PERIOD_CIRCLE = R.drawable.period_circle;
     public static int CLEAR_DAYS_COLOR = Color.WHITE;
@@ -74,9 +72,10 @@ public class Constants implements BaseColumns {
 
     public static int CLEAR_DAYS_LENGTH = 7;
 
-    public static final String[] MIN_PERIOD_LENGTH_SPINNER   = new String[]{"4","5"};
-    public static final String[] PERIOD_LENGTH_SPINNER =  new String[]{"3","4","5","6","7"};
+    //drop down list for definition
+    public static final String[] MIN_PERIOD_LENGTH_SPINNER = new String[]{"4", "5"};
+    public static final String[] PERIOD_LENGTH_SPINNER = new String[]{"3", "4", "5", "6", "7"};
     public static final String[] CLEAR_DAY_NOTIFICATION_SPINNER = new String[]{"ראשון ואחרון", "3 ימים ראשונים", "פעם ביום", "פעמיים ביום", "לא רלוונטי"};
-    public static final String[] TYPE_ONA_SPINNER = new String[]{"לא רלוונטי", "לא ידוע","יום", "לילה"};
+    public static final String[] TYPE_ONA_SPINNER = new String[]{"לא רלוונטי", "לא ידוע", "יום", "לילה"};
 
 }

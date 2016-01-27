@@ -9,12 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by David on 19/11/2015.
- */
 public class Definition {
 
-    private int _rowId;
     private int _minPeriodLength;
     private boolean _regulary;
     private boolean _prishaDays;
@@ -22,12 +18,10 @@ public class Definition {
     private boolean _countClean;
     private int _cleanNotificationID;
     private boolean _mikveNutification;
-    private int _typOna;//type ona 
+    private int _typeOna;
 
 
     public Definition() {
-
-        this._rowId = -1;
         this._minPeriodLength = 0;
         this._regulary = false;
         this._prishaDays = false;
@@ -35,14 +29,11 @@ public class Definition {
         this._countClean = false;
         this._cleanNotificationID = 4;
         this._mikveNutification = false;
-        this._typOna = 1;
-
-
+        this._typeOna = 1;
     }
 
-    public Definition(int _rowId, int _minPeriodLength, boolean _regulary, boolean _prishaDays,int _periodLength,
-                      boolean _countClean,  int _cleanNotificationID,boolean _mikveNutification, int _typeOna  ) {
-        this._rowId = _rowId;
+    public Definition(int _minPeriodLength, boolean _regulary, boolean _prishaDays, int _periodLength,
+                      boolean _countClean, int _cleanNotificationID, boolean _mikveNutification, int _typeOna) {
         this._minPeriodLength = _minPeriodLength;
         this._regulary = _regulary;
         this._prishaDays = _prishaDays;
@@ -50,7 +41,7 @@ public class Definition {
         this._mikveNutification = _mikveNutification;
         this._cleanNotificationID = _cleanNotificationID;
         this._countClean = _countClean;
-        this._typOna = _typeOna;
+        this._typeOna = _typeOna;
     }
 
     public boolean is_regulary() {
@@ -64,9 +55,11 @@ public class Definition {
     public int get_minPeriodLengthID() {
         return _minPeriodLength;
     }
+
     public int get_minPeriodLength() {
         return Integer.parseInt(Constants.MIN_PERIOD_LENGTH_SPINNER[_minPeriodLength]);
     }
+
     public void set_minPeriodLength(int _minPeriodLength) {
         this._minPeriodLength = _minPeriodLength;
     }
@@ -82,9 +75,11 @@ public class Definition {
     public int get_periodLengthID() {
         return _periodLength;
     }
+
     public int get_periodLength() {
         return Integer.parseInt(Constants.PERIOD_LENGTH_SPINNER[_periodLength]);
     }
+
     public void set_periodLength(int _periodLength) {
         this._periodLength = _periodLength;
     }
@@ -102,14 +97,15 @@ public class Definition {
     }
 
     public int get_typeOnaID() {
-        return _typOna;
+        return _typeOna;
     }
 
     public int get_typeOna() {
-        return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typOna]);
+        return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typeOna]);
     }
+
     public void set_typeOna(int _typeOna) {
-        this._typOna = _typeOna;
+        this._typeOna = _typeOna;
     }
 
     public void set_cleanNotification(int _cleanNotificationID) {
@@ -124,62 +120,4 @@ public class Definition {
         this._countClean = _countClean;
     }
 
-
-    public static class AndroidListAdapter extends ArrayAdapter<CalendarCollection> {
-
-        private final Context context;
-        private final ArrayList<CalendarCollection> values;
-        private ViewHolder viewHolder;
-        private final int resourceId;
-
-        public AndroidListAdapter(Context context, int resourceId,ArrayList<CalendarCollection> values) {
-            super(context, resourceId, values);
-            // TODO Auto-generated constructor stub
-
-            this.context = context;
-            this.values = values;
-            this.resourceId = resourceId;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(resourceId, parent, false);
-
-
-                viewHolder = new ViewHolder();
-                viewHolder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
-                viewHolder.tv_event = (TextView) convertView.findViewById(R.id.tv_event);
-
-
-                convertView.setTag(viewHolder);
-
-
-            }else
-            {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-            CalendarCollection list_obj=values.get(position);
-            viewHolder.tv_date.setText(list_obj.date);
-            viewHolder.tv_event.setText(list_obj.notes);
-
-            return convertView;
-        }
-
-
-
-
-
-        public class ViewHolder {
-
-            TextView tv_event;
-            TextView tv_date;
-
-        }
-
-    }
 }

@@ -15,9 +15,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Talia on 02/12/2015.
- */
 public class Utils {
     public static String getDefName(String columnName, Context context){
         Resources res = context.getResources();
@@ -79,20 +76,12 @@ public class Utils {
         return null;
     }
 
-    public static int getDayTypeIDByName(Constants.DAY_TYPE dayType){
-        return 0;
-    }
-    public static Date addDaysToDate(int numDays, String date){
-        Date dateToString;
-        Calendar cal=null;
-        dateToString = StrToDate(date);
-        cal = Calendar.getInstance();
-        cal.setTime(dateToString);
+    public static Date addDaysToDate(int numDays, String dateStr){
+        Date date = StrToDate(dateStr);
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(date);
         cal.add(Calendar.DATE, numDays);
-
         return cal.getTime();
-        //return date;
-
     }
 
     public static String getPrishaDate(String lastDateStr, BL bl){
@@ -137,15 +126,15 @@ public class Utils {
                 i++;
              }
         long countDate = countDaysBetweenDates(Utils.StrToDate(dates[dates.length- 1]), Utils.StrToDate(dates[dates.length- 2]));
-        int numDays=(int)(Math.round(countDate));
+        int numDays=Math.round(countDate);
 
         return addDaysToDate(numDays ,lastDateStr);
     }
 
     public static Date getJdateNextMonth(String lastDateStr) {//return the same day in the next month
-        int[] arrJDate = new int[3];
-        int[] arrJDateTemp = new int[3];
-        Date dt =new Date();
+        int[] arrJDate;
+        int[] arrJDateTemp;
+        Date dt;
         arrJDate = Utils.getHebDate(Utils.StrToDate(lastDateStr));//get int array {day, month, year} of last period date (jewish date)
         for (int i = 0; i < 3; i++) {
             dt=Utils.addDaysToDate(30 + i, lastDateStr);
@@ -182,8 +171,7 @@ public class Utils {
         return sdf.format(strDate);
     }
     public void printAllDays(BL bl){
-        ArrayList<Day> d=new ArrayList<Day>();
-        d=bl.getAllDays();
+        ArrayList<Day> d = bl.getAllDays();
         for(int i=0; i<d.size(); i++){
             Log.e("date:  ", d.get(i).get_date() + "ona type:  " + d.get(i).get_ona());
         }

@@ -1,7 +1,6 @@
 package com.mypuredays.mypuredays;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,24 +16,9 @@ import android.widget.TextView;
 public class DefinitionActivity extends Activity {
 
 
-    private String[] minPeriodLengthSpinner;
-    private String[] periodLengthSpinner;
-    private String[] clearDayNotificationSpinner;
-    private String[] typeOnaSpinner;
-
-    private TextView minPeriodLengthColumn,regularColumn,prishaDaysColumn,periodLengthColumn,mikveNotificationColumn,
-            cleanNotificationColumn,countCleanColumn, typePeriodColumn;
-
-    private Switch switch_period_constant, switch_prisha_day, switch_counter_pure_day,
-            switch_reminder_mikve_day;
-
-    private Spinner spinner_day_period_min,spinner_period_during, spinner_reminder_pure_day, spinner_type_period;
-
     private BL bl;
 
     private LinearLayout linear_ona_type;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,39 +28,34 @@ public class DefinitionActivity extends Activity {
         bl = new BL(this);
         linear_ona_type = (LinearLayout)findViewById(R.id.linear_layout_type_period);
 
-        minPeriodLengthColumn= (TextView)findViewById(R.id.item_name_day_period_min);
-        regularColumn= (TextView)findViewById(R.id.item_name_period_constant);
-        prishaDaysColumn= (TextView)findViewById(R.id.item_name_prisha_day);
-        periodLengthColumn= (TextView)findViewById(R.id.item_name_period_during);
-        countCleanColumn= (TextView)findViewById(R.id.item_name_counter_pure_day);
-        cleanNotificationColumn= (TextView)findViewById(R.id.item_name_reminder_pure_day);
-        mikveNotificationColumn= (TextView)findViewById(R.id.item_name_mikve_reminder_day);
-        typePeriodColumn= (TextView)findViewById(R.id.item_name_type_period);
+        TextView minPeriodLengthColumn = (TextView) findViewById(R.id.item_name_day_period_min);
+        TextView regularColumn = (TextView) findViewById(R.id.item_name_period_constant);
+        TextView prishaDaysColumn = (TextView) findViewById(R.id.item_name_prisha_day);
+        TextView periodLengthColumn = (TextView) findViewById(R.id.item_name_period_during);
+        TextView countCleanColumn = (TextView) findViewById(R.id.item_name_counter_pure_day);
+        TextView cleanNotificationColumn = (TextView) findViewById(R.id.item_name_reminder_pure_day);
+        TextView mikveNotificationColumn = (TextView) findViewById(R.id.item_name_mikve_reminder_day);
+        TextView typePeriodColumn = (TextView) findViewById(R.id.item_name_type_period);
 
-        switch_period_constant = (Switch)findViewById(R.id.switch_period_constant);
-        switch_prisha_day = (Switch)findViewById(R.id.switch_prisha_day);
-        switch_counter_pure_day = (Switch)findViewById(R.id.switch_counter_pure_day);
-        switch_reminder_mikve_day = (Switch)findViewById(R.id.switch_mikve_reminder_day);
+        Switch switch_period_constant = (Switch) findViewById(R.id.switch_period_constant);
+        Switch switch_prisha_day = (Switch)findViewById(R.id.switch_prisha_day);
+        Switch switch_counter_pure_day = (Switch) findViewById(R.id.switch_counter_pure_day);
+        Switch switch_reminder_mikve_day = (Switch) findViewById(R.id.switch_mikve_reminder_day);
 
-        spinner_day_period_min = (Spinner)findViewById(R.id.spinner_day_period_min);
-        spinner_period_during = (Spinner)findViewById(R.id.spinner_period_during);
-        spinner_reminder_pure_day = (Spinner)findViewById(R.id.spinner_reminder_pure_day);
-        spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
+        Spinner spinner_day_period_min = (Spinner) findViewById(R.id.spinner_day_period_min);
+        Spinner spinner_period_during = (Spinner) findViewById(R.id.spinner_period_during);
+        Spinner spinner_reminder_pure_day = (Spinner) findViewById(R.id.spinner_reminder_pure_day);
+        final Spinner spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
 
         ArrayAdapter<String> adapter;
 
         Cursor c = bl.getDefinitionCursor();
         Definition d = bl.getDefinition();
 
-        Resources res = getResources();
-        minPeriodLengthSpinner = Constants.MIN_PERIOD_LENGTH_SPINNER;
-        periodLengthSpinner = Constants.PERIOD_LENGTH_SPINNER;
-        clearDayNotificationSpinner = Constants.CLEAR_DAY_NOTIFICATION_SPINNER;
-        typeOnaSpinner = Constants.TYPE_ONA_SPINNER;
-
-
-
-        //Log.e("getDefinition","  "+d.get_minPeriodLengthID());
+        String[] minPeriodLengthSpinner = Constants.MIN_PERIOD_LENGTH_SPINNER;
+        String[] periodLengthSpinner = Constants.PERIOD_LENGTH_SPINNER;
+        String[] clearDayNotificationSpinner = Constants.CLEAR_DAY_NOTIFICATION_SPINNER;
+        String[] typeOnaSpinner = Constants.TYPE_ONA_SPINNER;
 
         for(int i=1; i<c.getColumnCount();i++){
 
@@ -84,8 +63,8 @@ public class DefinitionActivity extends Activity {
 
                 case 1: minPeriodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
-                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,minPeriodLengthSpinner);
+                    adapter = new ArrayAdapter<>(DefinitionActivity.this,
+                            android.R.layout.simple_spinner_item, minPeriodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_day_period_min.setAdapter(adapter);
                     spinner_day_period_min.setSelection(d.get_minPeriodLengthID());
@@ -94,16 +73,14 @@ public class DefinitionActivity extends Activity {
                 break;
                 case 2: regularColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_period_constant.setChecked(d.is_regulary());
-                    //Log.e("jjjjjj period  ", String.valueOf(d.is_regulary()));
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
-                    Log.e("d.is_prishaDays()", "  isChecked= " + d.is_prishaDays());
                     break;
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
-                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
-                            android.R.layout.simple_spinner_item,periodLengthSpinner);
+                    adapter = new ArrayAdapter<>(DefinitionActivity.this,
+                            android.R.layout.simple_spinner_item, periodLengthSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_period_during.setAdapter(adapter);
                     spinner_period_during.setSelection(d.get_periodLengthID());
@@ -115,7 +92,7 @@ public class DefinitionActivity extends Activity {
 
                 case 6: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
-                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
+                    adapter = new ArrayAdapter<>(DefinitionActivity.this,
                             android.R.layout.simple_spinner_item, clearDayNotificationSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_reminder_pure_day.setAdapter(adapter);
@@ -127,7 +104,7 @@ public class DefinitionActivity extends Activity {
                     break;
                 case 8: typePeriodColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
-                    adapter = new ArrayAdapter<String>(DefinitionActivity.this,
+                    adapter = new ArrayAdapter<>(DefinitionActivity.this,
                             android.R.layout.simple_spinner_item, typeOnaSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_type_period.setAdapter(adapter);
@@ -154,14 +131,11 @@ public class DefinitionActivity extends Activity {
         switch_prisha_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                Log.e("switch_prisha_day", "  isChecked= "+isChecked);
                 bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, isChecked);
                // if(spinner_type_period.getSelectedItem() != Constants.ONA_TYPE.DEFAULT.ordinal()){
                 //    linear_ona_type.setVisibility(View.GONE);
                // }
                 if(!isChecked){
-                    Log.e("ifswitch_prisha_day", "  isChecked= " + isChecked);
-                   // bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, Constants.ONA_TYPE.DEFAULT.ordinal());
                     spinner_type_period.setSelection(Constants.ONA_TYPE.UNKNOWN.ordinal());
                     //linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
                     linear_ona_type.setVisibility(View.GONE);
@@ -193,8 +167,8 @@ public class DefinitionActivity extends Activity {
         spinner_day_period_min.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapter, View view,
                                        int position, long id) {
-               // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
-               // int index_item = position;
+                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
+                // int index_item = position;
 
                 bl.setSpinnerDefinition(Constants.COL_MIN_PERIOD_LENGTH, position);
             }
@@ -221,8 +195,6 @@ public class DefinitionActivity extends Activity {
         spinner_reminder_pure_day.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapter, View view,
                                        int position, long id) {
-                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
-                // int index_item = position;
 
                 bl.setSpinnerDefinition(Constants.COL_CLEAN_NOTIFICATION, position);
             }
@@ -235,13 +207,9 @@ public class DefinitionActivity extends Activity {
         spinner_type_period.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapter, View view,
                                        int position, long id) {
-                // String pres_doctor = spinner_day_period_min.getSelectedItem().toString();
-                // int index_item = position;
-                Log.e("spinner", "  position= "+position);
                 bl.setSpinnerDefinition(Constants.COL_TYPE_PERIOD, position);
                 if(position == (Constants.ONA_TYPE.DEFAULT.ordinal())){
-                    Log.e("ifspinner", "  position= " + position);
-                    //bl.setSwitchDefinition(Constants.COL_PRISHA_DAYS, false);
+                    Switch switch_prisha_day = (Switch)findViewById(R.id.switch_prisha_day);
                     switch_prisha_day.setChecked(false);
                 }
             }
@@ -250,10 +218,6 @@ public class DefinitionActivity extends Activity {
                 Log.e("onNothingSelected", "onNothingSelected");
             }
         });
-
-
-        //
-
 
     }
 

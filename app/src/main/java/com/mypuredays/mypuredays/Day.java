@@ -1,29 +1,21 @@
 package com.mypuredays.mypuredays;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by David on 19/11/2015.
- */
 public class Day {
 
-    private int _rowId;
     private Date _date;
     private int _dayTypeId;
     private String _notes;
     private int _ona;
-    public static ArrayList<Day> day_arr;
 
-    public Day(int rowId, Date date, int dayTypeId, String notes, int ona)
+    public Day(Date date, int dayTypeId, String notes, int ona)
     {
-        _rowId=rowId;
         _date=date;
         _dayTypeId =dayTypeId;
         _notes=notes;
         _ona=ona;
         _ona=ona;
-
     }
 
     public void set_date(Date _date) {
