@@ -177,6 +177,10 @@ public class Utils {
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         return sdf.format(strDate);
     }
+    public static String DateToStrDisplay(Date strDate){
+        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.US);
+        return sdf.format(strDate);
+    }
     public void printAllDays(BL bl){
         ArrayList<Day> d=new ArrayList<Day>();
         d=bl.getAllDays();

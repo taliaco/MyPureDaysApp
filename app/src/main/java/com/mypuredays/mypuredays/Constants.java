@@ -49,6 +49,7 @@ public class Constants implements BaseColumns {
             Constants.COL_CLEAN_NOTIFICATION, Constants.COL_MIKVE_NOTIFICATION, Constants.COL_TYPE_PERIOD};
     public static final String MONTH_TITLE_FORMAT = "MM/yyyy";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_DISPLAY = "dd/MM/yyyy";
     public static final String DATE_SPLITTER = "-";
     public static final int MONTH_POSITION = 1;
     public static final int DAY_POSITION = 2;
