@@ -150,7 +150,8 @@ public class CalendarAdapter extends BaseAdapter {
         final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.activity_dialog_calendar);
-        dialog.setTitle(day_string.get(pos));
+        dialog.setTitle(Utils.StrToDateDisplay(day_string.get(pos)));
+
 
         // set the custom dialog components - text, image and button
         final TextView dialogNote = (TextView) dialog.findViewById(R.id.dialogNote);
