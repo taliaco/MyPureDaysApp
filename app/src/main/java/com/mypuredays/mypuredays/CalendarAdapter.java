@@ -111,7 +111,7 @@ public class CalendarAdapter extends BaseAdapter {
         }
 
         if (day_string.get(position).equals(curentDateString)) {
-            v.setBackgroundResource(Constants.CURRENT_CIRCLE);
+            v.findViewById(R.id.date_icon).setBackgroundResource(Constants.CURRENT_CIRCLE);
         } else {
             v.setBackgroundColor(Color.parseColor("#343434"));
 
@@ -239,7 +239,7 @@ public class CalendarAdapter extends BaseAdapter {
         if (previousView != null) {
             previousView.setBackgroundColor(Color.parseColor("#343434"));
         }
-        view.setBackgroundResource(Constants.CURRENT_CIRCLE);
+        view.findViewById(R.id.date_icon).setBackgroundResource(Constants.CURRENT_CIRCLE);
 
         int len = day_string.size();
         if (len > pos) {
@@ -302,34 +302,37 @@ public class CalendarAdapter extends BaseAdapter {
         String dateStr = day_string.get(pos);
         int dayType = getDayType(dateStr);
         boolean haveNote = bl.dayHaveNote(dateStr);
+        View view = v.findViewById(R.id.date_icon);
         if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
-            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
-            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
-            v.setBackgroundResource(Constants.CLEAR_CIRCLE);
+            view.setBackgroundResource(Constants.CLEAR_CIRCLE);
             txt.setTextColor(Color.parseColor("#ff4d6a"));
         } else if (dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
-            v.setBackgroundResource(Constants.PRISHA_CIRCLE);
+            view.setBackgroundResource(Constants.PRISHA_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
-            v.setBackgroundResource(Constants.OTHER_CIRCLE);
+            view.setBackgroundResource(Constants.OTHER_CIRCLE);
         } else if (dateStr.equals(Utils.DateToStr(new Date()))) {
-            v.setBackgroundResource(Constants.CURRENT_CIRCLE);
+            view.setBackgroundResource(Constants.CURRENT_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal()) {
-            v.setBackgroundResource(Constants.DEFAULT_CIRCLE);
+
+            view.setBackgroundResource(Constants.DEFAULT_CIRCLE);
+            //v.setBackgroundResource(Constants.DEFAULT_CIRCLE);
         }
 
         if (prishaDateArr != null) {
             if ((prishaDateArr[0] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[0]))) ||
                     (prishaDateArr[1] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[1]))) ||
                     (prishaDateArr[2] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[2])))) {
-                v.setBackgroundResource(Constants.PRISHA_CIRCLE);
+                view.setBackgroundResource(Constants.PRISHA_CIRCLE);
             }
         }
         if (dateStr.equals(getNextPeriodDate())){
-            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         }
         if (dayType != Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
             txt.setTextColor(Color.parseColor("#8dc63f"));
