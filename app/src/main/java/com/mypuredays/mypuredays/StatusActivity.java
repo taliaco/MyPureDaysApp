@@ -65,7 +65,7 @@ public class StatusActivity extends Activity {
             //END avg Between Period
             textViewNextPeriodDate.setText(Utils.StrToDateDisplay(nextPeriodDateStr));
             textViewCleanCount.setText(setTextViewCleanCount(definition));
-            textViewDateMikveh.setText(Utils.StrToDateDisplay(setTextViewDateMikveh(definition)));
+            textViewDateMikveh.setText(setTextViewDateMikveh(definition));
         }
         else {
             textViewNextPeriodDate.setText(InsufficientData);
@@ -91,12 +91,12 @@ public class StatusActivity extends Activity {
             if( day.getInt(2)==1){//start looking
 
                     if(numDayse<=periodLength+7) {//check if today is not after mikvhe
-                        return sdf.format(Utils.addDaysToDate((periodLength + 7), day.getString(1)));
+                        return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate((periodLength + 7), day.getString(1))));
                     }
             }
             else if(day.getInt(2)==2){//end looking
                 if (numDayse<=7) {
-                    return sdf.format(Utils.addDaysToDate(7, day.getString(1)));
+                    return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate(7, day.getString(1))));
                 }
             }
         }
