@@ -124,8 +124,8 @@ public class BL {
     //return the real type of the "currentDay" day.
     public int getTypeOfDate(String startCheckDate, String currentDay) {//return last daytype before the date parameter
 
-        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=?";
-        String[] selectionArgs = {startCheckDate,currentDay};
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=? AND " + Constants.COL_DAY_TYPE + "!=?";
+        String[] selectionArgs = {startCheckDate,currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
 
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
@@ -181,8 +181,8 @@ public class BL {
     }
 
     public Day getFirstLooking(Date currentDate){
-        String selection = Constants.COL_DATE + ">?";
-        String[] selectionArgs = {Utils.DateToStr(currentDate)};
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DAY_TYPE + "!=?";
+        String[] selectionArgs = {Utils.DateToStr(currentDate), String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
         String[] cols = new String[]{Constants._ID, "MIN(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         String firstDate = "";
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
@@ -248,18 +248,16 @@ public class BL {
 
 
     public void saveNote(Date date, String text) {
-        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        String strDate = Utils.DateToStr(date);
         String selection = Constants.COL_DATE + "=?";
-        String[] selectionArgs = {sdf.format(date)};
+        String[] selectionArgs = {strDate};
 
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_NOTES, text);
-            String criteria = Constants.COL_DATE + "=?" + sdf.format(date);
-            dal.DBUpdate(Constants.TABLE_DAY, values, criteria, new String[] {sdf.format(date)});
+            dal.DBUpdate(Constants.TABLE_DAY, values, selection, selectionArgs);
         } else {
-            String strDate = sdf.format(date);
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DATE, strDate);
             values.put(Constants.COL_DAY_TYPE, Constants.DAY_TYPE.DEFAULT.ordinal());
@@ -319,9 +317,20 @@ public class BL {
         }
         return day;
     }
-    public void DBDeleteDay(String date) {
+    public void deleteDay(String date) {
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {date};
         dal.DBDeleteItem(Constants.TABLE_DAY, selection, selectionArgs);
+    }
+    public Boolean dayHaveNote(String date){
+        String selection = Constants.COL_DATE + "=?";
+        String[] selectionArgs = {date};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection,selectionArgs);
+        if (c.moveToFirst()) {
+            if (c.getString(3) != null && !c.getString(3).equals("")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

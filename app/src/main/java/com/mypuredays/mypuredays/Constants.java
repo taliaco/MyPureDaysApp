@@ -65,10 +65,12 @@ public class Constants implements BaseColumns {
     }
 
     //calendar day design
-    public static int PERIOD_COLOR = Color.RED;
     public static int PERIOD_CIRCLE = R.drawable.period_circle;
-    public static int CLEAR_DAYS_COLOR = Color.WHITE;
-    public static int PRISHA_DAYS_COLOR = Color.MAGENTA;
+    public static int CLEAR_CIRCLE = R.drawable.clear_circle;
+    public static int PRISHA_CIRCLE = R.drawable.prisha_circle;
+    public static int OTHER_CIRCLE = R.drawable.other_circle;
+    public static int CURRENT_CIRCLE = R.drawable.current_circle;
+    public static int DEFAULT_CIRCLE = R.drawable.default_circle;
 
     public static int CLEAR_DAYS_LENGTH = 7;
 
