@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mypuredays.mypuredays">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    <receiver android:process=":remote" android:name=".Alarm"></receiver>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>-->
+    <!--<receiver android:process=":remote" android:name=".Alarm"></receiver>-->
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>-->
 
 
     <application
@@ -14,19 +14,25 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".DefinitionActivity" />
-        <activity android:name=".CalenderActivity" />
+        <activity android:name=".StatusActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DefinitionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CalenderActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".DialogCalendar"></activity>
-        <activity android:name=".dialogOnot"></activity>
+        <activity android:name=".DialogCalendar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".dialogOnot"
+            android:screenOrientation="portrait"/>
     </application>
 
     <receiver android:name=".AutoStart">

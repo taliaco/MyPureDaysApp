@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
             b.setText(res.getString(R.string.btStart));
             if(dayStartOrEndLook.moveToFirst()  && dayStartOrEndLook.getString(1) != null){
                 if(Utils.DateToStr(date).equals(dayStartOrEndLook.getString(1))){//if end period and start period==same day
-                    bl.DBDeleteDay(Utils.DateToStr(date));
+                    bl.deleteDay(Utils.DateToStr(date));
                 }else{
                     bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);//last start period != today
                 }

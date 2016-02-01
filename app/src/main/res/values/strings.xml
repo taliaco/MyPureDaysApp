@@ -12,7 +12,9 @@
     <string name="title_activity_calender">Calender</string>
     <string name="icon">icon</string>
 
-    <string name="minPeriodLengthColumn">מינימום ימי מחזור</string>
+
+    <string name="minPeriodLengthColumn">מינימום ימי מחזור
+    לספירת נקיים</string>
     <string name="regularColumn">מחזור סדיר</string>
     <string name="prishaDaysColumn">הצגת ימי פרישה  </string>
     <string name="periodLengthColumn">משך מחזור  </string>
