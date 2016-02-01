@@ -79,7 +79,6 @@ public class BL {
 
     }
 
-
     public Cursor getDefinitionCursor() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         if (c.moveToFirst()) {

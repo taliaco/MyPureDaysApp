@@ -30,49 +30,59 @@ public class StatusActivity extends Activity {
 
         //get the last date with start PeriodDate
         Cursor day = bl.getLastStartLooking();
-        Cursor definition =bl.getDefinitionCursor();
+        Definition definition =bl.getDefinition();
+        String InsufficientData="אין מספיק נתונים";// Not enough data
 
         String lastDateStr=""; // last date of start period
-        if (definition.moveToFirst()) {
-            textViewPeriodLength.setText( Integer.toString(definition.getInt(1)));
-        }
-        if (day.moveToFirst()) {
-            lastDateStr=day.getString(1);
-        }
-        textViewLastPeriodDate.setText(lastDateStr);
-        Date[] arrDate =Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
-        //if arrDate[2 or 3] = null
-        String prishaDateStr=Utils.DateToStr(arrDate[0]);
-        if(arrDate[1]!=null){
-            prishaDateStr+=Utils.DateToStr(arrDate[1]);
-        }
-        if(arrDate[2]!=null){
-            prishaDateStr+=Utils.DateToStr(arrDate[2]);
-        }
-        textViewPrishaDate.setText(prishaDateStr);
+            textViewPeriodLength.setText(Integer.toString(definition.get_periodLength()));
 
-        String nextPeriodDateStr;
-        //calculate avg Between Period
-        String avgBetweenPeriodStr= String.valueOf(Utils.avgBetweenPeriod(bl));
-        if(avgBetweenPeriodStr.equals("-1")){
-            avgBetweenPeriodStr="אין מספיק נתונים";
-             nextPeriodDateStr = sdf.format(Utils.addDaysToDate(28, lastDateStr));
+
+        if ( day.moveToFirst() && day.getString(1) != null) {
+            lastDateStr=day.getString(1);
+            textViewLastPeriodDate.setText(Utils.StrToDateDisplay(lastDateStr));
+            Date[] arrDate =Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+            //if arrDate[2 or 3] = null
+            String prishaDateStr=Utils.StrToDateDisplay(Utils.DateToStr(arrDate[0]))+ '\n';
+            if(arrDate[1]!=null){
+                prishaDateStr+=Utils.StrToDateDisplay(Utils.DateToStr(arrDate[1]))+ '\n';
+            }
+            if(arrDate[2]!=null){
+                prishaDateStr+=Utils.StrToDateDisplay(Utils.DateToStr(arrDate[2]))+ '\n';
+            }
+            textViewPrishaDate.setText(prishaDateStr);
+
+            String nextPeriodDateStr;
+            //calculate avg Between Period
+            String avgBetweenPeriodStr= String.valueOf(Utils.avgBetweenPeriod(bl));
+            if(avgBetweenPeriodStr.equals("-1")){
+                avgBetweenPeriodStr="אין מספיק נתונים";
+                nextPeriodDateStr = sdf.format(Utils.addDaysToDate(28, lastDateStr));
+            }
+            else{
+                nextPeriodDateStr = sdf.format(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
+            }
+            textViewPeriodAvg.setText(avgBetweenPeriodStr);
+            //END avg Between Period
+            textViewNextPeriodDate.setText(Utils.StrToDateDisplay(nextPeriodDateStr));
+            textViewCleanCount.setText(setTextViewCleanCount(definition));
+            textViewDateMikveh.setText(Utils.StrToDateDisplay(setTextViewDateMikveh(definition)));
         }
-        else{
-             nextPeriodDateStr = sdf.format(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
+        else {
+            textViewNextPeriodDate.setText(InsufficientData);
+            textViewDateMikveh.setText(InsufficientData);
+            textViewPeriodAvg.setText(InsufficientData);
+            textViewPrishaDate.setText(InsufficientData);
+            textViewLastPeriodDate.setText(InsufficientData);
+
         }
-        textViewPeriodAvg.setText(avgBetweenPeriodStr);
-        //END avg Between Period
-        textViewNextPeriodDate.setText(nextPeriodDateStr);
-        textViewCleanCount.setText(textViewCleanCount(definition));
-        textViewDateMikveh.setText(textViewDateMikveh(definition));
+
 
     }
 
 
-    private String textViewDateMikveh(Cursor definition){
+    private String setTextViewDateMikveh(Definition definition){
         Cursor day= bl.getLastDate();
-        int periodLength= definition.getInt(4);//PERIOD_LENGTH from definition
+        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
         long numDayse;
         Date today=new Date();
         sdf.format(today);
@@ -92,9 +102,9 @@ public class StatusActivity extends Activity {
         }
         return "-";
     }
-    private String textViewCleanCount(Cursor definition){
+    private String setTextViewCleanCount(Definition definition){
         Cursor day= bl.getLastDate();
-        int periodLength= definition.getInt(4);//PERIOD_LENGTH from definition
+        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
         long numDayse;
         Date today=new Date();
         sdf.format(today);
