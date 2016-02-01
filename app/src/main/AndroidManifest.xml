@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mypuredays.mypuredays">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <receiver android:process=":remote" android:name=".Alarm"></receiver>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +24,21 @@
         <activity android:name=".StatusActivity" />
         <activity android:name=".DefinitionActivity" />
         <activity android:name=".CalenderActivity" />
+
         <activity android:name=".DialogCalendar"></activity>
         <activity android:name=".dialogOnot"></activity>
     </application>
+
+    <receiver android:name=".AutoStart">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+        </intent-filter>
+    </receiver>
+
+    <service
+        android:name=".MyService"
+        android:enabled="true"
+        android:process=":my_service" >
+    </service>
 
 </manifest>

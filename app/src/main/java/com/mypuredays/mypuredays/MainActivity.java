@@ -82,9 +82,15 @@ public class MainActivity extends Activity {
     }
 
     public void openDefinition(View view) {
+
+       // Intent intentB = new Intent("android.intent.action.BOOT_COMPLETED");
+       // sendBroadcast(intentB);
+
         Intent intent = new Intent(this, DefinitionActivity.class);
         //intent.putExtra("definition",(Serializable)studentObject);
         startActivity(intent);
+
+
     }
 
     public void openStatus(View view) {
