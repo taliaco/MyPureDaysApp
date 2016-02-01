@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,7 +107,7 @@ public class MainActivity extends Activity {
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_LONG;
         Definition def = bl.getDefinition();
-
+        final Cursor dayStartOrEndLook= bl.getLastDate();
         final Date date = new Date();//today
         final String dateStr = Utils.DateToStr(date);
 
@@ -166,7 +167,16 @@ public class MainActivity extends Activity {
             }
         } else {//END LOOKING
             b.setText(res.getString(R.string.btStart));
-            bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
+            if(dayStartOrEndLook.moveToFirst()  && dayStartOrEndLook.getString(1) != null){
+                if(Utils.DateToStr(date).equals(dayStartOrEndLook.getString(1))){//if end period and start period==same day
+                    bl.DBDeleteDay(Utils.DateToStr(date));
+                }else{
+                    bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);//last start period != today
+                }
+            }else{//if the table is empty
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
+            }
+
             txt = "הפסק  ראייה היום" + " " + dateStr;
             Toast toast = Toast.makeText(context, txt, duration);
             toast.show();

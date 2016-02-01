@@ -85,9 +85,7 @@ public class Utils {
         //return date;
     }
     public static Date[] getPrishaDate(String lastDateStr, BL bl){
-        /*
-        ----CHECK IF THE PERIOD SADIR
-         */
+
         Definition def =bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
         int avg; //avg Between Period
@@ -104,7 +102,6 @@ public class Utils {
             return  arrDate;
 
         }
-
         String strPrishaDates="";
         arrDate[0]=getJdateNextMonth(lastDateStr);
         arrDate[1]= differenceDays(lastDateStr, bl);
@@ -122,18 +119,15 @@ public class Utils {
 
         return arrDate;
 
-//        if(arrDate[0].compareTo(arrDate[1])>0){
-//            strPrishaDates+=DateToStr(arrDate[0])+" "+ DateToStr(arrDate[1]);
-//            if(arrDate[2].compareTo(arrDate[0])>0 && arrDate[2].compareTo(arrDate[1])>0){
-//                strPrishaDates+=DateToStr(arrDate[2]);
-//            }
-//        }else{
-//            strPrishaDates+=DateToStr(arrDate[0]);
-//            if(arrDate[2].compareTo(arrDate[0])>0){
-//                strPrishaDates+=DateToStr(arrDate[2])+"";
-//            }
-        //}
-//        return strPrishaDates;
+    }
+
+    public static Date[] getPrishaDate(BL bl) {
+
+        Cursor day = bl.getLastStartLooking();
+        if ( day.moveToFirst() && day.getString(1) != null) {
+            return getPrishaDate(day.getString(1), bl);
+        }
+        return null;
     }
 /*   count days between last period and corrent period.
      add the number of the day to the last begin period
@@ -191,6 +185,9 @@ public class Utils {
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.US);
         return sdf.format(strDate);
     }
+    public static String StrToDateDisplay(String strDate){
+        return DateToStrDisplay(StrToDate(strDate));
+    }
     public void printAllDays(BL bl){
         ArrayList<Day> d = bl.getAllDays();
         for(int i=0; i<d.size(); i++){
@@ -205,8 +202,6 @@ public class Utils {
         arrDate[1]=Jdate.getJewishMonth();
         arrDate[2]=Jdate.getJewishYear();
         return arrDate;
-       // return String.valueOf(Jdate.getJewishDayOfMonth()) + " " + Jdate.getJewishMonth()+" "+Jdate.getJewishYear();
-
     }
     public static long countDaysBetweenDates(Date date1, Date date2){
         long diff;
