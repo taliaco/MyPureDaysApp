@@ -29,7 +29,9 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
         <TextView
             android:id="@+id/LABEL_lastPeriodDate"
             android:layout_width="fill_parent"
@@ -67,7 +69,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:text="--"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
 
         <TextView
             android:id="@+id/LABEL_cleanCount"
@@ -100,7 +104,9 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
         <TextView
             android:id="@+id/LABEL_dateMikveh"
             android:layout_width="fill_parent"
@@ -132,7 +138,9 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
         <TextView
             android:id="@+id/LABEL_periodLength"
             android:layout_width="fill_parent"
@@ -166,7 +174,9 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
 
         <TextView
             android:id="@+id/LABEL_periodAvg"
@@ -204,7 +214,9 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
         <TextView
             android:id="@+id/LABEL_prishaDate"
             android:layout_width="fill_parent"
@@ -235,7 +247,9 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            />
         <TextView
             android:id="@+id/LABEL_nextPeriodDate"
             android:layout_width="fill_parent"
