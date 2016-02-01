@@ -2,6 +2,7 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,44 +37,37 @@ public class CalendarAdapter extends BaseAdapter {
     int maxWeeknumber;
     int maxP;
     int calMaxP;
-    int lastWeekDay;
-    int leftDays;
     int mnthlength;
     String itemvalue, curentDateString;
     DateFormat df;
     private int avgPeriondLength;
     private ArrayList<String> items;
-    public  List<String> day_string;
+    public List<String> day_string;
     private View previousView;
     public ArrayList<CalendarCollection> date_collection_arr;
+    public Date[] prishaDateArr;
 
     public CalendarAdapter(Context context, GregorianCalendar monthCalendar, ArrayList<CalendarCollection> date_collection_arr) {
 
         this.date_collection_arr = date_collection_arr;
-        day_string = new ArrayList<String>();
+
+        day_string = new ArrayList<>();
         Locale.setDefault(Locale.US);
         month = monthCalendar;
         selectedDate = (GregorianCalendar) monthCalendar.clone();
         this.context = context;
         bl = new BL(this.context);
+        prishaDateArr = getPrishaDateArr();
         avgPeriondLength = bl.getDefinition().get_periodLengthID();
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
-        this.items = new ArrayList<String>();
+        this.items = new ArrayList<>();
         df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         curentDateString = df.format(selectedDate.getTime());
         refreshDays();
 
     }
 
-    public void setItems(ArrayList<String> items) {
-        for (int i = 0; i != items.size(); i++) {
-            if (items.get(i).length() == 1) {
-                items.set(i, "0" + items.get(i));
-            }
-        }
-        this.items = items;
-    }
 
     public int getCount() {
         return day_string.size();
@@ -89,8 +83,6 @@ public class CalendarAdapter extends BaseAdapter {
 
     // create a new view for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-//        bl = new BL(this.context);
-
         View v = convertView;
         TextView dayView;
         if (convertView == null) { // if it's not recycled, initialize some
@@ -101,10 +93,8 @@ public class CalendarAdapter extends BaseAdapter {
 
         }
 
-
         dayView = (TextView) v.findViewById(R.id.date);
         String[] separatedTime = day_string.get(position).split(Constants.DATE_SPLITTER);
-
 
         String gridvalue = separatedTime[Constants.DAY_POSITION].replaceFirst("^0*", "");
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
@@ -120,17 +110,12 @@ public class CalendarAdapter extends BaseAdapter {
             dayView.setTextColor(Color.WHITE);
         }
 
-
         if (day_string.get(position).equals(curentDateString)) {
-
-            v.setBackgroundColor(Color.CYAN);
-        }
-        else
-         {
+            v.setBackgroundResource(Constants.CURRENT_CIRCLE);
+        } else {
             v.setBackgroundColor(Color.parseColor("#343434"));
 
         }
-
 
         dayView.setText(gridvalue);
 
@@ -184,13 +169,13 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
 
-                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.START_LOOKING.ordinal());
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date, "", Constants.DAY_TYPE.START_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
                 notifyDataSetChanged();
 
-                Toast toast = Toast.makeText(context, "התחלת ראיה ביום" +  sdf.format(date), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(context, "התחלת ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
                 toast.show();
                 dialog.dismiss();
             }
@@ -204,8 +189,8 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING,Constants.ONA_TYPE.DEFAULT);
-                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,"",Constants.DAY_TYPE.END_LOOKING.ordinal());
+                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date, "", Constants.DAY_TYPE.END_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
                 notifyDataSetChanged();
 
@@ -224,8 +209,14 @@ public class CalendarAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
                 bl.saveNote(date, dialogNote.getText().toString());
-                CalendarCollection tmpCalendarCollection = new CalendarCollection(date,dialogNote.getText().toString(),Constants.DAY_TYPE.DEFAULT.ordinal());
-                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+
+                CalendarCollection tmpCalendarCollection = new CalendarCollection(date, dialogNote.getText().toString(), Constants.DAY_TYPE.DEFAULT.ordinal());
+                int i = CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection);
+                if (i > 0) {
+                    CalendarCollection.date_collection_arr.set(CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection), tmpCalendarCollection);
+                } else {
+                    CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+                }
                 notifyDataSetChanged();
                 Toast toast = Toast.makeText(context, context.getResources().getText(R.string.NoteSaved), Toast.LENGTH_SHORT);
                 toast.show();
@@ -235,6 +226,11 @@ public class CalendarAdapter extends BaseAdapter {
         dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                bl.deleteDay(day_string.get(pos));
+                CalendarCollection calendarCollectiontmp = new CalendarCollection(day_string.get(pos), "");
+                CalendarCollection.date_collection_arr.remove(calendarCollectiontmp);
+                notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
@@ -243,8 +239,7 @@ public class CalendarAdapter extends BaseAdapter {
         if (previousView != null) {
             previousView.setBackgroundColor(Color.parseColor("#343434"));
         }
-
-        view.setBackgroundColor(Color.CYAN);
+        view.setBackgroundResource(Constants.CURRENT_CIRCLE);
 
         int len = day_string.size();
         if (len > pos) {
@@ -304,55 +299,99 @@ public class CalendarAdapter extends BaseAdapter {
 
 
     public void setEventView(View v, int pos, TextView txt) {
-        int len = CalendarCollection.date_collection_arr.size();
-        for (int i = 0; i < len; i++) {
-            CalendarCollection cal_obj = CalendarCollection.date_collection_arr.get(i);
-            String date = cal_obj.date;
-            int len1 = day_string.size();
-            if (len1 > pos) {
-                if (day_string.get(pos).equals(date)) {
-                    v.setBackgroundColor(Color.GREEN);
-                  //RippleDrawable  v.setBackgroundResource(R.drawable.rounded_calender_item);
-                    txt.setTextColor(Color.WHITE);
+        String dateStr = day_string.get(pos);
+        int dayType = getDayType(dateStr);
+        boolean haveNote = bl.dayHaveNote(dateStr);
+        if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
+            v.setBackgroundResource(Constants.CLEAR_CIRCLE);
+            txt.setTextColor(Color.parseColor("#ff4d6a"));
+        } else if (dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
+            v.setBackgroundResource(Constants.PRISHA_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
+            v.setBackgroundResource(Constants.OTHER_CIRCLE);
+        } else if (dateStr.equals(Utils.DateToStr(new Date()))) {
+            v.setBackgroundResource(Constants.CURRENT_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal()) {
+            v.setBackgroundResource(Constants.DEFAULT_CIRCLE);
+        }
 
-                }
-
+        if (prishaDateArr != null) {
+            if ((prishaDateArr[0] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[0]))) ||
+                    (prishaDateArr[1] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[1]))) ||
+                    (prishaDateArr[2] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[2])))) {
+                v.setBackgroundResource(Constants.PRISHA_CIRCLE);
             }
         }
-        int dayType = getDayType(day_string.get(0), day_string.get(pos));
-
-        if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
+        if (dateStr.equals(getNextPeriodDate())){
+            v.setBackgroundResource(Constants.PERIOD_CIRCLE);
         }
-        else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
-        }
-        else if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()) {
-            v.setBackgroundColor(Constants.PERIOD_COLOR);
-        }
-        else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
-            v.setBackgroundColor(Constants.CLEAR_DAYS_COLOR);
-        }
-        else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
-            v.setBackgroundColor(Constants.PRISHA_DAYS_COLOR);
+        if (dayType != Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
+            txt.setTextColor(Color.parseColor("#8dc63f"));
         }
     }
-    private int getDayType(String dateStart,String dateEnd){
+
+    private Date[] getPrishaDateArr() {
+        Cursor day = bl.getLastStartLooking();
+        String lastDateStr = ""; // last date of start period
+        try {
+            day.moveToFirst();
+
+            Definition def = bl.getDefinition();
+            if (def.is_prishaDays()) {
+                lastDateStr = day.getString(1);
+                return Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+
+            }
+
+        } finally {
+            day.close();
+        }
+        return null;
+    }
+
+    private String getNextPeriodDate() {
+        Cursor day = bl.getLastStartLooking();
+        String lastDateStr = ""; // last date of start period
+        String nextPeriod = "";
+        try {
+            day.moveToFirst();
+            lastDateStr = day.getString(1);
+
+            int avgBetweenPeriodStr = Utils.avgBetweenPeriod(bl);
+            if (avgBetweenPeriodStr == -1) {
+                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(28, lastDateStr));
+            } else {
+                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
+            }
+        } finally {
+            day.close();
+        }
+        return nextPeriod;
+    }
+
+    private int getDayType(String dateEnd) {
         int dayType;
         Day day = bl.getDay(dateEnd);
-        if (day != null){
+        if (day != null && day.get_dayTypeId() != Constants.DAY_TYPE.DEFAULT.ordinal()) {
             return day.get_dayTypeId();
         }
-        dayType = bl.getLastDayTypeBetweenDate(dateStart, dateEnd);
+        dayType = bl.getTypeOfDate("1980-01-01", dateEnd);
 
-        if(dayType >0){
+        if (dayType > 0) {
+
             return dayType;
         }
 
-
         return Constants.DAY_TYPE.DEFAULT.ordinal();
     }
-    public String getPosDate(int position){
+
+    public String getPosDate(int position) {
         return day_string.get(position);
     }
 }

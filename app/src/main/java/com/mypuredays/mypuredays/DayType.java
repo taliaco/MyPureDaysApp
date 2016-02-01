@@ -22,19 +22,12 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-//getView
-/**
- * Created by David on 19/11/2015.
- */
-public class DayType {
 
-    private int _rowId;
+public class DayType {
     private int _ID;
     private String _Type;
 
-    public DayType(int rowId, int _ID, String _Type) {
-
-        this._rowId = rowId;
+    public DayType(int _ID, String _Type) {
         this._ID = _ID;
         this._Type = _Type;
     }
@@ -82,27 +75,18 @@ public class DayType {
 
         public CalendarAdapter(Context context, GregorianCalendar monthCalendar,ArrayList<CalendarCollection> date_collection_arr) {
             this.date_collection_arr=date_collection_arr;
-            CalendarAdapter.day_string = new ArrayList<String>();
+            CalendarAdapter.day_string = new ArrayList<>();
             Locale.setDefault(Locale.US);
             month = monthCalendar;
             selectedDate = (GregorianCalendar) monthCalendar.clone();
             this.context = context;
             month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
-            this.items = new ArrayList<String>();
+            this.items = new ArrayList<>();
             df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             curentDateString = df.format(selectedDate.getTime());
             refreshDays();
 
-        }
-
-        public void setItems(ArrayList<String> items) {
-            for (int i = 0; i != items.size(); i++) {
-                if (items.get(i).length() == 1) {
-                    items.set(i, "0" + items.get(i));
-                }
-            }
-            this.items = items;
         }
 
         public int getCount() {
@@ -193,17 +177,10 @@ public class DayType {
 
             int len=day_string.size();
             if (len>pos) {
-                if (day_string.get(pos).equals(curentDateString)) {
-
-                }else{
-
+                if (!day_string.get(pos).equals(curentDateString)) {
                     previousView = view;
-
                 }
-
             }
-
-
             return view;
         }
 
@@ -305,63 +282,10 @@ public class DayType {
                                 }
                             }).show();
                     break;
-                }else{
-
-
-                }}
-
-
-
-        }
-
-    }
-
-    public static class ListViewActivity extends Activity implements View.OnClickListener {
-
-        private ListView lv_android;
-        private Definition.AndroidListAdapter list_adapter;
-        private Button btn_calender;
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_list_view);
-
-            CalendarCollection.date_collection_arr=new ArrayList<CalendarCollection>();
-            CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-01","John Birthday"));
-            CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-04","Client Meeting at 5 p.m."));
-            CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-06","A Small Party at my office"));
-            CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-05-02","Marriage Anniversary"));
-            CalendarCollection.date_collection_arr.add(new CalendarCollection("2015-04-11","Live Event and Concert of sonu"));
-
-
-            getWidget();
-        }
-
-
-
-        public void getWidget(){
-            btn_calender = (Button) findViewById(R.id.btn_calender);
-            btn_calender.setOnClickListener(this);
-
-            lv_android = (ListView) findViewById(R.id.lv_android);
-            list_adapter=new Definition.AndroidListAdapter(ListViewActivity.this,R.layout.list_item, CalendarCollection.date_collection_arr);
-            lv_android.setAdapter(list_adapter);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            switch (v.getId()) {
-                case R.id.btn_calender:
-                    startActivity(new Intent(ListViewActivity.this,ClearDayType.CalenderActivity.class));
-
-                    break;
-
-                default:
-                    break;
+                }
             }
+
+
 
         }
 

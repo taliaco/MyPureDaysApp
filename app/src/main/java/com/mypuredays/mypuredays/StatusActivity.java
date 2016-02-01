@@ -28,29 +28,47 @@ public class StatusActivity extends Activity {
         TextView textViewPeriodLength=(TextView) this.findViewById(R.id.FIELD_periodLength);
         TextView textViewPrishaDate=(TextView) this.findViewById(R.id.FIELD_prishaDate);
 
-
         //get the last date with start PeriodDate
-        Cursor day = bl.getLastDate(Constants.TABLE_DAY);
+        Cursor day = bl.getLastStartLooking();
         Cursor definition =bl.getDefinitionCursor();
 
         String lastDateStr=""; // last date of start period
         if (definition.moveToFirst()) {
             textViewPeriodLength.setText( Integer.toString(definition.getInt(1)));
         }
-
         if (day.moveToFirst()) {
             lastDateStr=day.getString(1);
         }
         textViewLastPeriodDate.setText(lastDateStr);
-        //convert date type to string
-        //add 28 days to date
-        String date = sdf.format(Utils.addDaysToDate(28, lastDateStr));
-        textViewNextPeriodDate.setText(date);
+        Date[] arrDate =Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+        //if arrDate[2 or 3] = null
+        String prishaDateStr=Utils.DateToStr(arrDate[0]);
+        if(arrDate[1]!=null){
+            prishaDateStr+=Utils.DateToStr(arrDate[1]);
+        }
+        if(arrDate[2]!=null){
+            prishaDateStr+=Utils.DateToStr(arrDate[2]);
+        }
+        textViewPrishaDate.setText(prishaDateStr);
 
-        textViewPeriodAvg.setText(avgBetweenPeriod());
+        String nextPeriodDateStr;
+        //calculate avg Between Period
+        String avgBetweenPeriodStr= String.valueOf(Utils.avgBetweenPeriod(bl));
+        if(avgBetweenPeriodStr.equals("-1")){
+            avgBetweenPeriodStr="אין מספיק נתונים";
+             nextPeriodDateStr = sdf.format(Utils.addDaysToDate(28, lastDateStr));
+        }
+        else{
+             nextPeriodDateStr = sdf.format(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
+        }
+        textViewPeriodAvg.setText(avgBetweenPeriodStr);
+        //END avg Between Period
+        textViewNextPeriodDate.setText(nextPeriodDateStr);
         textViewCleanCount.setText(textViewCleanCount(definition));
         textViewDateMikveh.setText(textViewDateMikveh(definition));
+
     }
+
 
     private String textViewDateMikveh(Cursor definition){
         Cursor day= bl.getLastDate();
@@ -59,7 +77,7 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
 
                     if(numDayse<=periodLength+7) {//check if today is not after mikvhe
@@ -81,13 +99,14 @@ public class StatusActivity extends Activity {
         Date today=new Date();
         sdf.format(today);
         if(day.moveToFirst()){
-            numDayse=countDaysBetweenDates(Utils.StrToDate(day.getString(1)) ,today);//num days between start/end looking until today
+            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
             if( day.getInt(2)==1){//start looking
                 if(numDayse<periodLength){//still in period
                     return "-";
                 }else if(numDayse>=periodLength){//end perion
                     if(numDayse<=periodLength+7) {//check if today is not after nekiim
                         return String.valueOf(numDayse - periodLength);
+
                     }
                 }
             }
@@ -102,41 +121,8 @@ public class StatusActivity extends Activity {
     }
 
 
-    private String avgBetweenPeriod(){
-        boolean average=false;//Is there an average(Use at least 4 months )
-        Cursor day=bl.getDateStartLooking();
-        String[] dates=new String[day.getCount()];
-        int i=0;//indwx of varr days
-        long countDate=0; //count the days between date for AVG
-        if(day.getCount()<4){//there average
-            average=false;
-        }
-        else {
-            while (day.moveToNext()) {
-                dates[i]=day.getString(1);
-                i++;
-            }
-            average=true;
-        }
-        if (average==true){
-            for (i=0; i< 3; i++){
-                    countDate+= countDaysBetweenDates(Utils.StrToDate(dates[dates.length - i - 1]), Utils.StrToDate(dates[dates.length - i - 2]));
-            }
-            Float f = new Float ((float)countDate);
-            return (String.valueOf(Math.round(f/3)));
-        }
-        return "אין מספיק נתונים";
-    }
 
-    private long countDaysBetweenDates(Date date1, Date date2){
-        long diff;
-        if(date1.getTime()>date2.getTime()) {
-            diff = date1.getTime() - date2.getTime();
-        }else{
-            diff = date2.getTime() - date1.getTime();
-        }
-        return (diff  / 1000 / 60 / 60 / 24);
-    }
+
 
 
 
