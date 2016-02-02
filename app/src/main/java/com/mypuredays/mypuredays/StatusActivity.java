@@ -40,7 +40,7 @@ public class StatusActivity extends Activity {
         if ( day.moveToFirst() && day.getString(1) != null) {
             lastDateStr=day.getString(1);
             textViewLastPeriodDate.setText(Utils.StrToDateDisplay(lastDateStr));
-            Date[] arrDate =Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+            Date[] arrDate =Utils.getPrishaDate( bl);//return 3 optional prisha dates (2,3 may be null)
             //if arrDate[2 or 3] = null
             String prishaDateStr=Utils.StrToDateDisplay(Utils.DateToStr(arrDate[0]))+ '\n';
             if(arrDate[1]!=null){

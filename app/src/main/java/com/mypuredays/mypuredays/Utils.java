@@ -84,7 +84,16 @@ public class Utils {
         return cal.getTime();
         //return date;
     }
-    public static Date[] getPrishaDate(String lastDateStr, BL bl){
+    public static Date[] getPrishaDate(BL bl){
+        String  lastDateStr="";
+        int typeOna;
+        Cursor day = bl.getLastStartLooking();
+        if ( day.moveToFirst() && day.getString(1) != null) {
+            lastDateStr=day.getString(1);
+            typeOna=day.getInt(4);//3
+        }else {//EMPTY DB
+            typeOna=-1;
+        }
 
         Definition def =bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
@@ -92,7 +101,7 @@ public class Utils {
         arrDate[0]=null;
         arrDate[1]=null;
         arrDate[2]=null;
-        if(def.is_regulary()==true) {//period sadir
+        if(def.is_regulary()==true) {// if period sadir then prisha is AVG
             avg=avgBetweenPeriod(bl);
             if(avg!=-1){
                 arrDate[0] = Utils.addDaysToDate(avg,lastDateStr);
@@ -100,13 +109,17 @@ public class Utils {
                 arrDate[0] = Utils.addDaysToDate(28,lastDateStr);
             }
             return  arrDate;
-
         }
-        String strPrishaDates="";
+        //period not sadir----------
         arrDate[0]=getJdateNextMonth(lastDateStr);
         arrDate[1]= differenceDays(lastDateStr, bl);
         arrDate[2]=Utils.addDaysToDate(30, lastDateStr);
+        if (def.get_typeOna()==Constants.ONA_TYPE.NIGHT.ordinal() ||  typeOna==3){//ONA == NIGHT
+            arrDate[0]=addDaysToDate(1, Utils.DateToStr(arrDate[0]));
+            arrDate[1]=addDaysToDate(1, Utils.DateToStr(arrDate[1]));
+            arrDate[2]=addDaysToDate(1, Utils.DateToStr(arrDate[2]));
 
+        }
         if(arrDate[0].compareTo(arrDate[1])==0){
             arrDate[1]=null;
         }
@@ -121,14 +134,14 @@ public class Utils {
 
     }
 
-    public static Date[] getPrishaDate(BL bl) {
-
-        Cursor day = bl.getLastStartLooking();
-        if ( day.moveToFirst() && day.getString(1) != null) {
-            return getPrishaDate(day.getString(1), bl);
-        }
-        return null;
-    }
+//    public static Date[] getPrishaDate(BL bl) {
+//
+//        Cursor day = bl.getLastStartLooking();
+//        if ( day.moveToFirst() && day.getString(1) != null) {
+//            return getPrishaDate(day.getString(1), bl);
+//        }
+//        return null;
+//    }
 /*   count days between last period and corrent period.
      add the number of the day to the last begin period
  */

@@ -345,7 +345,7 @@ public class CalendarAdapter extends BaseAdapter {
             Definition def = bl.getDefinition();
             if (def.is_prishaDays()) {
                 lastDateStr = day.getString(1);
-                return Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+                return Utils.getPrishaDate(bl);//return 3 optional prisha dates (2,3 may be null)
 
             }
 

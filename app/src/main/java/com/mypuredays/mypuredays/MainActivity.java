@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
         Definition def = bl.getDefinition();
         final Cursor dayStartOrEndLook= bl.getLastDate();
         final Date date = new Date();//today
-        final String dateStr = Utils.DateToStr(date);
+        final String dateStr =Utils.StrToDateDisplay(Utils.DateToStr(date));
 
 
         final Dialog dialogPrisha = new Dialog(this);

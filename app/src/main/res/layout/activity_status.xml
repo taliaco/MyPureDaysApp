@@ -31,6 +31,10 @@
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
+
+
             />
         <TextView
             android:id="@+id/LABEL_lastPeriodDate"
@@ -44,7 +48,7 @@
             android:textStyle="bold"
             android:layout_gravity="center"
 
-            />
+            android:textColor="#000000" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,7 +88,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
             android:textStyle="bold"
-            />
+            android:textColor="#000000" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_dateMikveh"
@@ -102,10 +106,11 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
             />
         <TextView
             android:id="@+id/LABEL_dateMikveh"
@@ -116,7 +121,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#000000" />
     </LinearLayout>
 
     <LinearLayout
@@ -136,10 +142,11 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
             />
         <TextView
             android:id="@+id/LABEL_periodLength"
@@ -150,7 +157,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#000000" />
 
 
     </LinearLayout>
@@ -172,10 +180,11 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
             />
 
         <TextView
@@ -187,7 +196,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#000000" />
 
 
     </LinearLayout>
@@ -212,10 +222,11 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
             />
         <TextView
             android:id="@+id/LABEL_prishaDate"
@@ -226,7 +237,8 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#000000" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LAYOUT_nextPeriodDate"
@@ -245,10 +257,11 @@
             android:layout_weight="1"
             android:textSize="20dp"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAlignment="gravity"
             />
         <TextView
             android:id="@+id/LABEL_nextPeriodDate"
@@ -259,7 +272,8 @@
             android:textSize="20dp"
             android:layout_marginRight="15dp"
             android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textColor="#000000" />
     </LinearLayout>
 
 </LinearLayout>
