@@ -238,5 +238,44 @@ public class Utils {
             return (Math.round(f / 3));
         }
         return -1;
+
+    }
+    public static Date[] getPrishaDateArr(BL bl) {
+        Cursor day = bl.getLastStartLooking();
+        String lastDateStr = ""; // last date of start period
+        try {
+            day.moveToFirst();
+
+            Definition def = bl.getDefinition();
+            if (def.is_prishaDays()) {
+                lastDateStr = day.getString(1);
+                return Utils.getPrishaDate(lastDateStr, bl);//return 3 optional prisha dates (2,3 may be null)
+
+            }
+
+        } finally {
+            day.close();
+        }
+        return null;
+    }
+
+    public static String getNextPeriodDate(BL bl) {
+        Cursor day = bl.getLastStartLooking();
+        String lastDateStr = ""; // last date of start period
+        String nextPeriod = "";
+        try {
+            day.moveToFirst();
+            lastDateStr = day.getString(1);
+
+            int avgBetweenPeriodStr = Utils.avgBetweenPeriod(bl);
+            if (avgBetweenPeriodStr == -1) {
+                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(28, lastDateStr));
+            } else {
+                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
+            }
+        } finally {
+            day.close();
+        }
+        return nextPeriod;
     }
 }

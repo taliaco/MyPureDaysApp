@@ -127,30 +127,37 @@ public class BL {
         String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=? AND " + Constants.COL_DAY_TYPE + "!=?";
         String[] selectionArgs = {startCheckDate,currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
-
-        DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
-        Date dateEndDate = null;
-        Definition def = getDefinition();
-        try {
-            dateEndDate = sdf.parse(currentDay);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Day nextDay;
         int dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
+        Date[] prishaArr = Utils.getPrishaDateArr(this);
+        String nextPeriod = Utils.getNextPeriodDate(this);
+        Date dateEndDate = Utils.StrToDate(currentDay);
+        Definition def = getDefinition();
+
+        for(int i=0; i<prishaArr.length; i++){
+            if (prishaArr[i].equals(dateEndDate)){
+                return Constants.DAY_TYPE.PRISHA.ordinal();
+            }
+        }
+        if (nextPeriod.equals(dateEndDate)){
+            return Constants.DAY_TYPE.PRISHA.ordinal();
+        }
+
+        Day nextDay;
+
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         try {
             if (c.moveToFirst()) {
                 nextDay = getFirstLooking(Utils.StrToDate(currentDay));
+                int periodLength = def.get_periodLength();
                 switch (c.getInt(2)) {
                     case 0:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
                         break;
-                    case 1: //add period length check
-                        if (Utils.addDaysToDate(def.get_periodLength(), c.getString(1)).before(dateEndDate)) {
+                    case 1: //start looking
+                        if (Utils.addDaysToDate(periodLength, c.getString(1)).before(dateEndDate)) {
                             if (nextDay != null && nextDay.get_dayTypeId() == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
                                 dayType = Constants.DAY_TYPE.PERIOD.ordinal();
-                            } else if (Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)) {
+                            } else if (Utils.addDaysToDate(periodLength + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)) {
                                 dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
                             } else {
                                 dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
@@ -159,15 +166,15 @@ public class BL {
                             dayType = Constants.DAY_TYPE.PERIOD.ordinal();
                         }
                         break;
-                    case 2: //add max 7 days check
-                        if (Utils.addDaysToDate(def.get_periodLength() + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)) {
+                    case 2: //end looking
+                        if (Utils.addDaysToDate(periodLength + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate)) {
                             dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
                         } else {
                             dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
                         }
                         break;
-                    case 5:
-                        dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
+                    case 5://mikve
+                        dayType = Constants.DAY_TYPE.MIKVEH.ordinal();
                         break;
                     default:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
