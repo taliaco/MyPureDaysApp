@@ -63,7 +63,7 @@ public class CalendarAdapter extends BaseAdapter {
         selectedDate = (GregorianCalendar) monthCalendar.clone();
         this.context = context;
         bl = new BL(this.context);
-        prishaDateArr = getPrishaDateArr();
+        prishaDateArr = Utils.getPrishaDateArr(bl);
         avgPeriondLength = bl.getDefinition().get_periodLengthID();
         month.set(GregorianCalendar.DAY_OF_MONTH, 1);
 
@@ -399,7 +399,7 @@ public class CalendarAdapter extends BaseAdapter {
 
     public void setEventView(View v, int pos, TextView txt) {
         String dateStr = day_string.get(pos);
-        int dayType = getDayType(dateStr);
+        int dayType = Utils.getDayType(bl, dateStr);
         boolean haveNote = bl.dayHaveNote(dateStr);
         View view = v.findViewById(R.id.date_icon);
         if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
@@ -411,8 +411,13 @@ public class CalendarAdapter extends BaseAdapter {
         } else if (dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()) {
             view.setBackgroundResource(Constants.CLEAR_CIRCLE);
             txt.setTextColor(Color.parseColor("#ff4d6a"));
+        }else if (dayType == Constants.DAY_TYPE.MIKVEH.ordinal()) {
+            view.setBackgroundResource(Constants.CLEAR_CIRCLE);
+            txt.setTextColor(Color.parseColor("#ff4d6a"));
         } else if (dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
             view.setBackgroundResource(Constants.PRISHA_CIRCLE);
+        } else if (dayType == Constants.DAY_TYPE.NEXT_PERIOD.ordinal()) {
+            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
             view.setBackgroundResource(Constants.OTHER_CIRCLE);
         } else if (dateStr.equals(Utils.DateToStr(new Date()))) {
@@ -423,77 +428,32 @@ public class CalendarAdapter extends BaseAdapter {
             //v.setBackgroundResource(Constants.DEFAULT_CIRCLE);
         }
 
-        if (prishaDateArr != null) {
-            if ((prishaDateArr[0] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[0]))) ||
-                    (prishaDateArr[1] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[1]))) ||
-                    (prishaDateArr[2] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[2])))) {
-                view.setBackgroundResource(Constants.PRISHA_CIRCLE);
-            }
-        }
-        if (dateStr.equals(getNextPeriodDate())){
-            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
-        }
+//        if (prishaDateArr != null) {
+//            if ((prishaDateArr[0] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[0]))) ||
+//                    (prishaDateArr[1] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[1]))) ||
+//                    (prishaDateArr[2] != null && dateStr.equals(Utils.DateToStr(prishaDateArr[2])))) {
+//                view.setBackgroundResource(Constants.PRISHA_CIRCLE);
+//            }
+//        }
+//        if (dateStr.equals(Utils.getNextPeriodDate(bl))){
+//            view.setBackgroundResource(Constants.PERIOD_CIRCLE);
+//        }
         if (dayType != Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
             txt.setTextColor(Color.parseColor("#8dc63f"));
         }
     }
 
-    private Date[] getPrishaDateArr() {
-        Cursor day = bl.getLastStartLooking();
-        String lastDateStr = ""; // last date of start period
-        try {
-            day.moveToFirst();
 
             Definition def = bl.getDefinition();
             if (def.is_prishaDays()) {
                 lastDateStr = day.getString(1);
                 return Utils.getPrishaDate(bl);//return 3 optional prisha dates (2,3 may be null)
 
-            }
 
-        } finally {
-            day.close();
-        }
-        return null;
-    }
 
-    private String getNextPeriodDate() {
-        Cursor day = bl.getLastStartLooking();
-        String lastDateStr = ""; // last date of start period
-        String nextPeriod = "";
-        try {
-            day.moveToFirst();
-            lastDateStr = day.getString(1);
-
-            int avgBetweenPeriodStr = Utils.avgBetweenPeriod(bl);
-            if (avgBetweenPeriodStr == -1) {
-                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(28, lastDateStr));
-            } else {
-                nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(Utils.avgBetweenPeriod(bl), lastDateStr));
-            }
-        } finally {
-            day.close();
-        }
-        return nextPeriod;
-    }
-
-    private int getDayType(String dateEnd) {
-        int dayType;
-        Day day = bl.getDay(dateEnd);
-        if (day != null && day.get_dayTypeId() != Constants.DAY_TYPE.DEFAULT.ordinal()) {
-            return day.get_dayTypeId();
-        }
-        dayType = bl.getTypeOfDate("1980-01-01", dateEnd);
-
-        if (dayType > 0) {
-
-            return dayType;
-        }
-
-        return Constants.DAY_TYPE.DEFAULT.ordinal();
-    }
 
     public String getPosDate(int position) {
         return day_string.get(position);
     }
 }
+

@@ -13,14 +13,14 @@ public class Definition {
 
 
     public Definition() {
-        this._minPeriodLength = 0;
+        this._minPeriodLength = Constants.DEFAULT_SPINNER;
         this._regulary = false;
         this._prishaDays = false;
-        this._periodLength = 0;
+        this._periodLength = Constants.DEFAULT_SPINNER;
         this._countClean = false;
-        this._cleanNotificationID = 4;
+        this._cleanNotificationID = Constants.DEFAULT_SPINNER_COUNTER_PURE_DAY;
         this._mikveNutification = false;
-        this._typeOna = 1;
+        this._typeOna = Constants.ONA_TYPE.UNKNOWN.ordinal();
     }
 
     public Definition(int _minPeriodLength, boolean _regulary, boolean _prishaDays, int _periodLength,

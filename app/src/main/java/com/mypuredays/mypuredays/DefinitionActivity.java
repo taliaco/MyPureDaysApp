@@ -18,7 +18,7 @@ public class DefinitionActivity extends Activity {
 
     private BL bl;
 
-    private LinearLayout linear_ona_type;
+    private LinearLayout linear_ona_type, linear_reminder_pure_day,linear_mikve_reminder_day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,8 @@ public class DefinitionActivity extends Activity {
 
         bl = new BL(this);
         linear_ona_type = (LinearLayout)findViewById(R.id.linear_layout_type_period);
+        linear_reminder_pure_day = (LinearLayout)findViewById(R.id.linear_reminder_pure_day);
+        linear_mikve_reminder_day = (LinearLayout)findViewById(R.id.linear_mikve_reminder_day);
 
         TextView minPeriodLengthColumn = (TextView) findViewById(R.id.item_name_day_period_min);
         TextView regularColumn = (TextView) findViewById(R.id.item_name_period_constant);
@@ -44,7 +46,7 @@ public class DefinitionActivity extends Activity {
 
         Spinner spinner_day_period_min = (Spinner) findViewById(R.id.spinner_day_period_min);
         Spinner spinner_period_during = (Spinner) findViewById(R.id.spinner_period_during);
-        Spinner spinner_reminder_pure_day = (Spinner) findViewById(R.id.spinner_reminder_pure_day);
+        final Spinner spinner_reminder_pure_day = (Spinner) findViewById(R.id.spinner_reminder_pure_day);
         final Spinner spinner_type_period = (Spinner)findViewById(R.id.spinner_type_period);
 
         ArrayAdapter<String> adapter;
@@ -76,6 +78,8 @@ public class DefinitionActivity extends Activity {
                     break;
                 case 3: prishaDaysColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_prisha_day.setChecked(d.is_prishaDays());//bl.getDefinitionSwitchState(c.getColumnName(i)));
+                    if(d.is_prishaDays())
+                        linear_ona_type.setVisibility(View.VISIBLE);
                     break;
                 case 4: periodLengthColumn.setText(Utils.getDefName(c.getColumnName(i), this));
 
@@ -88,6 +92,8 @@ public class DefinitionActivity extends Activity {
                     break;
                 case 5: countCleanColumn.setText(Utils.getDefName(c.getColumnName(i), this));
                     switch_counter_pure_day.setChecked(d.is_countClean());
+                    if(d.is_countClean() && Constants.EXIST_REMINDER)
+                        linear_reminder_pure_day.setVisibility(View.VISIBLE);
                     break;
 
                 case 6: cleanNotificationColumn.setText(Utils.getDefName(c.getColumnName(i), this));
@@ -118,7 +124,9 @@ public class DefinitionActivity extends Activity {
 
         }//for end
 
-
+if(!Constants.EXIST_REMINDER){
+    linear_mikve_reminder_day.setVisibility(View.GONE);
+}
 
         //set all switch listener
         switch_period_constant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -136,7 +144,7 @@ public class DefinitionActivity extends Activity {
                 //    linear_ona_type.setVisibility(View.GONE);
                // }
                 if(!isChecked){
-                    spinner_type_period.setSelection(Constants.ONA_TYPE.UNKNOWN.ordinal());
+                    spinner_type_period.setSelection(Constants.DEFAULT_SPINNER_TYPE_ONA);
                     //linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
                     linear_ona_type.setVisibility(View.GONE);
                 }
@@ -151,6 +159,16 @@ public class DefinitionActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 bl.setSwitchDefinition(Constants.COL_COUNT_CLEAN, isChecked);
+
+                if(!isChecked){
+                    spinner_reminder_pure_day.setSelection(Constants.DEFAULT_SPINNER_COUNTER_PURE_DAY);
+                    //linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+                    linear_reminder_pure_day.setVisibility(View.GONE);
+                }
+                else if(Constants.EXIST_REMINDER){
+                    // linear_ona_type.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,1f));
+                    linear_reminder_pure_day.setVisibility(View.VISIBLE);
+                }
             }
         });
 

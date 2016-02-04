@@ -7,6 +7,12 @@ public class Constants implements BaseColumns {
 
     public static final String PREFS_NAME = "MyPrefsFile";
 
+    public static final int DEFAULT_SPINNER = 0;
+    public static final int DEFAULT_SPINNER_COUNTER_PURE_DAY = 4;
+    public static final int DEFAULT_SPINNER_TYPE_ONA = 1;
+
+    public static final boolean EXIST_REMINDER = false;
+
     //name of table
     public static final String TABLE_DAY = "dayTable";
     public static final String TABLE_DAY_TYPE = "dayTypeTable";
@@ -57,7 +63,7 @@ public class Constants implements BaseColumns {
     }
 
     public enum DAY_TYPE {
-        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY
+        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY, NEXT_PERIOD
     }
 
     public enum ONA_TYPE {
@@ -76,7 +82,7 @@ public class Constants implements BaseColumns {
 
     //drop down list for definition
     public static final String[] MIN_PERIOD_LENGTH_SPINNER = new String[]{"4", "5"};
-    public static final String[] PERIOD_LENGTH_SPINNER = new String[]{"3", "4", "5", "6", "7"};
+    public static final String[] PERIOD_LENGTH_SPINNER = new String[]{ "4", "5", "6", "7"};
     public static final String[] CLEAR_DAY_NOTIFICATION_SPINNER = new String[]{"ראשון ואחרון", "3 ימים ראשונים", "פעם ביום", "פעמיים ביום", "לא רלוונטי"};
     public static final String[] TYPE_ONA_SPINNER = new String[]{"לא רלוונטי", "לא ידוע", "יום", "לילה"};
 
