@@ -24,10 +24,13 @@ import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
     private Context context;
+    public CharSequence txt = "Hello toast!";
 
     private java.util.Calendar month;
     public GregorianCalendar pmonth;
     private BL bl;
+    final DateFormat sdf;// = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+    final Dialog dialog;// = new Dialog(context);
     /**
      * calendar instance for previous month for getting complete view
      */
@@ -48,6 +51,9 @@ public class CalendarAdapter extends BaseAdapter {
     public Date[] prishaDateArr;
 
     public CalendarAdapter(Context context, GregorianCalendar monthCalendar, ArrayList<CalendarCollection> date_collection_arr) {
+
+        sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+        dialog = new Dialog(context);
 
         this.date_collection_arr = date_collection_arr;
 
@@ -145,42 +151,111 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View setSelected(View view, final int pos) {
-
-//        bl = new BL(this.context);
-        final DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
-        final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.activity_dialog_calendar);
         dialog.setTitle(Utils.StrToDateDisplay(day_string.get(pos)));
-
-
         // set the custom dialog components - text, image and button
         final TextView dialogNote = (TextView) dialog.findViewById(R.id.dialogNote);
+
+        final int duration = Toast.LENGTH_LONG;
+        final Definition def = bl.getDefinition();
+        final Date date = new Date();//today
+        final Dialog dialogPrisha = new Dialog(this.context);
 
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
         Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
         Button dialogButtonSaveNote = (Button) dialog.findViewById(R.id.dialogButtonSaveNote);
         Button dialogButtonClearDay = (Button) dialog.findViewById(R.id.dialogButtonClearDay);
         // if button is clicked, close the custom dialog
+
+        Date    date1 = new Date();
+        try {
+            date1 = sdf.parse(day_string.get(pos));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        setTextNote( dialogNote,  date1);//DISPLAY NOTE IN dialogNote
+
         dialogButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
+
+                Date    date1 = new Date();
                 try {
-                    date = sdf.parse(day_string.get(pos));
+                    date1 = sdf.parse(day_string.get(pos));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
+                    if (def.is_prishaDays() && def.get_typeOnaID() == Constants.ONA_TYPE.UNKNOWN.ordinal()) {//user keep prisha days and the ona unknow
+                        dialogPrisha.setContentView(R.layout.activity_dialog_onot);
+                        dialogPrisha.setTitle("בחרי עונה");
+                        Button dialogButtonDay = (Button) dialogPrisha.findViewById(R.id.dialogButtonDay);
+                        Button dialogButtonNight = (Button) dialogPrisha.findViewById(R.id.dialogButtonNight);
 
-                CalendarCollection tmpCalendarCollection = new CalendarCollection(date, "", Constants.DAY_TYPE.START_LOOKING.ordinal());
-                CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-                notifyDataSetChanged();
+                        dialogButtonDay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                        Date date1 = new Date();
+                        try {
+                            date1 = sdf.parse(day_string.get(pos));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                                saveNote(dialogNote, date);
+                                bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
+                                txt = "התחל ראייה היום" + " " +Utils.DateToStrDisplay(date1);// Utils.DateToStr(date1);
+                                Toast toast = Toast.makeText(context, txt, duration);
+                                toast.show();
+                                dialogPrisha.dismiss();
+                                refreshCalendar(date1);
+                            }
+                        });
 
-                Toast toast = Toast.makeText(context, "התחלת ראיה ביום" + sdf.format(date), Toast.LENGTH_SHORT);
-                toast.show();
+                        dialogButtonNight.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Date    date1 = new Date();
+                                try {
+                                    date1 = sdf.parse(day_string.get(pos));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                saveNote(dialogNote, date);
+                                bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
+                                txt = "התחל ראייה היום" + " " + Utils.DateToStrDisplay(date1);
+                                Toast toast = Toast.makeText(context, txt, duration);
+                                toast.show();
+                                dialogPrisha.dismiss();
+                                refreshCalendar(date1);
+                            }
+                        });
+                        dialogPrisha.show();
+                    } else if (def.is_prishaDays()) {//user keep prisha && ona=day or night
+                        // take the ona type from definition
+                        if (def.get_typeOnaID() == Constants.ONA_TYPE.NIGHT.ordinal()) {
+                            bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
+                        } else if (def.get_typeOnaID() == Constants.ONA_TYPE.DAY.ordinal()) {
+                            bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
+                        }
+                        saveNote(dialogNote, date1);
+                        txt = "התחל ראייה היום" + " " +Utils.DateToStrDisplay(date1);
+                        Toast toast = Toast.makeText(context, txt, duration);
+                        toast.show();
+                        refreshCalendar(date1);
+
+                    } else {//user not keep prisha days
+                        bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
+                        saveNote(dialogNote, date1);
+                        txt = "התחל ראייה היום" + " " + Utils.DateToStrDisplay(date1);
+                        Toast toast = Toast.makeText(context, txt, duration);
+                        toast.show();
+                        refreshCalendar(date1);
+                    }
+
                 dialog.dismiss();
             }
         });
+
+        //END PERIOD CLICK
         dialogButtonEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,6 +265,7 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                saveNote(dialogNote, date);
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
                 CalendarCollection tmpCalendarCollection = new CalendarCollection(date, "", Constants.DAY_TYPE.END_LOOKING.ordinal());
                 CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
@@ -209,19 +285,7 @@ public class CalendarAdapter extends BaseAdapter {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                bl.saveNote(date, dialogNote.getText().toString());
-
-                CalendarCollection tmpCalendarCollection = new CalendarCollection(date, dialogNote.getText().toString(), Constants.DAY_TYPE.DEFAULT.ordinal());
-                int i = CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection);
-                if (i > 0) {
-                    CalendarCollection.date_collection_arr.set(CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection), tmpCalendarCollection);
-                } else {
-                    CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
-                }
-                notifyDataSetChanged();
-                Toast toast = Toast.makeText(context, context.getResources().getText(R.string.NoteSaved), Toast.LENGTH_SHORT);
-                toast.show();
-                dialog.dismiss();
+                saveNote(dialogNote, date);
             }
         });
         dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +313,40 @@ public class CalendarAdapter extends BaseAdapter {
             }
         }
         return view;
+    }
+
+    public void saveNote(TextView dialogNote, Date noteDate){
+
+        bl.saveNote(noteDate, dialogNote.getText().toString());
+
+        CalendarCollection tmpCalendarCollection = new CalendarCollection(noteDate, dialogNote.getText().toString(), Constants.DAY_TYPE.DEFAULT.ordinal());
+        int i = CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection);
+        if (i > 0) {
+            CalendarCollection.date_collection_arr.set(CalendarCollection.date_collection_arr.indexOf(tmpCalendarCollection), tmpCalendarCollection);
+        } else {
+            CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+        }
+        notifyDataSetChanged();
+        Toast toast = Toast.makeText(context, context.getResources().getText(R.string.NoteSaved), Toast.LENGTH_SHORT);
+        toast.show();
+        dialog.dismiss();
+    }
+
+    public void  setTextNote(TextView dialogNote, Date date1){
+        Day day= bl.getDay(Utils.DateToStr(date1));
+        if(day!=null) {
+            dialogNote.setText(day.get_notes());
+        }
+        else {
+            dialogNote.setText("");
+        }
+    }
+
+
+    public void refreshCalendar(Date date){
+        CalendarCollection tmpCalendarCollection = new CalendarCollection(date, "", Constants.DAY_TYPE.START_LOOKING.ordinal());
+        CalendarCollection.date_collection_arr.add(tmpCalendarCollection);
+        notifyDataSetChanged();
     }
 
     public void refreshDays() {

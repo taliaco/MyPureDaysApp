@@ -1,14 +1,5 @@
 package com.mypuredays.mypuredays;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
 public class Definition {
 
     private int _minPeriodLength;
@@ -101,7 +92,20 @@ public class Definition {
     }
 
     public int get_typeOna() {
-        return Integer.parseInt(Constants.TYPE_ONA_SPINNER[_typeOna]);
+        String str=Constants.TYPE_ONA_SPINNER[_typeOna];
+        if(str.equals("לילה")){
+            return 3;
+        }else if(str.equals("יום")){
+                return 2;
+        }
+        else if(str.equals("לא ידוע")){
+            return 1;
+        }
+        else if(str.equals("לא רלוונטי")){
+            return 0;
+        }
+        else return 2;
+        //return Integer.parseInt();
     }
 
     public void set_typeOna(int _typeOna) {

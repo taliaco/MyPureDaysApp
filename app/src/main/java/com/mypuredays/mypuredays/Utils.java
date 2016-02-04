@@ -95,7 +95,8 @@ public class Utils {
             typeOna=-1;
         }
 
-        Definition def =bl.getDefinition();
+        Definition def =new Definition();
+        def=bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
         int avg; //avg Between Period
         arrDate[0]=null;
@@ -252,4 +253,5 @@ public class Utils {
         }
         return -1;
     }
+   
 }
