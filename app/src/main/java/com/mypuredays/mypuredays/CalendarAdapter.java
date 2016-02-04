@@ -2,7 +2,6 @@ package com.mypuredays.mypuredays;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -442,15 +441,6 @@ public class CalendarAdapter extends BaseAdapter {
             txt.setTextColor(Color.parseColor("#8dc63f"));
         }
     }
-
-
-            Definition def = bl.getDefinition();
-            if (def.is_prishaDays()) {
-                lastDateStr = day.getString(1);
-                return Utils.getPrishaDate(bl);//return 3 optional prisha dates (2,3 may be null)
-
-
-
 
     public String getPosDate(int position) {
         return day_string.get(position);
