@@ -101,61 +101,67 @@ public class CalenderActivity extends Activity {
                     refreshCalendar();
                 }
                 else{
+                    String note = getResources().getString((R.string.defaultNote));;
                     int len = CalendarCollection.date_collection_arr.size();
                     String dateStr = cal_adapter.getPosDate(position);
-
+                    int dayType = 0;
                     for (int i = 0; i < len; i++) {
                         CalendarCollection cal_obj = CalendarCollection.date_collection_arr.get(i);
-                        if(cal_obj.date.equals(dateStr) && (cal_obj.notes != null || !cal_obj.notes.equals(""))) {
-
-                            ////
-
-                            TextView_Note.setText(cal_obj.notes);
-                            break;
-                        }
-                        else {
-
-                            int dayType;
-                            dayType = cal_obj._dateTypeId;
-
-                            if(dayType == 0) {
-                                dayType = Utils.getDayType(bl, dateStr);
-                            }
-
-                            if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.periodNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.startLookingNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.endLookingNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.NEXT_PERIOD.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.nextPeriodNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.clearDayNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.MIKVEH.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.mikveNote)));
-                            }
-                            else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()){
-
-                                TextView_Note.setText(getResources().getString((R.string.prishaNote)));
+                        if(cal_obj.date.equals(dateStr)) {
+                            if((cal_obj.notes != null || !cal_obj.notes.isEmpty())) {
+                                note = cal_obj.notes;
                             }
                             else{
-
-                                TextView_Note.setText(getResources().getString((R.string.defaultNote)));
+                                note = getResources().getString((R.string.defaultNote));
                             }
+
+                            dayType = cal_obj._dateTypeId;
+
+                            break;
                         }
                     }
+                    String dayNote = "";
+                    if(dayType == 0) {
+                        dayType = Utils.getDayType(bl, dateStr);
+                    }
+
+                    if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()){
+
+                        dayNote =getResources().getString((R.string.periodNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()){
+
+                        dayNote = getResources().getString((R.string.startLookingNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()){
+
+                        dayNote = getResources().getString((R.string.endLookingNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.NEXT_PERIOD.ordinal()){
+
+                        dayNote = getResources().getString((R.string.nextPeriodNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+
+                        dayNote = getResources().getString((R.string.clearDayNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.MIKVEH.ordinal()){
+
+                        dayNote = getResources().getString((R.string.mikveNote));
+                    }
+                    else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()){
+
+                        dayNote = getResources().getString((R.string.prishaNote));
+                    }
+                    if(!dayNote.isEmpty())
+                    {
+                        dayNote += "\n";
+                    }
+                    if(!note.isEmpty())
+                    {
+                        note = "\t- " + note;
+                    }
+                    TextView_Note.setText(dayNote + note);
                 }
             }
         });
