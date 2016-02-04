@@ -107,6 +107,9 @@ public class CalenderActivity extends Activity {
                     for (int i = 0; i < len; i++) {
                         CalendarCollection cal_obj = CalendarCollection.date_collection_arr.get(i);
                         if(cal_obj.date.equals(dateStr) && (cal_obj.notes != null || !cal_obj.notes.equals(""))) {
+
+                            ////
+
                             TextView_Note.setText(cal_obj.notes);
                             break;
                         }else{
