@@ -23,8 +23,17 @@
     <string name="mikveNotificationColumn"> תזכורת למקווה  </string>
     <string name="typePeriodColumn">סוג עונה</string>
 
-
+    <string name="periodNote">וסת</string>
     <string name="defaultNote">אין הערות</string>
+    <string name="clearDayNote">נקיים</string>
+    <string name="mikveNote">יום מקווה</string>
+    <string name="prishaNote">יום פרישה</string>
+    <string name="startLookingNote">תחילת ראיה</string>
+    <string name="endLookingNote">סוף ראיה</string>
+    <string name="nextPeriodNote">צפי וסת הבא</string>
+
+
+
 
     <string name="lastPeriodDate">תאריך וסת אחרון</string>
     <string name="cleanCount">ספירת נקיים</string>

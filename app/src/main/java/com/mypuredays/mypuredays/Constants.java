@@ -63,7 +63,7 @@ public class Constants implements BaseColumns {
     }
 
     public enum DAY_TYPE {
-        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY
+        DEFAULT, START_LOOKING, END_LOOKING, PERIOD, PRISHA, MIKVEH, CLEAR_DAY, NEXT_PERIOD
     }
 
     public enum ONA_TYPE {

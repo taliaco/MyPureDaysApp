@@ -301,7 +301,7 @@ public class CalendarAdapter extends BaseAdapter {
 
     public void setEventView(View v, int pos, TextView txt) {
         String dateStr = day_string.get(pos);
-        int dayType = getDayType(dateStr);
+        int dayType = Utils.getDayType(bl, dateStr);
         boolean haveNote = bl.dayHaveNote(dateStr);
         View view = v.findViewById(R.id.date_icon);
         if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
@@ -344,23 +344,9 @@ public class CalendarAdapter extends BaseAdapter {
 
 
 
-    private int getDayType(String dateEnd) {
-        int dayType;
-        Day day = bl.getDay(dateEnd);
-        if (day != null && day.get_dayTypeId() != Constants.DAY_TYPE.DEFAULT.ordinal()) {
-            return day.get_dayTypeId();
-        }
-        dayType = bl.getTypeOfDate("1980-01-01", dateEnd);
-
-        if (dayType > 0) {
-
-            return dayType;
-        }
-
-        return Constants.DAY_TYPE.DEFAULT.ordinal();
-    }
 
     public String getPosDate(int position) {
         return day_string.get(position);
     }
 }
+
