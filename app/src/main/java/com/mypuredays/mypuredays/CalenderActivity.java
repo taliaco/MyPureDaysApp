@@ -112,8 +112,48 @@ public class CalenderActivity extends Activity {
 
                             TextView_Note.setText(cal_obj.notes);
                             break;
-                        }else{
-                            TextView_Note.setText(getResources().getString((R.string.defaultNote)));
+                        }
+                        else {
+
+                            int dayType;
+                            dayType = cal_obj._dateTypeId;
+
+                            if(dayType == 0) {
+                                dayType = Utils.getDayType(bl, dateStr);
+                            }
+
+                            if(dayType == Constants.DAY_TYPE.PERIOD.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.periodNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.startLookingNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.endLookingNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.NEXT_PERIOD.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.nextPeriodNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.clearDayNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.MIKVEH.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.mikveNote)));
+                            }
+                            else if(dayType == Constants.DAY_TYPE.PRISHA.ordinal()){
+
+                                TextView_Note.setText(getResources().getString((R.string.prishaNote)));
+                            }
+                            else{
+
+                                TextView_Note.setText(getResources().getString((R.string.defaultNote)));
+                            }
                         }
                     }
                 }

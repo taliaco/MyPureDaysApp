@@ -239,4 +239,23 @@ public class Utils {
         }
         return -1;
     }
+
+    public static int getDayType(BL bl, String dateEnd) {
+        int dayType;
+        Day day = bl.getDay(dateEnd);
+        if (day != null && day.get_dayTypeId() != Constants.DAY_TYPE.DEFAULT.ordinal()) {
+            return day.get_dayTypeId();
+        }
+        dayType = bl.getTypeOfDate("1980-01-01", dateEnd);
+
+        if (dayType > 0) {
+
+            return dayType;
+        }
+
+        return Constants.DAY_TYPE.DEFAULT.ordinal();
+    }
+
+
+
 }
