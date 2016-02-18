@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import java.util.Date;
 
 public class MainActivity extends Activity {
@@ -43,16 +44,7 @@ public class MainActivity extends Activity {
         if (settings.getBoolean("my_first_time", true)) {
             // first time task
             bl.populateDB();
-//            try {
-//                bl.setStartEndLooking(df.parse("2015-08-05"), Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
-//                bl.setStartEndLooking(df.parse("2015-09-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
-//                bl.setStartEndLooking(df.parse("2015-10-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
-//                bl.setStartEndLooking(df.parse("2015-11-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
-//                bl.setStartEndLooking(df.parse("2015-12-05"), Constants.DAY_TYPE.START_LOOKING,Constants.ONA_TYPE.DEFAULT);
-//            } catch (ParseException e) {
-//                Log.e("ERROR", e.getMessage());
-//                e.printStackTrace();
-//            }
+
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).apply();
 
@@ -94,6 +86,10 @@ public class MainActivity extends Activity {
     }
 
     public void openStatus(View view) {
+
+//        Intent intent = new Intent(this, alarm_clear.class);
+//        startActivity(intent);
+
         Intent intent = new Intent(this, StatusActivity.class);
         startActivity(intent);
     }
@@ -110,9 +106,9 @@ public class MainActivity extends Activity {
         final Cursor dayStartOrEndLook= bl.getLastDate();
         final Date date = new Date();//today
         final String dateStr =Utils.StrToDateDisplay(Utils.DateToStr(date));
+         final Dialog dialogPrisha = new Dialog(this);
 
 
-        final Dialog dialogPrisha = new Dialog(this);
 
         String text = b.getText().toString();
         if (text.equals(res.getString(R.string.btStart))) {//START

@@ -2,6 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mypuredays.mypuredays">
 
+    <!-- <receiver android:name=".AutoStart"> -->
+    <!-- <intent-filter> -->
+    <!-- <action android:name="android.intent.action.BOOT_COMPLETED"></action> -->
+    <!-- </intent-filter> -->
+    <!-- </receiver> -->
+
+
+    <!-- <service -->
+    <!-- android:name=".MyService" -->
+    <!-- android:enabled="true" -->
+    <!-- android:process=":my_service" > -->
+    <!-- </service> -->
+
+
+    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission> -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission> -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -17,19 +33,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StatusActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".DefinitionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CalenderActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".StatusActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DefinitionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CalenderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DialogCalendar"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dialogOnot"
+            android:screenOrientation="portrait" />
+        <!-- <activity android:name=".activity_alarm$MainActivity" -->
+        <!-- android:screenOrientation="portrait"/> -->
 
-        <activity android:name=".DialogCalendar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".dialogOnot"
-            android:screenOrientation="portrait"/>
+
+        <!-- <receiver android:process=":remote" android:name=".Alarm"></receiver> -->
+
     </application>
-
-
 
 </manifest>

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +30,7 @@ public class CalendarAdapter extends BaseAdapter {
     final DateFormat sdf;// = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
     final Dialog dialog;// = new Dialog(context);
     /**
+     *
      * calendar instance for previous month for getting complete view
      */
     public GregorianCalendar pMonthMaxSet;
@@ -53,7 +53,7 @@ public class CalendarAdapter extends BaseAdapter {
 
         sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         dialog = new Dialog(context);
-
+        //calendarActivity=new CalenderActivity(CalenderActivity.);
         this.date_collection_arr = date_collection_arr;
 
         day_string = new ArrayList<>();
@@ -69,6 +69,7 @@ public class CalendarAdapter extends BaseAdapter {
         this.items = new ArrayList<>();
         df = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         curentDateString = df.format(selectedDate.getTime());
+
         refreshDays();
 
     }
@@ -161,29 +162,47 @@ public class CalendarAdapter extends BaseAdapter {
         final Dialog dialogPrisha = new Dialog(this.context);
 
         Button dialogButtonStart = (Button) dialog.findViewById(R.id.dialogButtonStart);
-        Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
+        final Button dialogButtonEnd = (Button) dialog.findViewById(R.id.dialogButtonEnd);
         Button dialogButtonSaveNote = (Button) dialog.findViewById(R.id.dialogButtonSaveNote);
         Button dialogButtonClearDay = (Button) dialog.findViewById(R.id.dialogButtonClearDay);
         // if button is clicked, close the custom dialog
 
         Date    date1 = new Date();
-        try {
-            date1 = sdf.parse(day_string.get(pos));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        date1 = Utils.StrToDate(day_string.get(pos));
+        final int type =Utils.getDayType(bl,day_string.get(pos));
+
+       final Day day= bl.getPrevType(day_string.get(pos));//day=last day in the DB before the var Date
+        if(type==Constants.DAY_TYPE.PERIOD.ordinal() || type==Constants.DAY_TYPE.START_LOOKING.ordinal()){
+            dialogButtonStart.setVisibility(View.GONE);
+            if(day.get_date()!=null && Utils.countDaysBetweenDates(day.get_date(), date1)< def.get_minPeriodLength()){//can not end period befor minPeriodLength
+                dialogButtonEnd.setVisibility((View.GONE));
+            }
         }
-        setTextNote( dialogNote,  date1);//DISPLAY NOTE IN dialogNote
+        if(day.get_date()!=null && date1!=null){
+            if(!(Utils.DateToStr(day.get_date()).compareTo(day_string.get(pos))==0) && bl.dayHaveNote(day_string.get(pos))==false){
+       //the pushed date= exist date in DB ->not start or end period
+            dialogButtonClearDay.setVisibility((View.GONE));
+        }}else{
+            dialogButtonEnd.setVisibility((View.GONE));
+            if(bl.dayHaveNote(day_string.get(pos))==false){
+                dialogButtonClearDay.setVisibility((View.GONE));
+            }
+        }
+        if(new Date().before(Utils.StrToDate(day_string.get(pos)))){//today before clicked day
+            dialogButtonStart.setVisibility(View.GONE);
+        }
+
+
+        setTextNote(dialogNote, date1);//DISPLAY NOTE IN dialogNote
 
         dialogButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Date    date1 = new Date();
-                try {
-                    date1 = sdf.parse(day_string.get(pos));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                date1 = Utils.StrToDate(day_string.get(pos));
+
                     if (def.is_prishaDays() && def.get_typeOnaID() == Constants.ONA_TYPE.UNKNOWN.ordinal()) {//user keep prisha days and the ona unknow
                         dialogPrisha.setContentView(R.layout.activity_dialog_onot);
                         dialogPrisha.setTitle("בחרי עונה");
@@ -193,12 +212,9 @@ public class CalendarAdapter extends BaseAdapter {
                         dialogButtonDay.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                        Date date1 = new Date();
-                        try {
-                            date1 = sdf.parse(day_string.get(pos));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                             Date date1 = new Date();
+                             date1 = Utils.StrToDate(day_string.get(pos));
+
                                 saveNote(dialogNote, date);
                                 bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                                 txt = "התחל ראייה היום" + " " +Utils.DateToStrDisplay(date1);// Utils.DateToStr(date1);
@@ -213,11 +229,8 @@ public class CalendarAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 Date    date1 = new Date();
-                                try {
-                                    date1 = sdf.parse(day_string.get(pos));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                    date1 = Utils.StrToDate(day_string.get(pos));
+
                                 saveNote(dialogNote, date);
                                 bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
                                 txt = "התחל ראייה היום" + " " + Utils.DateToStrDisplay(date1);
@@ -259,10 +272,15 @@ public class CalendarAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Date date = new Date();
-                try {
-                    date = sdf.parse(day_string.get(pos));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    date = Utils.StrToDate(day_string.get(pos));
+
+                Day pDay=bl.getPrevType(day_string.get(pos));
+                Day nDay=bl.getNextType(day_string.get(pos));
+
+                if(pDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                    bl.deleteDay(Utils.DateToStr(pDay.get_date()));
+                }else if(nDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+                    bl.deleteDay(Utils.DateToStr(nDay.get_date()));
                 }
                 saveNote(dialogNote, date);
                 bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
@@ -279,23 +297,26 @@ public class CalendarAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Date date = new Date();
-                try {
-                    date = sdf.parse(day_string.get(pos));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    date = Utils.StrToDate(day_string.get(pos));
+
                 saveNote(dialogNote, date);
             }
         });
         dialogButtonClearDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(type==Constants.DAY_TYPE.START_LOOKING.ordinal()){
+                    Day nextDay= bl.getNextType(day_string.get(pos));
+                    if(nextDay!=null && nextDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                        bl.deleteDay(Utils.DateToStr(nextDay.get_date()));
+                    }
+                }
                 bl.deleteDay(day_string.get(pos));
                 CalendarCollection calendarCollectiontmp = new CalendarCollection(day_string.get(pos), "");
                 CalendarCollection.date_collection_arr.remove(calendarCollectiontmp);
                 notifyDataSetChanged();
                 dialog.dismiss();
+
             }
         });
         dialog.show();

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
+
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,6 +121,34 @@ public class BL {
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         return dal.DBReadRow(Constants.TABLE_DAY, cols, null, null);
     }
+
+    public  Day getPrevType(String currentDay){//RETURN PREV DATE BEFORE currentDay
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=? AND " + Constants.COL_DAY_TYPE + "!=?";
+        String[] selectionArgs = {"1980-01-01", currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
+        String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
+       Day day;
+        if (c!=null && c.moveToFirst()){
+            day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
+            return day;
+
+        }
+        return null;
+    }
+
+    public  Day getNextType(String currentDay){//RETURN NEXT DATE BEFORE currentDay
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + ">? AND " + Constants.COL_DAY_TYPE + "!=?";
+        String[] selectionArgs = {"1980-01-01", currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
+        String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
+        Day day;
+        if (c!=null && c.moveToFirst()){
+            day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
+            return day;
+        }
+        return null;
+    }
+
     //return the real type of the "currentDay" day.
     public int getTypeOfDate(String startCheckDate, String currentDay) {//return last daytype before the date parameter
 
@@ -139,6 +167,9 @@ public class BL {
                 }
             }
         }
+        if(nextPeriod==null || currentDay==null){
+            return -1;
+        }
         if (nextPeriod.equals(currentDay)){
             return Constants.DAY_TYPE.NEXT_PERIOD.ordinal();
         }
@@ -149,7 +180,7 @@ public class BL {
         try {
             if (c.moveToFirst()) {
                 nextDay = getFirstLooking(Utils.StrToDate(currentDay));
-                int periodLength = def.get_periodLength();
+                int periodLength = def.get_periodLength()-1;
                 switch (c.getInt(2)) {
                     case 0:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
@@ -170,9 +201,9 @@ public class BL {
                         }
                         break;
                     case 2: //end looking
-                        if (Utils.addDaysToDate(periodLength + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate) && def.is_countClean()) {
+                        if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate) && def.is_countClean()) {
                             dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
-                        }else  if (Utils.addDaysToDate(periodLength + Constants.CLEAR_DAYS_LENGTH, c.getString(1)).equals(dateEndDate) && def.is_countClean()) {
+                        }else  if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH, c.getString(1)).equals(dateEndDate) && def.is_countClean()) {
                             dayType = Constants.DAY_TYPE.MIKVEH.ordinal();
                         }else {
                             dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
@@ -229,11 +260,8 @@ public class BL {
         Cursor c = dal.DBRead(Constants.TABLE_DAY);
         try {
             while (c.moveToNext()) {
-                try {
-                    dt = ft.parse(c.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    dt = Utils.StrToDate(c.getString(1));
+
                 if (c.getString(3) != null) {
                     notes = c.getString(3);
                 } else {
@@ -302,11 +330,7 @@ public class BL {
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
         try {
             if (c.moveToFirst()) {
-                try {
-                    dt = ft.parse(c.getString(1));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    dt =Utils.StrToDate(c.getString(1));
                 if (c.getString(3) != null) {
                     notes = c.getString(3);
                 } else {
@@ -330,6 +354,7 @@ public class BL {
         return day;
     }
     public void deleteDay(String date) {
+
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {date};
         dal.DBDeleteItem(Constants.TABLE_DAY, selection, selectionArgs);

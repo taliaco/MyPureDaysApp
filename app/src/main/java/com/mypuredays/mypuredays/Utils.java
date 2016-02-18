@@ -77,25 +77,36 @@ public class Utils {
     }
 
     public static Date addDaysToDate(int numDays, String dateStr){
-        Date date = StrToDate(dateStr);
-        Calendar cal= Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, numDays);
-        return cal.getTime();
+        Date date=new Date();
+        if(dateStr!=null && !dateStr.equals("")) {
+             date = StrToDate(dateStr);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.DATE, numDays);
+            return cal.getTime();
+        }
+        else return null;
         //return date;
     }
     public static Date[] getPrishaDate(BL bl){
         String  lastDateStr="";
         int typeOna;
         Cursor day = bl.getLastStartLooking();
-        if ( day.moveToFirst() && day.getString(1) != null) {
+        if (day==null){
+            return null;
+        }
+        if (day.moveToFirst() && day.getString(1) != null) {
+            if (day==null){
+                return null;
+            }
             lastDateStr=day.getString(1);
             typeOna=day.getInt(4);//3
         }else {//EMPTY DB
             typeOna=-1;
         }
 
-        Definition def =new Definition();
+
+        Definition def;
         def=bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
         int avg; //avg Between Period
@@ -121,13 +132,13 @@ public class Utils {
             arrDate[2]=addDaysToDate(1, Utils.DateToStr(arrDate[2]));
 
         }
-        if(arrDate[0].compareTo(arrDate[1])==0){
+        if(arrDate[0]!=null && arrDate[1]!=null && arrDate[0].compareTo(arrDate[1])==0){
             arrDate[1]=null;
         }
-        if(arrDate[2]==null || arrDate[2].compareTo(arrDate[0])==0){
+        if(arrDate[0]!=null && arrDate[2]==null && arrDate[2].compareTo(arrDate[0])==0){
             arrDate[2]=null;
         }
-        if(arrDate[2]==null || arrDate[1]==null || arrDate[2].compareTo(arrDate[1])==0){
+        if(arrDate[2]!=null && arrDate[1]!=null && arrDate[2].compareTo(arrDate[1])==0){
             arrDate[2]=null;
         }
 
@@ -154,17 +165,27 @@ public class Utils {
                 dates[i]=day.getString(1);
                 i++;
              }
-        long countDate = countDaysBetweenDates(Utils.StrToDate(dates[dates.length- 1]), Utils.StrToDate(dates[dates.length- 2]));
-        int numDays=Math.round(countDate);
-
-        return addDaysToDate(numDays ,lastDateStr);
+        if(dates.length<2){
+            return null;
+        }else {
+            long countDate = countDaysBetweenDates(Utils.StrToDate(dates[dates.length - 1]), Utils.StrToDate(dates[dates.length - 2]));
+            int numDays = Math.round(countDate);
+            return addDaysToDate(numDays, lastDateStr);
+        }
     }
 
     public static Date getJdateNextMonth(String lastDateStr) {//return the same day in the next month
         int[] arrJDate;
         int[] arrJDateTemp;
         Date dt;
+        if(lastDateStr==null){
+            return null;
+        }
+
         arrJDate = Utils.getHebDate(Utils.StrToDate(lastDateStr));//get int array {day, month, year} of last period date (jewish date)
+        if(arrJDate==null){
+            return null;
+        }
         for (int i = 0; i < 3; i++) {
             dt=Utils.addDaysToDate(30 + i, lastDateStr);
             arrJDateTemp = Utils.getHebDate(dt);//get date +30+i days
@@ -185,6 +206,7 @@ public class Utils {
     public static Date StrToDate(String strDate){
         DateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
         try {
+            if(strDate!=null)
             return sdf.parse(strDate);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -210,6 +232,9 @@ public class Utils {
     }
     public static int[] getHebDate(Date date){
         //hebrew date array format {day, month, year}
+        if (date==null){
+            return null;
+        }
         int[] arrDate =new int[3];
         JewishDate Jdate = new JewishDate(date);
         arrDate[0]=Jdate.getJewishDayOfMonth();
@@ -280,7 +305,9 @@ public class Utils {
         try {
             day.moveToFirst();
             lastDateStr = day.getString(1);
-
+            if(lastDateStr==null){
+                return null;
+            }
             int avgBetweenPeriodStr = Utils.avgBetweenPeriod(bl);
             if (avgBetweenPeriodStr == -1) {
                 nextPeriod =  Utils.DateToStr(Utils.addDaysToDate(28, lastDateStr));
