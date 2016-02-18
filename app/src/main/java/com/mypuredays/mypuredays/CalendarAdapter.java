@@ -299,9 +299,9 @@ public class CalendarAdapter extends BaseAdapter {
                 Day pDay=bl.getPrevType(day_string.get(pos));
                 Day nDay=bl.getNextType(day_string.get(pos));
 
-                if(pDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                if(pDay!=null && pDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
                     bl.deleteDay(Utils.DateToStr(pDay.get_date()));
-                }else if(nDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()) {
+                }else if(nDay!=null && nDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()) {
                     bl.deleteDay(Utils.DateToStr(nDay.get_date()));
                 }
                 saveNote(dialogNote, date);

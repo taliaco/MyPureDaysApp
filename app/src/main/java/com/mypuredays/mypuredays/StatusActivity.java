@@ -81,53 +81,80 @@ public class StatusActivity extends Activity {
 
 
     private String setTextViewDateMikveh(Definition definition){
-        Cursor day= bl.getLastDate();
-        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
-        long numDayse;
-        Date today=new Date();
-        sdf.format(today);
-        if(day.moveToFirst()){
-            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
-            if( day.getInt(2)==1){//start looking
 
-                    if(numDayse<=periodLength+7) {//check if today is not after mikvhe
-                        return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate((periodLength + 7), day.getString(1))));
-                    }
-            }
-            else if(day.getInt(2)==2){//end looking
-                if (numDayse<=7) {
-                    return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate(7, day.getString(1))));
-                }
+        Date today=new Date();
+        int type= Utils.getDayType(bl, Utils.DateToStr(today));
+        if(type==Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+            Day day =bl.getPrevType(Utils.DateToStr(today));
+            long numDayse=Utils.countDaysBetweenDates(day.get_date(), today);//num days between start/end looking until today
+            if(day.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal()){
+                return Utils.StrToDateDisplay(Utils.DateToStr(Utils.addDaysToDate(7 + definition.get_periodLength(), Utils.DateToStr(day.get_date()))));
+            }else   if(day.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                return Utils.StrToDateDisplay(Utils.DateToStr(Utils.addDaysToDate(7, Utils.DateToStr(day.get_date()))));
             }
         }
         return "-";
+
+
+//        Cursor day= bl.getLastDate();
+//        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
+//        long numDayse;
+//        Date today=new Date();
+//        sdf.format(today);
+//        if(day.moveToFirst()){
+//            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
+//            if( day.getInt(2)==1){//start looking
+//
+//                    if(numDayse<=periodLength+7) {//check if today is not after mikvhe
+//                        return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate((periodLength + 7), day.getString(1))));
+//                    }
+//            }
+//            else if(day.getInt(2)==2){//end looking
+//                if (numDayse<=7) {
+//                    return Utils.StrToDateDisplay(sdf.format(Utils.addDaysToDate(7, day.getString(1))));
+//                }
+//            }
+//        }
+//        return "-";
     }
     private String setTextViewCleanCount(Definition definition){
-        Cursor day= bl.getLastDate();
-        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
-        long numDayse;
         Date today=new Date();
-        sdf.format(today);
-        if(day.moveToFirst()){
-            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
-            if( day.getInt(2)==1){//start looking
-                if(numDayse<periodLength){//still in period
-                    return "-";
-                }else if(numDayse>=periodLength){//end perion
-                    if(numDayse<=periodLength+7) {//check if today is not after nekiim
-                        return String.valueOf(numDayse - periodLength);
-
-                    }
-                }
+        int type= Utils.getDayType(bl, Utils.DateToStr(today));
+        if(type==Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+            Day day =bl.getPrevType(Utils.DateToStr(today));
+            long numDayse=Utils.countDaysBetweenDates(day.get_date(), today);//num days between start/end looking until today
+            if(day.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal()){
+                return String.valueOf(numDayse-definition.get_periodLength());
+            }else   if(day.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                return  String.valueOf(numDayse);
             }
-            else if(day.getInt(2)==2){//end looking
-                if (numDayse<=7) {
-                    return String.valueOf(numDayse);
-                }
-            }
-
         }
         return "-";
+//        Cursor day= bl.getLastDate();
+//        int periodLength= definition.get_periodLength();//PERIOD_LENGTH from definition
+//        long numDayse;
+//        Date today=new Date();
+//        sdf.format(today);
+//        if(day.moveToFirst()){
+//            numDayse=Utils.countDaysBetweenDates(Utils.StrToDate(day.getString(1)), today);//num days between start/end looking until today
+//            if( day.getInt(2)== Constants.DAY_TYPE.START_LOOKING.ordinal()){//start looking
+//                if(numDayse<periodLength){//still in period
+//                    return "-";
+//                }else if(numDayse>=periodLength){//end perion
+//                    if(numDayse<=periodLength+7) {//check if today is not after nekiim
+//                        return String.valueOf(numDayse - periodLength);
+//
+//                    }
+//                }
+//            }
+//            else if(day.getInt(2)==2){//end looking
+//                if (numDayse<=7) {
+//                    return String.valueOf(numDayse);
+//                }
+//            }
+//
+//        }
+//        return "-";
     }
 
 

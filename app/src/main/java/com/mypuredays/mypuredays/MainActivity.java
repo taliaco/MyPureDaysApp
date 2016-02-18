@@ -164,19 +164,32 @@ public class MainActivity extends Activity {
             }
         } else {//END LOOKING
             b.setText(res.getString(R.string.btStart));
-            if(dayStartOrEndLook.moveToFirst()  && dayStartOrEndLook.getString(1) != null){
-                if(Utils.DateToStr(date).equals(dayStartOrEndLook.getString(1))){//if end period and start period==same day
-                    bl.deleteDay(Utils.DateToStr(date));
-                }else{
-                    bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);//last start period != today
-                }
-            }else{//if the table is empty
-                bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
-            }
+            String todayStr = Utils.DateToStr(new Date());
+            Date today = new Date();
 
-            txt = "הפסק  ראייה היום" + " " + dateStr;
-            Toast toast = Toast.makeText(context, txt, duration);
-            toast.show();
+            final Day day = bl.getPrevType(todayStr);//day=last day in the DB before today
+
+            if (day.get_date() != null && Utils.countDaysBetweenDates(day.get_date(), today) < def.get_minPeriodLength()) {//can not end period befor minPeriodLength
+                b.setText(res.getString(R.string.btEnd));
+                txt ="לא עברו מינימום ימי מחזור";
+                Toast toast = Toast.makeText(context, txt, duration);
+                toast.show();
+            } else {
+
+                if (dayStartOrEndLook.moveToFirst() && dayStartOrEndLook.getString(1) != null) {
+                    if (Utils.DateToStr(date).equals(dayStartOrEndLook.getString(1))) {//if end period and start period==same day
+                        bl.deleteDay(Utils.DateToStr(date));
+                    } else {
+                        bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);//last start period != today
+                    }
+                } else {//if the table is empty
+                    bl.setStartEndLooking(date, Constants.DAY_TYPE.END_LOOKING, Constants.ONA_TYPE.DEFAULT);
+                }
+
+                txt = "הפסק  ראייה היום" + " " + dateStr;
+                Toast toast = Toast.makeText(context, txt, duration);
+                toast.show();
+            }
         }
     }
 }
