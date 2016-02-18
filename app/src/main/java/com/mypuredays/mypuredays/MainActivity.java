@@ -95,6 +95,7 @@ public class MainActivity extends Activity {
     }
 
     public void openCalender(View v) {
+        finish();
         Intent intent = new Intent(this, CalenderActivity.class);
         startActivity(intent);
     }

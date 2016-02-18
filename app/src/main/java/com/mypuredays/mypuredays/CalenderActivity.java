@@ -1,15 +1,17 @@
 package com.mypuredays.mypuredays;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -167,6 +169,14 @@ public class CalenderActivity extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+
+    }
     protected void setNextMonth() {
         if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {
             cal_month.set((cal_month.get(GregorianCalendar.YEAR) + 1), cal_month.getActualMinimum(GregorianCalendar.MONTH), 1);

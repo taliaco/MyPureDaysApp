@@ -178,7 +178,7 @@ public class CalendarAdapter extends BaseAdapter {
                 dialogButtonEnd.setVisibility((View.GONE));
             }
         }
-        if(day.get_date()!=null && date1!=null){
+        if(day.get_date()!=null && date1!=null){//EXIST PREV DATE
             if(!(Utils.DateToStr(day.get_date()).compareTo(day_string.get(pos))==0) && bl.dayHaveNote(day_string.get(pos))==false){
        //the pushed date= exist date in DB ->not start or end period
             dialogButtonClearDay.setVisibility((View.GONE));
@@ -190,6 +190,8 @@ public class CalendarAdapter extends BaseAdapter {
         }
         if(new Date().before(Utils.StrToDate(day_string.get(pos)))){//today before clicked day
             dialogButtonStart.setVisibility(View.GONE);
+            dialogButtonEnd.setVisibility((View.GONE));
+
         }
 
 
@@ -202,6 +204,8 @@ public class CalendarAdapter extends BaseAdapter {
                 Date    date1 = new Date();
 
                 date1 = Utils.StrToDate(day_string.get(pos));
+                Day nDay=bl.getNextType(day_string.get(pos));
+
 
                     if (def.is_prishaDays() && def.get_typeOnaID() == Constants.ONA_TYPE.UNKNOWN.ordinal()) {//user keep prisha days and the ona unknow
                         dialogPrisha.setContentView(R.layout.activity_dialog_onot);
@@ -214,8 +218,13 @@ public class CalendarAdapter extends BaseAdapter {
                             public void onClick(View v) {
                              Date date1 = new Date();
                              date1 = Utils.StrToDate(day_string.get(pos));
+                                Day nDay=bl.getNextType(day_string.get(pos));
 
+                                if(nDay.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal() && bl.getDefinition().get_periodLength() >= Utils.countDaysBetweenDates(date1,nDay.get_date())) {
+                                    bl.deleteDay(Utils.DateToStr(nDay.get_date()));
+                                }
                                 saveNote(dialogNote, date);
+
                                 bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                                 txt = "התחל ראייה היום" + " " +Utils.DateToStrDisplay(date1);// Utils.DateToStr(date1);
                                 Toast toast = Toast.makeText(context, txt, duration);
@@ -230,7 +239,11 @@ public class CalendarAdapter extends BaseAdapter {
                             public void onClick(View v) {
                                 Date    date1 = new Date();
                                     date1 = Utils.StrToDate(day_string.get(pos));
+                                Day nDay=bl.getNextType(day_string.get(pos));
 
+                                if(nDay.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal() && bl.getDefinition().get_periodLength() >= Utils.countDaysBetweenDates(date1,nDay.get_date())) {
+                                    bl.deleteDay(Utils.DateToStr(nDay.get_date()));
+                                }
                                 saveNote(dialogNote, date);
                                 bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
                                 txt = "התחל ראייה היום" + " " + Utils.DateToStrDisplay(date1);
@@ -244,8 +257,14 @@ public class CalendarAdapter extends BaseAdapter {
                     } else if (def.is_prishaDays()) {//user keep prisha && ona=day or night
                         // take the ona type from definition
                         if (def.get_typeOnaID() == Constants.ONA_TYPE.NIGHT.ordinal()) {
+                            if(nDay.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal() && bl.getDefinition().get_periodLength() >= Utils.countDaysBetweenDates(date1,nDay.get_date())) {
+                                bl.deleteDay(Utils.DateToStr(nDay.get_date()));
+                            }
                             bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.NIGHT);
                         } else if (def.get_typeOnaID() == Constants.ONA_TYPE.DAY.ordinal()) {
+                            if(nDay.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal() && bl.getDefinition().get_periodLength() >= Utils.countDaysBetweenDates(date1,nDay.get_date())) {
+                                bl.deleteDay(Utils.DateToStr(nDay.get_date()));
+                            }
                             bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DAY);
                         }
                         saveNote(dialogNote, date1);
@@ -255,6 +274,9 @@ public class CalendarAdapter extends BaseAdapter {
                         refreshCalendar(date1);
 
                     } else {//user not keep prisha days
+                        if(nDay.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal() && bl.getDefinition().get_periodLength() >= Utils.countDaysBetweenDates(date1,nDay.get_date())) {
+                            bl.deleteDay(Utils.DateToStr(nDay.get_date()));
+                        }
                         bl.setStartEndLooking(date1, Constants.DAY_TYPE.START_LOOKING, Constants.ONA_TYPE.DEFAULT);
                         saveNote(dialogNote, date1);
                         txt = "התחל ראייה היום" + " " + Utils.DateToStrDisplay(date1);

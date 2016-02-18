@@ -104,8 +104,6 @@ public class Utils {
         }else {//EMPTY DB
             typeOna=-1;
         }
-
-
         Definition def;
         def=bl.getDefinition();
         Date[] arrDate=new Date[3];//3 dates that can be prisha date. 1-same Jdate 2-the difference days 3-in 30 day's after last period
@@ -132,13 +130,13 @@ public class Utils {
             arrDate[2]=addDaysToDate(1, Utils.DateToStr(arrDate[2]));
 
         }
-        if(arrDate[0]!=null && arrDate[1]!=null && arrDate[0].compareTo(arrDate[1])==0){
+        if(arrDate[0]!=null && arrDate[1]!=null && DateToStr(arrDate[0]).compareTo(DateToStr(arrDate[1]))==0){
             arrDate[1]=null;
         }
-        if(arrDate[0]!=null && arrDate[2]==null && arrDate[2].compareTo(arrDate[0])==0){
+        if(arrDate[0]!=null && arrDate[2]!=null &&  DateToStr(arrDate[0]).compareTo(DateToStr(arrDate[2]))==0){
             arrDate[2]=null;
         }
-        if(arrDate[2]!=null && arrDate[1]!=null && arrDate[2].compareTo(arrDate[1])==0){
+        if(arrDate[2]!=null && arrDate[1]!=null &&  DateToStr(arrDate[1]).compareTo(DateToStr(arrDate[2]))==0){
             arrDate[2]=null;
         }
 
