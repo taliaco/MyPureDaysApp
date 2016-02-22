@@ -129,9 +129,9 @@ public class Utils {
         arrDate[1]= differenceDays(lastDateStr, bl);
         arrDate[2]=Utils.addDaysToDate(30, lastDateStr);
         if (def.get_typeOna()==Constants.ONA_TYPE.NIGHT.ordinal() ||  typeOna==3){//ONA == NIGHT
-            arrDate[0]=addDaysToDate(1, Utils.DateToStr(arrDate[0]));
-            arrDate[1]=addDaysToDate(1, Utils.DateToStr(arrDate[1]));
-            arrDate[2]=addDaysToDate(1, Utils.DateToStr(arrDate[2]));
+            arrDate[0]=addDaysToDate(2, Utils.DateToStr(arrDate[0]));
+            arrDate[1]=addDaysToDate(2, Utils.DateToStr(arrDate[1]));
+            arrDate[2]=addDaysToDate(2, Utils.DateToStr(arrDate[2]));
 
         }
         if(arrDate[0]!=null && arrDate[1]!=null && DateToStr(arrDate[0]).compareTo(DateToStr(arrDate[1]))==0){
