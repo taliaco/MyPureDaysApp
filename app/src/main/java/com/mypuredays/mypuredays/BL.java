@@ -122,7 +122,7 @@ public class BL {
         return dal.DBReadRow(Constants.TABLE_DAY, cols, null, null);
     }
 
-    public  Day getPrevType(String currentDay){//RETURN PREV DATE BEFORE currentDay
+    public  Day getPrevType(String currentDay){//RETURN PREV DATE BEFORE currentDay or the curently day
         String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<=? AND " + Constants.COL_DAY_TYPE + "!=?";
         String[] selectionArgs = {"1980-01-01", currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
@@ -136,10 +136,24 @@ public class BL {
         return null;
     }
 
+    public  Day getPprevType(String currentDay){//RETURN PREV DATE BEFORE currentDay
+        String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + "<? AND " + Constants.COL_DAY_TYPE + "!=?";
+        String[] selectionArgs = {"1980-01-01", currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
+        String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
+        Day day;
+        if (c!=null && c.moveToFirst()){
+            day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
+            return day;
+
+        }
+        return null;
+    }
+
     public  Day getNextType(String currentDay){//RETURN NEXT DATE BEFORE currentDay
         String selection = Constants.COL_DATE + ">? AND " + Constants.COL_DATE + ">? AND " + Constants.COL_DAY_TYPE + "!=?";
         String[] selectionArgs = {"1980-01-01", currentDay, String.valueOf(Constants.DAY_TYPE.DEFAULT.ordinal())};
-        String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
+        String[] cols = new String[]{Constants._ID, "MIN(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         Day day;
         if (c!=null && c.moveToFirst()){
@@ -180,7 +194,7 @@ public class BL {
         try {
             if (c.moveToFirst()) {
                 nextDay = getFirstLooking(Utils.StrToDate(currentDay));
-                int periodLength = def.get_periodLength()-1;
+                int periodLength = def.get_periodLength();
                 switch (c.getInt(2)) {
                     case 0:
                         dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
@@ -201,9 +215,9 @@ public class BL {
                         }
                         break;
                     case 2: //end looking
-                        if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH, c.getString(1)).after(dateEndDate) && def.is_countClean()) {
+                        if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH +1 , c.getString(1)).after(dateEndDate) && def.is_countClean()) {
                             dayType = Constants.DAY_TYPE.CLEAR_DAY.ordinal();
-                        }else  if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH, c.getString(1)).equals(dateEndDate) && def.is_countClean()) {
+                        }else  if (Utils.addDaysToDate(Constants.CLEAR_DAYS_LENGTH +1, c.getString(1)).equals(dateEndDate) && def.is_countClean()) {
                             dayType = Constants.DAY_TYPE.MIKVEH.ordinal();
                         }else {
                             dayType = Constants.DAY_TYPE.DEFAULT.ordinal();
@@ -293,6 +307,7 @@ public class BL {
         String[] selectionArgs = {strDate};
 
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
+        try {
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_NOTES, text);
@@ -303,6 +318,8 @@ public class BL {
             values.put(Constants.COL_DAY_TYPE, Constants.DAY_TYPE.DEFAULT.ordinal());
             values.put(Constants.COL_NOTES, text);
             dal.DBWrite(Constants.TABLE_DAY, values);
+        }} finally {
+            c.close();
         }
 
     }
@@ -310,9 +327,13 @@ public class BL {
     public int getMaxId(String tableName) {
         String[] cols = new String[]{"MAX(" + Constants._ID + ")"};
         Cursor c = dal.getMaxId(tableName, cols);
+        try{
         if (c.moveToFirst()) {
             Log.e("MAX ID", String.valueOf(c.getInt(0)));
             return c.getInt(0);
+        }
+        } finally {
+            c.close();
         }
         return -1;
     }
@@ -363,10 +384,14 @@ public class BL {
         String selection = Constants.COL_DATE + "=?";
         String[] selectionArgs = {date};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection,selectionArgs);
+        try{
         if (c.moveToFirst()) {
             if (c.getString(3) != null && !c.getString(3).equals("")) {
                 return true;
             }
+        }
+        } finally {
+            c.close();
         }
         return false;
     }

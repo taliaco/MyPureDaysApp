@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
         final String dateStr =Utils.StrToDateDisplay(Utils.DateToStr(date));
          final Dialog dialogPrisha = new Dialog(this);
 
-
+        try{
 
         String text = b.getText().toString();
         if (text.equals(res.getString(R.string.btStart))) {//START
@@ -169,13 +169,12 @@ public class MainActivity extends Activity {
 
             final Day day = bl.getPrevType(todayStr);//day=last day in the DB before today
 
-            if (day.get_date() != null && Utils.countDaysBetweenDates(day.get_date(), today) < def.get_minPeriodLength()) {//can not end period befor minPeriodLength
+            if (day.get_date() != null && !(Utils.DateToStr(day.get_date()).equals(Utils.DateToStr(today))) && Utils.countDaysBetweenDates(day.get_date(), today) < def.get_minPeriodLength()) {//can not end period befor minPeriodLength
                 b.setText(res.getString(R.string.btEnd));
                 txt ="לא עברו מינימום ימי מחזור";
                 Toast toast = Toast.makeText(context, txt, duration);
                 toast.show();
             } else {
-
                 if (dayStartOrEndLook.moveToFirst() && dayStartOrEndLook.getString(1) != null) {
                     if (Utils.DateToStr(date).equals(dayStartOrEndLook.getString(1))) {//if end period and start period==same day
                         bl.deleteDay(Utils.DateToStr(date));
@@ -189,7 +188,13 @@ public class MainActivity extends Activity {
                 txt = "הפסק  ראייה היום" + " " + dateStr;
                 Toast toast = Toast.makeText(context, txt, duration);
                 toast.show();
+
             }
+
+        }
+        } finally {
+            dayStartOrEndLook.close();
         }
     }
-}
+
+    }

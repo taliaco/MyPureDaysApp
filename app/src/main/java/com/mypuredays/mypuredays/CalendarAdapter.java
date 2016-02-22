@@ -169,8 +169,12 @@ public class CalendarAdapter extends BaseAdapter {
 
         Date    date1 = new Date();
         date1 = Utils.StrToDate(day_string.get(pos));
-        final int type =Utils.getDayType(bl,day_string.get(pos));
+        final int type =Utils.getDayType(bl, day_string.get(pos));
+        Day nDay=bl.getNextType(day_string.get(pos));
 
+        if(nDay.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal() ||type==Constants.DAY_TYPE.END_LOOKING.ordinal() ){ //canot start period in period
+            dialogButtonStart.setVisibility(View.GONE);
+        }
        final Day day= bl.getPrevType(day_string.get(pos));//day=last day in the DB before the var Date
         if(type==Constants.DAY_TYPE.PERIOD.ordinal() || type==Constants.DAY_TYPE.START_LOOKING.ordinal()){
             dialogButtonStart.setVisibility(View.GONE);
@@ -188,7 +192,7 @@ public class CalendarAdapter extends BaseAdapter {
                 dialogButtonClearDay.setVisibility((View.GONE));
             }
         }
-        if(new Date().before(Utils.StrToDate(day_string.get(pos)))){//today before clicked day
+        if(new Date().before(Utils.StrToDate(day_string.get(pos)))){//today is before clicked day
             dialogButtonStart.setVisibility(View.GONE);
             dialogButtonEnd.setVisibility((View.GONE));
 
@@ -444,7 +448,13 @@ public class CalendarAdapter extends BaseAdapter {
         int dayType = Utils.getDayType(bl, dateStr);
         boolean haveNote = bl.dayHaveNote(dateStr);
         View view = v.findViewById(R.id.date_icon);
-        if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
+         if (dayType == Constants.DAY_TYPE.PRISHA.ordinal()) {
+            view.setBackgroundResource(Constants.PRISHA_CIRCLE);
+        }
+         else if (dateStr.equals(Utils.DateToStr(new Date()))) {
+            view.setBackgroundResource(Constants.CURRENT_CIRCLE);
+        }
+        else if (dayType == Constants.DAY_TYPE.START_LOOKING.ordinal()) {
             view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.END_LOOKING.ordinal()) {
             view.setBackgroundResource(Constants.PERIOD_CIRCLE);
@@ -462,9 +472,7 @@ public class CalendarAdapter extends BaseAdapter {
             view.setBackgroundResource(Constants.PERIOD_CIRCLE);
         } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal() && haveNote) {
             view.setBackgroundResource(Constants.OTHER_CIRCLE);
-        } else if (dateStr.equals(Utils.DateToStr(new Date()))) {
-            view.setBackgroundResource(Constants.CURRENT_CIRCLE);
-        } else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal()) {
+        }  else if (dayType == Constants.DAY_TYPE.DEFAULT.ordinal()) {
 
             view.setBackgroundResource(Constants.DEFAULT_CIRCLE);
             //v.setBackgroundResource(Constants.DEFAULT_CIRCLE);

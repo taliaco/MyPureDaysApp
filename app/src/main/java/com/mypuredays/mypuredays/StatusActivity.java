@@ -36,7 +36,7 @@ public class StatusActivity extends Activity {
         String lastDateStr=""; // last date of start period
             textViewPeriodLength.setText(Integer.toString(definition.get_periodLength()));
 
-
+        try{
         if ( day.moveToFirst() && day.getString(1) != null) {
             lastDateStr=day.getString(1);
             textViewLastPeriodDate.setText(Utils.StrToDateDisplay(lastDateStr));
@@ -75,7 +75,9 @@ public class StatusActivity extends Activity {
             textViewLastPeriodDate.setText(InsufficientData);
 
         }
-
+        } finally {
+            day.close();
+        }
 
     }
 
@@ -84,13 +86,12 @@ public class StatusActivity extends Activity {
 
         Date today=new Date();
         int type= Utils.getDayType(bl, Utils.DateToStr(today));
-        if(type==Constants.DAY_TYPE.CLEAR_DAY.ordinal()){
+        if(type==Constants.DAY_TYPE.CLEAR_DAY.ordinal() || type==Constants.DAY_TYPE.PERIOD.ordinal() || type==Constants.DAY_TYPE.START_LOOKING.ordinal()){
             Day day =bl.getPrevType(Utils.DateToStr(today));
-            long numDayse=Utils.countDaysBetweenDates(day.get_date(), today);//num days between start/end looking until today
             if(day.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal()){
                 return Utils.StrToDateDisplay(Utils.DateToStr(Utils.addDaysToDate(7 + definition.get_periodLength(), Utils.DateToStr(day.get_date()))));
             }else   if(day.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
-                return Utils.StrToDateDisplay(Utils.DateToStr(Utils.addDaysToDate(7, Utils.DateToStr(day.get_date()))));
+                return Utils.StrToDateDisplay(Utils.DateToStr(Utils.addDaysToDate(8, Utils.DateToStr(day.get_date()))));
             }
         }
         return "-";
@@ -124,7 +125,7 @@ public class StatusActivity extends Activity {
             Day day =bl.getPrevType(Utils.DateToStr(today));
             long numDayse=Utils.countDaysBetweenDates(day.get_date(), today);//num days between start/end looking until today
             if(day.get_dayTypeId()==Constants.DAY_TYPE.START_LOOKING.ordinal()){
-                return String.valueOf(numDayse-definition.get_periodLength());
+                return String.valueOf((numDayse-definition.get_periodLength()+1));
             }else   if(day.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
                 return  String.valueOf(numDayse);
             }

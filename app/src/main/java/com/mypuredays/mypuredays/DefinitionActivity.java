@@ -53,7 +53,7 @@ public class DefinitionActivity extends Activity {
 
         Cursor c = bl.getDefinitionCursor();
         Definition d = bl.getDefinition();
-
+        try{
         String[] minPeriodLengthSpinner = Constants.MIN_PERIOD_LENGTH_SPINNER;
         String[] periodLengthSpinner = Constants.PERIOD_LENGTH_SPINNER;
         String[] clearDayNotificationSpinner = Constants.CLEAR_DAY_NOTIFICATION_SPINNER;
@@ -123,7 +123,9 @@ public class DefinitionActivity extends Activity {
             }//switch end
 
         }//for end
-
+        } finally {
+            c.close();
+        }
 if(!Constants.EXIST_REMINDER){
     linear_mikve_reminder_day.setVisibility(View.GONE);
 }

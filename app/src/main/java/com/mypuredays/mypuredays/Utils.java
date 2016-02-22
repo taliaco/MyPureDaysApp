@@ -82,7 +82,7 @@ public class Utils {
              date = StrToDate(dateStr);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            cal.add(Calendar.DATE, numDays);
+            cal.add(Calendar.DATE, (numDays-1));
             return cal.getTime();
         }
         else return null;
@@ -92,6 +92,7 @@ public class Utils {
         String  lastDateStr="";
         int typeOna;
         Cursor day = bl.getLastStartLooking();
+        try{
         if (day==null){
             return null;
         }
@@ -103,6 +104,9 @@ public class Utils {
             typeOna=day.getInt(4);//3
         }else {//EMPTY DB
             typeOna=-1;
+        }
+        } finally {
+            day.close();
         }
         Definition def;
         def=bl.getDefinition();
@@ -157,6 +161,7 @@ public class Utils {
  */
     public static Date differenceDays(String lastDateStr, BL bl){
         Cursor day=bl.getDateStartLooking();
+        try{
         String[] dates=new String[day.getCount()];
         int i=0;//indwx of arry days
             while (day.moveToNext()) {
@@ -166,9 +171,20 @@ public class Utils {
         if(dates.length<2){
             return null;
         }else {
-            long countDate = countDaysBetweenDates(Utils.StrToDate(dates[dates.length - 1]), Utils.StrToDate(dates[dates.length - 2]));
+           Day pDate= bl.getPrevType(Utils.DateToStr(new Date()));
+            if(pDate.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                pDate=bl.getPprevType(Utils.DateToStr(pDate.get_date()));
+            }
+            Day prevPDate=bl.getPprevType(Utils.DateToStr(pDate.get_date()));
+            if(prevPDate.get_dayTypeId()==Constants.DAY_TYPE.END_LOOKING.ordinal()){
+                prevPDate=bl.getPprevType(Utils.DateToStr(prevPDate.get_date()));
+            }
+            long countDate = countDaysBetweenDates(prevPDate.get_date(), pDate.get_date());
             int numDays = Math.round(countDate);
-            return addDaysToDate(numDays, lastDateStr);
+            return addDaysToDate(numDays+1, Utils.DateToStr( pDate.get_date()));
+        }
+        } finally {
+            day.close();
         }
     }
 
@@ -254,6 +270,7 @@ public class Utils {
 
         boolean average=false;//Is there an average(Use at least 4 months )
         Cursor day=bl.getDateStartLooking();
+        try{
         String[] dates=new String[day.getCount()];
         int i=0;//indwx of varr days
         long countDate=0; //count the days between date for AVG
@@ -273,6 +290,9 @@ public class Utils {
             }
             Float f = new Float ((float)countDate);
             return (Math.round(f / 3));
+        }
+        } finally {
+            day.close();
         }
         return -1;
 
