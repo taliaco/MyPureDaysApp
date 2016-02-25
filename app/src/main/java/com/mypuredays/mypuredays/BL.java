@@ -52,13 +52,16 @@ public class BL {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
         Definition def = new Definition();
         Boolean regularColumn, prishaDaysColumn, countCleanColumn, mikveNutification;
-
+        try{
         if (c.moveToFirst()) {
             regularColumn = (c.getInt(2) != 0);
             prishaDaysColumn = (c.getInt(3) != 0);
             countCleanColumn = (c.getInt(5) != 0);
             mikveNutification = (c.getInt(7) != 0);
             def = new Definition(c.getInt(1), regularColumn, prishaDaysColumn, c.getInt(4), countCleanColumn, c.getInt(6), mikveNutification, c.getInt(8));
+        }
+        } finally {
+            c.close();
         }
         return def;
     }
@@ -81,8 +84,12 @@ public class BL {
 
     public Cursor getDefinitionCursor() {
         Cursor c = dal.DBRead(Constants.TABLE_DEFINITION);
+        try{
         if (c.moveToFirst()) {
             return c;
+        }
+        } finally {
+            c.close();
         }
         return null;
     }
@@ -94,6 +101,7 @@ public class BL {
         String[] selectionArgs = {sdf.format(date)};
 
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, selection, selectionArgs);
+        try{
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues();
             values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
@@ -107,6 +115,9 @@ public class BL {
             values.put(Constants.COL_DAY_TYPE, dayType.ordinal());
             values.put(Constants.COL_ONA, ona.ordinal());
             dal.DBWrite(Constants.TABLE_DAY, values);
+        }
+        } finally {
+            c.close();
         }
     }
     //return the last date with start looking
@@ -128,10 +139,14 @@ public class BL {
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
        Day day;
+        try{
         if (c!=null && c.moveToFirst()){
             day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
             return day;
 
+        }
+        } finally {
+            c.close();
         }
         return null;
     }
@@ -142,10 +157,14 @@ public class BL {
         String[] cols = new String[]{Constants._ID, "MAX(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         Day day;
+        try{
         if (c!=null && c.moveToFirst()){
             day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
             return day;
 
+        }
+        } finally {
+            c.close();
         }
         return null;
     }
@@ -156,9 +175,13 @@ public class BL {
         String[] cols = new String[]{Constants._ID, "MIN(" + Constants.COL_DATE + ")", Constants.COL_DAY_TYPE, Constants.COL_NOTES, Constants.COL_ONA};
         Cursor c = dal.DBReadRow(Constants.TABLE_DAY, cols, selection, selectionArgs);
         Day day;
+        try{
         if (c!=null && c.moveToFirst()){
             day=new Day(Utils.StrToDate(c.getString(1)) ,c.getInt(2),c.getString(3),c.getInt(4));
             return day;
+        }
+        } finally {
+            c.close();
         }
         return null;
     }
